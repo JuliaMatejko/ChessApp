@@ -39,7 +39,7 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     MoveTwoForward();
                 }
-                if (rankIndex < Board.BoardSize - 1)
+                if (rankIndex < Board.boardSize - 1)
                 {
                     MoveOneForward();
                     switch (fileIndex)

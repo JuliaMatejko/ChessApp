@@ -73,9 +73,9 @@ namespace ChessApp.Models.Chess.Pieces
 
         private bool KingNewPositionIsSafe(string newPosition, Board board)
         {
-            for (var i = 0; i < Board.BoardSize; i++)
+            for (var i = 0; i < Board.boardSize; i++)
             {
-                for (var j = 0; j < Board.BoardSize; j++)
+                for (var j = 0; j < Board.boardSize; j++)
                 {
                     Piece piece = board[i][j].Content;
                     if (piece != null)
@@ -93,7 +93,7 @@ namespace ChessApp.Models.Chess.Pieces
 
         private HashSet<string> KingMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
-            if (rankIndex < Board.BoardSize - 1)
+            if (rankIndex < Board.boardSize - 1)
             {
                 if (IsWhite)
                 {

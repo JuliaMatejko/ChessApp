@@ -15,12 +15,11 @@ namespace ChessApp.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
         }
 
         public DbSet<File> Files { get; set; }
         public DbSet<Rank> Ranks { get; set; }
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<Position> Positions { get; set; }/*
         public DbSet<PieceName> PieceNames { get; set; }
         public DbSet<Piece> Pieces { get; set; }
         public DbSet<Field> Fields { get; set; }
@@ -33,6 +32,7 @@ namespace ChessApp.Data
         public DbSet<Knight> Knights { get; set; }
         public DbSet<King> Kings { get; set; }
         public DbSet<Move> Moves { get; set; }
-        public DbSet<Game> Games { get; set; }
+        public DbSet<Game> Games { get; set; }*/
+
     }
 }

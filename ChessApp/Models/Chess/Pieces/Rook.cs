@@ -45,7 +45,7 @@ namespace ChessApp.Models.Chess.Pieces
             int file = fileIndex;
             if (IsWhite)
             {
-                while (rank < Board.BoardSize - 1 && canMove)
+                while (rank < Board.boardSize - 1 && canMove)
                 {
                     MoveOne(0, 1, ref file, ref rank, ref canMove, ref kingInTheWay, board, positions);
                 }
@@ -74,7 +74,7 @@ namespace ChessApp.Models.Chess.Pieces
             }
             else
             {
-                while (rank < Board.BoardSize - 1 && canMove)
+                while (rank < Board.boardSize - 1 && canMove)
                 {
                     MoveOne(0, -1, ref file, ref rank, ref canMove, ref kingInTheWay, board, positions);
                 }
@@ -96,7 +96,7 @@ namespace ChessApp.Models.Chess.Pieces
             }
             else
             {
-                while (file < Board.BoardSize - 1 && canMove)
+                while (file < Board.boardSize - 1 && canMove)
                 {
                     MoveOne(-1, 0, ref file, ref rank, ref canMove, ref kingInTheWay, board, positions);
                 }
@@ -111,7 +111,7 @@ namespace ChessApp.Models.Chess.Pieces
             int file = fileIndex;
             if (IsWhite)
             {
-                while (file < Board.BoardSize - 1 && canMove)
+                while (file < Board.boardSize - 1 && canMove)
                 {
                     MoveOne(1, 0, ref file, ref rank, ref canMove, ref kingInTheWay, board, positions);
                 }

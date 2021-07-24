@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess.BoardProperties
@@ -6,14 +7,23 @@ namespace ChessApp.Models.Chess.BoardProperties
     public class Rank
     {
         [Key]
-        public int RankId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int RankID { get; set; }
         [Required]
         [Column(TypeName = "nvarchar(1)")]
         public string Name { get; set; }
 
-        public Rank(string name)
+        public ICollection<Position> Positions { get; set; }
+
+        public Rank(int rankid, string name)
         {
+            RankID = rankid;
             Name = name;
+        }
+
+        public Rank()
+        {
+
         }
     }
 }

@@ -7,64 +7,34 @@ namespace ChessApp.Models.Chess
 {
     public class Board //: List<FieldColumn>
     {
-        public const int BoardSize = 8;
+        public const int boardSize = 8;
+        public static readonly string[] files = new string[boardSize] { "a", "b", "c", "d", "e", "f", "g", "h" };
+        public static readonly string[] ranks = new string[boardSize] { "1", "2", "3", "4", "5", "6", "7", "8" };
 
         [Key]
         public int BoardId { get; set; }
         [Required]
-        public static List<File> Files { get; } = AddFiles(new string[BoardSize] { "a", "b", "c", "d", "e", "f", "g", "h" });
+        public static List<File> Files { get; }
         [Required]
-        public static List<Rank> Ranks { get; } = AddRanks(new string[BoardSize] { "1", "2", "3", "4", "5", "6", "7", "8" });
+        public static List<Rank> Ranks { get; }
         [Required]
-        public static List<Position> Positions { get; } = AddPositions();
+        public static List<Position> Positions { get; }
         [Required]
         public List<FieldColumn> FieldColumns { get; } = AddFieldColumns();
 
-        private static List<File> AddFiles(string[] names)
-        {
-            List<File> list = new List<File>();
-            foreach (string name in names)
-            {
-                list.Add(new File(name));
-            }
-            return list;
-        }
-
-        private static List<Rank> AddRanks(string[] names)
-        {
-            List<Rank> list = new List<Rank>();
-            foreach (string name in names)
-            {
-                list.Add(new Rank(name));
-            }
-            return list;
-        }
-
-        private static List<Position> AddPositions()
-        {
-            List<Position> positions = new List<Position>();
-            for (var i = 0; i < BoardSize; i++)
-            {
-                for (var j = 0; j < BoardSize; j++)
-                {
-                    positions.Add(new Position(Files[i], Ranks[j]));
-                }
-            }
-            return positions;
-        }
 
         private static List<FieldColumn> AddFieldColumns() //zamiast starego CreateABoard() works?
         {
-            List<FieldColumn> columns = new List<FieldColumn>();
-            for (int i = 0; i < BoardSize; i++)
+            List<FieldColumn> columns = new List<FieldColumn>();/*
+            for (int i = 0; i < boardSize; i++)
             {
                 columns.Add(new FieldColumn(Files[i], new List<Field>()));
 
-                for (int j = 0; j < BoardSize; j++)
+                for (int j = 0; j < boardSize; j++)
                 {
-                    columns[i].Fields.Add(new Field(new Position(Files[i], Ranks[j]), null));
+                    columns[i].Fields.Add(new Field(new Position(i, j), null));
                 }
-            }
+            }*/
             return columns;
         }
         /*
@@ -72,11 +42,11 @@ namespace ChessApp.Models.Chess
          {
              Board board = new Board();
 
-             for (var i = 0; i < BoardSize; i++)
+             for (var i = 0; i < boardSize; i++)
              {
                  board.Add(new List<Field>());
 
-                 for (var j = 0; j < BoardSize; j++)
+                 for (var j = 0; j < boardSize; j++)
                  {
                      board[i].Add(new Field(Files[i], Ranks[j], null));
                  }

@@ -24,7 +24,7 @@ namespace ChessApp.Models.Chess.Pieces
 
         private HashSet<string> KnightMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
-            if (rankIndex < Board.BoardSize - 2)
+            if (rankIndex < Board.boardSize - 2)
             {
                 if (IsWhite)
                 {
