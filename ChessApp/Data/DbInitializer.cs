@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using ChessApp.Models.Chess;
 using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
 
 namespace ChessApp.Data
 {
@@ -19,7 +21,7 @@ namespace ChessApp.Data
             var files = new File[Board.boardSize];
             for (int i = 0; i < Board.files.Length; i++)
             {
-                files[i] = new File(i + 1, Board.files[i]);
+                files[i] = new File(Board.files[i]);
             }
             foreach (File f in files)
             {
@@ -31,7 +33,7 @@ namespace ChessApp.Data
             var ranks = new Rank[Board.boardSize];
             for (int i = 0; i < Board.ranks.Length; i++)
             {
-                ranks[i] = new Rank(i + 1, Board.ranks[i]);
+                ranks[i] = new Rank(Board.ranks[i]);
             }
             foreach (Rank r in ranks)
             {
@@ -46,13 +48,25 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.ranks.Length; j++)
                 {
-                    positions[count] = new Position(count + 1, i + 1, j + 1);
+                    positions[count] = new Position(Board.files[i], Board.ranks[j]);
                     count++;
                 }
             }
             foreach (Position p in positions)
             {
                 context.Positions.Add(p);
+            }
+            context.SaveChanges();
+
+            //Add PieceNames
+            var pieceNames = new PieceName[Piece.pieceNames.Length];
+            for (int i = 0; i < Piece.pieceNames.Length; i++)
+            {
+                pieceNames[i] = new PieceName(Piece.pieceNames[i]);
+            }
+            foreach (PieceName pn in pieceNames)
+            {
+                context.PieceNames.Add(pn);
             }
             context.SaveChanges();
         }

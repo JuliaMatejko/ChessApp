@@ -8,7 +8,7 @@ namespace ChessApp.Models.Chess.Pieces
         {
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[4] : Name = PieceNames[5];
+            Name = isWhite ? Name = PieceNames[5] : Name = PieceNames[4];
         }
 
         public Knight()

@@ -1,21 +1,22 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess
 {
     public class FieldColumn// : List<Field>
     {
         [Key]
-        public int FieldColumnId { get; set; }
-        [Required]
-        public File File { get; set; }
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string FieldColumnId { get; set; }
+
+        //public File FieldColumnName { get; set; }
         public List<Field> Fields { get; set; }
 
-        public FieldColumn(File file, List<Field> fields)
+        public FieldColumn(List<Field> fields)//, Field fieldColumnName)
         {
-            File = file;
+            //FieldColumnName = fieldColumnName;
             Fields = fields;
         }
 

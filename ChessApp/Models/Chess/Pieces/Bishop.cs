@@ -10,7 +10,7 @@ namespace ChessApp.Models.Chess.Pieces
         {
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[6] : Name = PieceNames[7];
+            Name = isWhite ? Name = PieceNames[1] : Name = PieceNames[0];
         }
 
         public Bishop()

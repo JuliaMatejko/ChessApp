@@ -12,7 +12,7 @@ namespace ChessApp.Models.Chess.Pieces
         {
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite == true ? Name = PieceNames[10] : Name = PieceNames[11];
+            Name = isWhite == true ? Name = PieceNames[3] : Name = PieceNames[2];
         }
 
         public King()

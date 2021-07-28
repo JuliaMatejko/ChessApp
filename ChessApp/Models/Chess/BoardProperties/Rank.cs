@@ -8,17 +8,15 @@ namespace ChessApp.Models.Chess.BoardProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int RankID { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(1)")]
-        public string Name { get; set; }
+        [StringLength(1)]
+        [Column("Rank")]
+        public string RankID { get; set; }
 
         public ICollection<Position> Positions { get; set; }
 
-        public Rank(int rankid, string name)
+        public Rank(string rankName)
         {
-            RankID = rankid;
-            Name = name;
+            RankID = rankName;
         }
 
         public Rank()

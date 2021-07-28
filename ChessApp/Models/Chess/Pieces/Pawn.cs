@@ -16,7 +16,7 @@ namespace ChessApp.Models.Chess.Pieces
         {
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[0] : Name = PieceNames[1];
+            Name = isWhite ? Name = PieceNames[7] : Name = PieceNames[6];
         }
 
         public Pawn()

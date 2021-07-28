@@ -8,9 +8,11 @@ namespace ChessApp.Models.Chess
     public class Field
     {
         [Key]
-        public int FieldId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string FieldId { get; set; }
         [Required]
         public Position Position { get; set; }
+        [Required]
         public Piece Content { get; set; }
 
         public Field(Position position, Piece content)

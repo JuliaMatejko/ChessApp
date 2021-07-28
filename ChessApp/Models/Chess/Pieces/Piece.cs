@@ -8,6 +8,8 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public abstract class Piece : ICloneable
     {
+        public static readonly string[] pieceNames = new string[] { "bb", "bw", "kb", "kw", "nb", "nw", "pb", "pw", "qb", "qw", "rb", "rw" };
+
         [Key]
         public int PieceId { get; set; }
         [Required]
@@ -21,7 +23,7 @@ namespace ChessApp.Models.Chess.Pieces
         [Required]
         public HashSet<Position> ControlledSquares { get; set; } = new HashSet<Position>();
         [Required]
-        public static List<PieceName> PieceNames { get; set; } = AddPieceNames(new string[]{ "pw", "pb", "Rw", "Rb", "Nw", "Nb", "Bw", "Bb", "Qw", "Qb", "Kw", "Kb" });
+        public static List<PieceName> PieceNames { get; set; }
 
         protected static List<PieceName> AddPieceNames(string[] pieceNames)
         {

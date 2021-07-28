@@ -6,14 +6,20 @@ namespace ChessApp.Models.Chess.Pieces.PieceProperties
     public class PieceName
     {
         [Key]
-        public int PieceNameId { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(2)")]
-        public string Name { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [StringLength(2)]
+        [Column("PieceName")]
+        [Display(Name = "Piece Name")]
+        public string PieceNameID { get; set; }
 
-        public PieceName(string name)
+        public PieceName(string pieceName)
         {
-            Name = name;
+            PieceNameID = pieceName;
+        }
+
+        public PieceName()
+        {
+
         }
     }
 }

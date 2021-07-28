@@ -8,18 +8,17 @@ namespace ChessApp.Models.Chess.BoardProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int FileID { get; set; }
-        [Required]
-        [Column(TypeName = "nvarchar(1)")]
-        public string Name { get; set; }
+        [StringLength(1)]
+        [Column("File")]
+        public string FileID { get; set; }
 
         public ICollection<Position> Positions { get; set; }
 
-        public File(int fileid, string name)
+        public File(string fileName)
         {
-            FileID = fileid;
-            Name = name;
+            FileID = fileName;
         }
+
         public File()
         {
 

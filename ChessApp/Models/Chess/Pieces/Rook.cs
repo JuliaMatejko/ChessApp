@@ -12,7 +12,7 @@ namespace ChessApp.Models.Chess.Pieces
         {
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[2] : Name = PieceNames[3];
+            Name = isWhite ? Name = PieceNames[11] : Name = PieceNames[10];
         }
 
         public Rook(bool isWhite, Position position, bool isFirstMove)

@@ -9,26 +9,22 @@ namespace ChessApp.Models.Chess.BoardProperties
 {
     public class Position
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int PositionID { get; set; }
-        //public string Name { get; set; }
+        public string Name
+        { 
+            get { return FileID + RankID; } 
+        }
 
-        public int FileID { get; set; }
-        public int RankID { get; set; }
+        [Required]
+        [Column("File")]
+        public string FileID { get; set; }
+        [Required]
+        [Column("Rank")]
+        public string RankID { get; set; }
         public File File { get; set; }
         public Rank Rank { get; set; }
-        /*
-        public Position(File file, Rank rank)
+
+        public Position(string fileid, string rankid)
         {
-            File = file;
-            Rank = rank;
-            Name = File.Name + Rank.Name;
-        }
-        */
-        public Position(int positionid, int fileid, int rankid)
-        {
-            PositionID = positionid;
             FileID = fileid;
             RankID = rankid;
         }

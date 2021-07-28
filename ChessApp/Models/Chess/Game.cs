@@ -111,13 +111,13 @@ namespace ChessApp.Models.Chess
             {
                 if (j < Board.boardSize)
                 {
-                    fields[position.File.Name+position.Rank.Name] = board.FieldColumns[i].Fields[j];
+                    fields[position.Name] = board.FieldColumns[i].Fields[j];
                 }
                 else
                 {
                     j = 0;
                     i++;
-                    fields[position.File.Name + position.Rank.Name] = board.FieldColumns[i].Fields[j];
+                    fields[position.Name] = board.FieldColumns[i].Fields[j];
                 }
                 j++;
             }
@@ -125,33 +125,33 @@ namespace ChessApp.Models.Chess
         }
 
         private void SetStartingBoard() // set pieces on the starting position on the board
-        {/*
+        {
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].Name + "2"].Content = new Pawn(true, new Position(i, i, 1));  // set white pawns
+                Fields[Board.Files[i].FileID + "2"].Content = new Pawn(true, new Position(Board.Files[i].FileID, "2"));  // set white pawns
             }
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].Name + "7"].Content = new Pawn(false, new Position(i, i, 6));  // set black pawns 
+                Fields[Board.Files[i].FileID + "7"].Content = new Pawn(false, new Position(Board.Files[i].FileID, "7"));  // set black pawns 
             }
-            Fields["a1"].Content = new Rook(true, new Position(1, 1));        // set white rooks
-            Fields["h1"].Content = new Rook(true, new Position(8, 1));
-            Fields["a8"].Content = new Rook(false, new Position(1, 8));       // set black rooks
-            Fields["h8"].Content = new Rook(false, new Position(8, 8));
-            Fields["b1"].Content = new Knight(true, new Position(2, 1));      // set white knights
-            Fields["g1"].Content = new Knight(true, new Position(7, 1));
-            Fields["b8"].Content = new Knight(false, new Position(2, 8));     // set black knights
-            Fields["g8"].Content = new Knight(false, new Position(7, 8));
-            Fields["c1"].Content = new Bishop(true, new Position(3, 1));      // set white bishops
-            Fields["f1"].Content = new Bishop(true, new Position(6, 1));
-            Fields["c8"].Content = new Bishop(false, new Position(3, 8));     // set black bishops
-            Fields["f8"].Content = new Bishop(false, new Position(6, 8));
-            Fields["d1"].Content = new Queen(true, new Position(4, 1));       // set white queen
-            Fields["d8"].Content = new Queen(false, new Position(4, 8));      // set black queen
-            Fields["e1"].Content = new King(true, new Position(5, 1));        // set white king
+            Fields["a1"].Content = new Rook(true, new Position("a", "1"));        // set white rooks
+            Fields["h1"].Content = new Rook(true, new Position("h", "1"));
+            Fields["a8"].Content = new Rook(false, new Position("a", "8"));       // set black rooks
+            Fields["h8"].Content = new Rook(false, new Position("h", "8"));
+            Fields["b1"].Content = new Knight(true, new Position("h", "8"));      // set white knights
+            Fields["g1"].Content = new Knight(true, new Position("g", "1"));
+            Fields["b8"].Content = new Knight(false, new Position("b", "8"));     // set black knights
+            Fields["g8"].Content = new Knight(false, new Position("g", "8"));
+            Fields["c1"].Content = new Bishop(true, new Position("c", "1"));      // set white bishops
+            Fields["f1"].Content = new Bishop(true, new Position("f", "1"));
+            Fields["c8"].Content = new Bishop(false, new Position("c", "8"));     // set black bishops
+            Fields["f8"].Content = new Bishop(false, new Position("f", "8"));
+            Fields["d1"].Content = new Queen(true, new Position("d", "1"));       // set white queen
+            Fields["d8"].Content = new Queen(false, new Position("e", "1"));      // set black queen
+            Fields["e1"].Content = new King(true, new Position("e", "1"));        // set white king
             WhiteKing = (King)Fields["e1"].Content;
-            Fields["e8"].Content = new King(false, new Position(5, 8));       // set black king
-            BlackKing = (King)Fields["e8"].Content;*/
+            Fields["e8"].Content = new King(false, new Position("e", "8"));       // set black king
+            BlackKing = (King)Fields["e8"].Content;
         }
 
         private void ChangeTurns()
@@ -281,7 +281,7 @@ namespace ChessApp.Models.Chess
                                                 : (oponentsKingRank > currentPlayersPieceRank ? rank < oponentsKingRank : rank > oponentsKingRank);
                 while (canMoveInBetween)
                 {
-                    blockingPositions.Add(Board.Files[file].Name + Board.Ranks[rank].Name);
+                    blockingPositions.Add(Board.Files[file].FileID + Board.Ranks[rank].RankID);
                     file += x;
                     rank += y;
                 }
@@ -304,7 +304,7 @@ namespace ChessApp.Models.Chess
                                 {
                                     foreach (Position p in piece.NextAvailablePositions)
                                     {
-                                        if ((p.File.Name + p.File.Name).Equals(position))
+                                        if ((p.Name).Equals(position))
                                         {
                                             return true;
                                         }
