@@ -5,18 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess
 {
-    public class FieldColumn// : List<Field>
+    public class FieldColumn
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public string FieldColumnId { get; set; }
+        public int FieldColumnID { get; set; }
 
-        //public File FieldColumnName { get; set; }
         public List<Field> Fields { get; set; }
 
-        public FieldColumn(List<Field> fields)//, Field fieldColumnName)
+        public FieldColumn(List<Field> fields)
         {
-            //FieldColumnName = fieldColumnName;
             Fields = fields;
         }
 

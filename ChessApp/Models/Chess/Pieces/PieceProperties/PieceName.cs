@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess.Pieces.PieceProperties
@@ -12,6 +13,7 @@ namespace ChessApp.Models.Chess.Pieces.PieceProperties
         [Display(Name = "Piece Name")]
         public string PieceNameID { get; set; }
 
+        public ICollection<Piece> Pieces { get; set; }
         public PieceName(string pieceName)
         {
             PieceNameID = pieceName;

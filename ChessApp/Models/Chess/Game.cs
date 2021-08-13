@@ -317,7 +317,7 @@ namespace ChessApp.Models.Chess
                 return false;
             }
         }
-
+        
         private bool DrawConditionMet()
         {
             /*   TODO someday:

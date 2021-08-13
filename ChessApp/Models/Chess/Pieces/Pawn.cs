@@ -1,6 +1,7 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess.Pieces
@@ -8,9 +9,11 @@ namespace ChessApp.Models.Chess.Pieces
     public class Pawn : Piece
     {
         [Required]
-        public bool IsFirstMove { get; set; } = true;
+        [DefaultValue(true)]
+        public bool IsFirstMove { get; set; }
         [Required]
-        public bool CanBeTakenByEnPassantMove { get; set; } = false;
+        [DefaultValue(false)]
+        public bool CanBeTakenByEnPassantMove { get; set; }
 
         public Pawn(bool isWhite, Position position)
         {
