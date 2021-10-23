@@ -48,7 +48,7 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.ranks.Length; j++)
                 {
-                    positions[count] = new Position(Board.files[i], Board.ranks[j]);
+                    positions[count] = new Position(count + 1, Board.files[i], Board.ranks[j]);
                     count++;
                 }
             }
@@ -69,6 +69,39 @@ namespace ChessApp.Data
                 context.PieceNames.Add(pn);
             }
             context.SaveChanges();
+
+            //Add FieldColumns
+            var fieldColumns = new FieldColumn[Board.boardSize];
+            for (int i = 0; i < Board.boardSize; i++)
+            {
+                fieldColumns[i] = new FieldColumn(i + 1);
+            }
+            foreach (FieldColumn fc in fieldColumns)
+            {
+                context.FieldColumns.Add(fc);
+            }
+            context.SaveChanges();
+
+            //Add Fields
+            var fields = new Field[positions.Length];
+            count = 0;
+            for (int i = 0; i < Board.boardSize; i++)
+            {
+                for (int j = 0; j < Board.boardSize; j++)
+                {
+                    fields[count] = new Field(fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
+                    count++;
+                }
+            }
+            foreach (Field f in fields)
+            {
+                context.Fields.Add(f);
+            }
+            context.SaveChanges();
+
+            
+
+
         }
     }
 }

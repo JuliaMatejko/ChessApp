@@ -10,6 +10,8 @@ namespace ChessApp.Models.Chess.BoardProperties
 {
     public class Position
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PositionID { get; set; }
         [Required]
         [Column("File")]
@@ -29,10 +31,11 @@ namespace ChessApp.Models.Chess.BoardProperties
         public HashSet<Piece> NextAvailablePositions { get; set; }
         public HashSet<Piece> ControlledSquares { get; set; }
 
-        public Position(string fileid, string rankid)
+        public Position(int positionId, string fileId, string rankId)
         {
-            FileID = fileid;
-            RankID = rankid;
+            PositionID = positionId;
+            FileID = fileId;
+            RankID = rankId;
         }
 
         public Position()

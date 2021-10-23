@@ -13,9 +13,9 @@ namespace ChessApp.Models.Chess
 
         public List<Field> Fields { get; set; }
 
-        public FieldColumn(List<Field> fields)
+        public FieldColumn(int fieldColumnId)
         {
-            Fields = fields;
+            FieldColumnID = fieldColumnId;
         }
 
         public FieldColumn()

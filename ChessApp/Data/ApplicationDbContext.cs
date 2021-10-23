@@ -22,8 +22,8 @@ namespace ChessApp.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<PieceName> PieceNames { get; set; }
         public DbSet<Piece> Pieces { get; set; }
-        public DbSet<Field> Fields { get; set; }
         public DbSet<FieldColumn> FieldColumns { get; set; }
+        public DbSet<Field> Fields { get; set; }
         public DbSet<Pawn> Pawns { get; set; }
         /*public DbSet<Board> Boards { get; set; }
         public DbSet<Bishop> Bishops { get; set; }

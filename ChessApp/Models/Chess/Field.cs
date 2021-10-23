@@ -7,8 +7,6 @@ namespace ChessApp.Models.Chess
 {
     public class Field
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int FieldID { get; set; }
         
         [Required]
@@ -21,13 +19,14 @@ namespace ChessApp.Models.Chess
         public Piece? Content { get; set; }
 #nullable disable
 
-        [Required]
         public int FieldColumnID { get; set; }
+        public FieldColumn FieldColumn { get; set; }
 
-        public Field(Position position, Piece content)
+        public Field(int fieldColumnId, int positionId, int? contentId)
         {
-            Position = position;
-            Content = content;
+            FieldColumnID = fieldColumnId;
+            PositionID = positionId;
+            PieceID = contentId;
         }
 
         public Field()
