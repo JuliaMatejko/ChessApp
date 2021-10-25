@@ -1,4 +1,5 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess.Pieces
@@ -6,20 +7,23 @@ namespace ChessApp.Models.Chess.Pieces
     public class Rook : Piece//, IHorizontallyAndVerticallyMovingPiece
     {
         [Required]
+        [DefaultValue(true)]
         public bool IsFirstMove { get; set; } = true;
 
-        public Rook(bool isWhite, Position position)
+        public Rook(int pieceId, bool isWhite, Position position)
         {
+            PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[11] : Name = PieceNames[10];
+            PieceNameID = isWhite ? PieceNameID = "rw" : PieceNameID = "rb";
         }
 
-        public Rook(bool isWhite, Position position, bool isFirstMove)
+        public Rook(int pieceId, bool isWhite, Position position, bool isFirstMove)
         {
+            PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[2] : Name = PieceNames[3];
+            PieceNameID = isWhite ? PieceNameID = "rw" : PieceNameID = "rb";
             IsFirstMove = isFirstMove;
         }
 

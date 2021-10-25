@@ -101,6 +101,19 @@ namespace ChessApp.Data
             context.SaveChanges();
 
             //Add Rooks
+            var rooks = new Rook[]
+            {
+                new Rook(17, true, positions[0]),
+                new Rook(18, true, positions[56]),
+                new Rook(19, false, positions[7]),
+                new Rook(20, false, positions[63])
+            };
+            foreach (Rook r in rooks)
+            {
+                context.Pieces.Add(r);
+            }
+            context.SaveChanges();
+
             //Add Bishops
             //Add Knights
             //Add Queens

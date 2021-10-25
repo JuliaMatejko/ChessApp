@@ -1,12 +1,15 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess.Pieces
 {
     public class Pawn : Piece
     {
+        [Required]
         [DefaultValue(true)]
         public bool IsFirstMove { get; set; } = true;
+        [Required]
         [DefaultValue(false)]
         public bool CanBeTakenByEnPassantMove { get; set; } = false;
 

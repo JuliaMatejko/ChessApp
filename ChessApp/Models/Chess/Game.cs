@@ -134,10 +134,10 @@ namespace ChessApp.Models.Chess
             {
                 Fields[Board.Files[i].FileID + "7"].Content = new Pawn(i + 7, false, new Position((i * 8) + 7, Board.Files[i].FileID, "7"));  // set black pawns 
             }
-            Fields["a1"].Content = new Rook(true, new Position(1, "a", "1"));        // set white rooks
-            Fields["h1"].Content = new Rook(true, new Position(57, "h", "1"));
-            Fields["a8"].Content = new Rook(false, new Position(8, "a", "8"));       // set black rooks
-            Fields["h8"].Content = new Rook(false, new Position(64, "h", "8"));
+            Fields["a1"].Content = new Rook(17, true, new Position(1, "a", "1"));        // set white rooks
+            Fields["h1"].Content = new Rook(18, true, new Position(57, "h", "1"));
+            Fields["a8"].Content = new Rook(19, false, new Position(8, "a", "8"));       // set black rooks
+            Fields["h8"].Content = new Rook(20, false, new Position(64, "h", "8"));
             Fields["b1"].Content = new Knight(true, new Position(9, "b", "1"));      // set white knights
             Fields["g1"].Content = new Knight(true, new Position(49, "g", "1"));
             Fields["b8"].Content = new Knight(false, new Position(16, "b", "8"));     // set black knights
