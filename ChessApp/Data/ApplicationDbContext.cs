@@ -30,6 +30,7 @@ namespace ChessApp.Data
         public DbSet<Bishop> Bishops { get; set; }
         public DbSet<Queen> Queens { get; set; }
         public DbSet<King> Kings { get; set; }
+        public DbSet<Move> Moves { get; set; }
         /*public DbSet<Board> Boards { get; set; }/*
         
         public DbSet<Move> Moves { get; set; }

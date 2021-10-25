@@ -6,30 +6,29 @@ namespace ChessApp.Models.Chess
 {
     public class Move
     {
-        //rewrite? use id instead of piecename?
-        [Key]
-        public int MoveId { get; set; }
-        [Required]
+        public int MoveID { get; set; }
+        public string PieceNameID { get; set; }
         public PieceName PieceName { get; set; }
-        [Required]
+        public int? CurrentPositionID { get; set; }
         public Position CurrentPosition { get; set; }
-        [Required]
+        public int NewPositionID { get; set; }
         public Position NewPosition { get; set; }
-        public PieceName PromotionTo { get; set; } //old string
+        public string PromotionToID { get; set; }
+        public PieceName PromotionTo { get; set; }
 
-        public Move(PieceName pieceName, Position currentPosition, Position newPosition)
+        public Move(string pieceNameId, int currentPositionId, int newPositionId)
         {
-            PieceName = pieceName;
-            CurrentPosition = currentPosition;
-            NewPosition = newPosition;
+            PieceNameID = pieceNameId;
+            CurrentPositionID = currentPositionId;
+            NewPositionID = newPositionId;
         }
 
-        public Move(PieceName pieceName, Position currentPosition, Position newPosition, PieceName promotionTo)
+        public Move(string pieceNameId, int currentPositionId, int newPositionId, string promotionToId)
         {
-            PieceName = pieceName;
-            CurrentPosition = currentPosition;
-            NewPosition = newPosition;
-            PromotionTo = promotionTo;
+            PieceNameID = pieceNameId;
+            CurrentPositionID = currentPositionId;
+            NewPositionID = newPositionId;
+            PromotionToID = promotionToId;
         }
 
         public Move()
