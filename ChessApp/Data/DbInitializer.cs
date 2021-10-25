@@ -129,9 +129,31 @@ namespace ChessApp.Data
             context.SaveChanges();
 
             //Add Bishops
-            
+            var bishops = new Bishop[]
+            {
+                new Bishop(25, true, positions[16]),
+                new Bishop(26, true, positions[40]),
+                new Bishop(27, false, positions[23]),
+                new Bishop(28, false, positions[47])
+            };
+            foreach (Bishop b in bishops)
+            {
+                context.Pieces.Add(b);
+            }
+            context.SaveChanges();
 
             //Add Queens
+            var queens = new Queen[]
+            {
+                new Queen(29, true, positions[24]),
+                new Queen(30, false, positions[31]),
+            };
+            foreach (Queen q in queens)
+            {
+                context.Pieces.Add(q);
+            }
+            context.SaveChanges();
+
             //Add Kings
 
             //Add Fields
