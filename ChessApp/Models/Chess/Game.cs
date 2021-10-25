@@ -148,9 +148,9 @@ namespace ChessApp.Models.Chess
             Fields["f8"].Content = new Bishop(28, false, new Position(48, "f", "8"));
             Fields["d1"].Content = new Queen(29,true, new Position(25, "d", "1"));       // set white queen
             Fields["d8"].Content = new Queen(30, false, new Position(32, "d", "8"));      // set black queen
-            Fields["e1"].Content = new King(true, new Position(33, "e", "1"));        // set white king
+            Fields["e1"].Content = new King(31, true, new Position(33, "e", "1"));        // set white king
             WhiteKing = (King)Fields["e1"].Content;
-            Fields["e8"].Content = new King(false, new Position(40, "e", "8"));       // set black king
+            Fields["e8"].Content = new King(32, false, new Position(40, "e", "8"));       // set black king
             BlackKing = (King)Fields["e8"].Content;
         }
 

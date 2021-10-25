@@ -146,7 +146,7 @@ namespace ChessApp.Data
             var queens = new Queen[]
             {
                 new Queen(29, true, positions[24]),
-                new Queen(30, false, positions[31]),
+                new Queen(30, false, positions[31])
             };
             foreach (Queen q in queens)
             {
@@ -155,6 +155,16 @@ namespace ChessApp.Data
             context.SaveChanges();
 
             //Add Kings
+            var kings = new King[]
+            {
+                new King(31, true, positions[32]),
+                new King(32, false, positions[39])
+            };
+            foreach (King kg in kings)
+            {
+                context.Pieces.Add(kg);
+            }
+            context.SaveChanges();
 
             //Add Fields
             var fields = new Field[positions.Length];

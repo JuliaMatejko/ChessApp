@@ -1,4 +1,5 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess.Pieces
@@ -6,13 +7,15 @@ namespace ChessApp.Models.Chess.Pieces
     public class King : Piece
     {
         [Required]
+        [DefaultValue(true)]
         public bool IsFirstMove { get; set; } = true;
 
-        public King(bool isWhite, Position position)
+        public King(int pieceId, bool isWhite, Position position)
         {
+            PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite == true ? Name = PieceNames[3] : Name = PieceNames[2];
+            PieceNameID = isWhite ? PieceNameID = "kw" : PieceNameID = "kb";
         }
 
         public King()
