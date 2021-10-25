@@ -4,11 +4,12 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Knight : Piece
     {
-        public Knight(bool isWhite, Position position)
+        public Knight(int pieceId, bool isWhite, Position position)
         {
+            PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[5] : Name = PieceNames[4];
+            PieceNameID = isWhite ? PieceNameID = "kw" : PieceNameID = "kb";
         }
 
         public Knight()

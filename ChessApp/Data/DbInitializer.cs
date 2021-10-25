@@ -114,8 +114,23 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-            //Add Bishops
             //Add Knights
+            var knights = new Knight[]
+            {
+                new Knight(21, true, positions[8]),
+                new Knight(22, true, positions[48]),
+                new Knight(23, false, positions[15]),
+                new Knight(24, false, positions[55])
+            };
+            foreach (Knight kn in knights)
+            {
+                context.Pieces.Add(kn);
+            }
+            context.SaveChanges();
+
+            //Add Bishops
+            
+
             //Add Queens
             //Add Kings
 
