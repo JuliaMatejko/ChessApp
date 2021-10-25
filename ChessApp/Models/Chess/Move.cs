@@ -6,6 +6,7 @@ namespace ChessApp.Models.Chess
 {
     public class Move
     {
+        //rewrite? use id instead of piecename?
         [Key]
         public int MoveId { get; set; }
         [Required]

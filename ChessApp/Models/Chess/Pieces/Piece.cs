@@ -27,9 +27,7 @@ namespace ChessApp.Models.Chess.Pieces
         public PieceName Name { get; set; }
 
         public Field Field { get; set; }
-
         public HashSet<Position> NextAvailablePositions { get; set; }
-
         public HashSet<Position> ControlledSquares { get; set; }
 
         /*

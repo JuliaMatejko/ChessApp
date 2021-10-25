@@ -177,6 +177,51 @@ namespace ChessApp.Data
                     count++;
                 }
             }
+            //Set field content
+            ////Set pawns
+            //////white
+            for (int i = 0; i < Board.boardSize; i++)
+            {
+                fields[(i * 8) + 1].PieceID = pawns[i].PieceID;
+            }
+            //////black
+            count = 0;
+            for (int i = Board.boardSize; i < Board.boardSize * 2; i++)
+            {
+                fields[(count * 8) + 6].PieceID = pawns[i].PieceID;
+                count++;
+            }
+            ////Set rooks
+            //////white
+            fields[0].PieceID = rooks[0].PieceID;
+            fields[56].PieceID = rooks[1].PieceID;
+            //////black
+            fields[7].PieceID = rooks[2].PieceID;
+            fields[63].PieceID = rooks[3].PieceID;
+            ////Set knights
+            //////white
+            fields[8].PieceID = knights[0].PieceID;
+            fields[48].PieceID = knights[1].PieceID;
+            //////black
+            fields[15].PieceID = knights[2].PieceID;
+            fields[55].PieceID = knights[3].PieceID;
+            ////Set bishops
+            //////white
+            fields[16].PieceID = bishops[0].PieceID;
+            fields[40].PieceID = bishops[1].PieceID;
+            //////black
+            fields[23].PieceID = bishops[2].PieceID;
+            fields[47].PieceID = bishops[3].PieceID;
+            ////Set queens
+            //////white
+            fields[24].PieceID = queens[0].PieceID;
+            //////black
+            fields[31].PieceID = queens[1].PieceID;
+            ////Set kings
+            //////white
+            fields[32].PieceID = kings[0].PieceID;
+            //////black
+            fields[39].PieceID = kings[1].PieceID;
             foreach (Field f in fields)
             {
                 context.Fields.Add(f);
@@ -186,7 +231,7 @@ namespace ChessApp.Data
             //Add Board
 
 
-            
+
 
 
         }

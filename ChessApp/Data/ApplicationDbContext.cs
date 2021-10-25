@@ -62,8 +62,6 @@ namespace ChessApp.Data
                 .HasOne(i => i.Content)
                 .WithOne(p => p.Field)
                 .HasForeignKey<Field>(i => i.PieceID);
-
         }
-
     }
 }
