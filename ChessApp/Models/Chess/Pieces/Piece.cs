@@ -12,16 +12,14 @@ namespace ChessApp.Models.Chess.Pieces
         public static readonly string[] pieceNames = new string[] { "bb", "bw", "kb", "kw", "nb", "nw", "pb", "pw", "qb", "qw", "rb", "rw" };
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PieceID { get; set; }
         [Required]
         public bool IsWhite { get; set; }
-        [Required]
         public static List<PieceName> PieceNames { get; set; }
-
         [Required]
         public int PositionID { get; set; }
         public Position Position { get; set; }
-
         [Required]
         [Column("PieceName")]
         [Display(Name = "Piece Name")]

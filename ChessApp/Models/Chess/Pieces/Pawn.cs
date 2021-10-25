@@ -1,25 +1,21 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess.Pieces
 {
     public class Pawn : Piece
     {
-        [Required]
         [DefaultValue(true)]
-        public bool IsFirstMove { get; set; }
-        [Required]
+        public bool IsFirstMove { get; set; } = true;
         [DefaultValue(false)]
-        public bool CanBeTakenByEnPassantMove { get; set; }
+        public bool CanBeTakenByEnPassantMove { get; set; } = false;
 
-        public Pawn(bool isWhite, Position position)
+        public Pawn(int pieceId, bool isWhite, Position position)
         {
+            PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            Name = isWhite ? Name = PieceNames[7] : Name = PieceNames[6];
+            PieceNameID = isWhite ? PieceNameID = "pw" : PieceNameID = "pb";
         }
 
         public Pawn()

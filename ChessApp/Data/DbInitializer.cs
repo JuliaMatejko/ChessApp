@@ -82,6 +82,30 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
+            //Add Pawns
+            var pawns = new Pawn[Board.boardSize * 2];
+            for (var i = 0; i < Board.boardSize; i++)
+            {
+                pawns[i] = new Pawn(i + 1, true, positions[(i * 8) + 1]);  // set white pawns
+            }
+            var k = 0;
+            for (var i = Board.boardSize; i < Board.boardSize * 2; i++)
+            {
+                pawns[i] = new Pawn(i + 1, false, positions[(k * 8) + 6]);  // set black pawns 
+                k++;
+            }
+            foreach (Pawn p in pawns)
+            {
+                context.Pieces.Add(p);
+            }
+            context.SaveChanges();
+
+            //Add Rooks
+            //Add Bishops
+            //Add Knights
+            //Add Queens
+            //Add Kings
+
             //Add Fields
             var fields = new Field[positions.Length];
             count = 0;
@@ -89,7 +113,7 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    fields[count] = new Field(fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
+                    fields[count] = new Field(count + 1, fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
                     count++;
                 }
             }
@@ -98,6 +122,9 @@ namespace ChessApp.Data
                 context.Fields.Add(f);
             }
             context.SaveChanges();
+
+            //Add Board
+
 
             
 

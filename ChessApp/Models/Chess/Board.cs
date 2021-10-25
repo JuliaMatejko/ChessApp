@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess
 {
-    public class Board //: List<FieldColumn>
+    public class Board
     {
         public const int boardSize = 8;
         public static readonly string[] files = new string[boardSize] { "a", "b", "c", "d", "e", "f", "g", "h" };

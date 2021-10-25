@@ -128,11 +128,11 @@ namespace ChessApp.Models.Chess
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].FileID + "2"].Content = new Pawn(true, new Position((i * 8) + 2, Board.Files[i].FileID, "2"));  // set white pawns
+                Fields[Board.Files[i].FileID + "2"].Content = new Pawn(i + 1, true, new Position((i * 8) + 2, Board.Files[i].FileID, "2"));  // set white pawns
             }
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].FileID + "7"].Content = new Pawn(false, new Position((i * 8) + 2, Board.Files[i].FileID, "7"));  // set black pawns 
+                Fields[Board.Files[i].FileID + "7"].Content = new Pawn(i + 7, false, new Position((i * 8) + 7, Board.Files[i].FileID, "7"));  // set black pawns 
             }
             Fields["a1"].Content = new Rook(true, new Position(1, "a", "1"));        // set white rooks
             Fields["h1"].Content = new Rook(true, new Position(57, "h", "1"));
