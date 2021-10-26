@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +11,7 @@ namespace ChessApp.Models.Chess
         public int FieldColumnID { get; set; }
 
         public List<Field> Fields { get; set; }
+        public List<BoardFieldColumn> BoardsFieldColumns { get; set; }
 
         public FieldColumn(int fieldColumnId)
         {

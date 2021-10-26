@@ -13,6 +13,7 @@ namespace ChessApp.Models.Chess.BoardProperties
         public string FileID { get; set; }
 
         public ICollection<Position> Positions { get; set; }
+        public List<BoardFile> BoardsFiles { get; set; }
 
         public File(string fileName)
         {

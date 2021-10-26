@@ -13,6 +13,7 @@ namespace ChessApp.Models.Chess.BoardProperties
         public string RankID { get; set; }
 
         public ICollection<Position> Positions { get; set; }
+        public List<BoardRank> BoardsRanks { get; set; }
 
         public Rank(string rankName)
         {

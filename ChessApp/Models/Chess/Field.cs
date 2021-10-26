@@ -14,12 +14,9 @@ namespace ChessApp.Models.Chess
         [Required]
         public int PositionID { get; set; }
         public Position Position { get; set; }
-
-#nullable enable
         [Column("ContentID")]
         public int? PieceID { get; set; }
-        public Piece? Content { get; set; }
-#nullable disable
+        public Piece Content { get; set; }
 
         public int FieldColumnID { get; set; }
         public FieldColumn FieldColumn { get; set; }

@@ -11,21 +11,20 @@ namespace ChessApp.Models.Chess
         public static readonly string[] files = new string[boardSize] { "a", "b", "c", "d", "e", "f", "g", "h" };
         public static readonly string[] ranks = new string[boardSize] { "1", "2", "3", "4", "5", "6", "7", "8" };
 
-        [Key]
-        public int BoardId { get; set; }
+        public int BoardID { get; set; }
         [Required]
-        public static List<File> Files { get; }
+        public List<BoardFile> BoardsFiles { get; set; }
         [Required]
-        public static List<Rank> Ranks { get; }
+        public List<BoardRank> BoardsRanks { get; set; }
         [Required]
-        public static List<Position> Positions { get; }
+        public List<BoardPosition> BoardsPositions { get; set; }//
         [Required]
-        public List<FieldColumn> FieldColumns { get; } = AddFieldColumns();
+        public List<BoardFieldColumn> BoardsFieldColumns { get; set; } //= AddFieldColumns();
 
 
         private static List<FieldColumn> AddFieldColumns() //zamiast starego CreateABoard() works?
         {
-            List<FieldColumn> columns = new List<FieldColumn>();/*
+            List<FieldColumn> columns = new();/*
             for (int i = 0; i < boardSize; i++)
             {
                 columns.Add(new FieldColumn(Files[i], new List<Field>()));
@@ -54,5 +53,11 @@ namespace ChessApp.Models.Chess
              return board;
          }
         */
+
+
+        public Board()
+        {
+
+        }
     }
 }

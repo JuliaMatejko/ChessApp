@@ -41,11 +41,11 @@ namespace ChessApp.Models.Chess
         public bool IsAStalemate => StalemateOccured();
         public List<Piece> CurrentPlayerPiecesAttackingTheKing { get; set; } = new List<Piece>();
         public bool IsACheckmate => CheckmateOccured();
-        public Board Board { get; } = new Board();
+        public Board Chessboard { get; } = new Board();
         [NotMapped]
         public Dictionary<string, Field> Fields
         {
-            get => CreateFieldsDictionary(Board);
+            get => CreateFieldsDictionary(Chessboard);
             set => _fields = value;
         }
         private Dictionary<string, Field> _fields;
@@ -104,10 +104,10 @@ namespace ChessApp.Models.Chess
         
         public static Dictionary<string, Field> CreateFieldsDictionary(Board board)
         {
-            Dictionary<string, Field> fields = new Dictionary<string, Field>();
-            int i = 0;
+            Dictionary<string, Field> fields = new();
+            /*int i = 0;
             int j = 0;
-            foreach (Position position in Board.Positions)
+            foreach (Position position in board.Positions)
             {
                 if (j < Board.boardSize)
                 {
@@ -120,7 +120,7 @@ namespace ChessApp.Models.Chess
                     fields[position.Name] = board.FieldColumns[i].Fields[j];
                 }
                 j++;
-            }
+            }*/
             return fields;
         }
 
@@ -128,11 +128,11 @@ namespace ChessApp.Models.Chess
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].FileID + "2"].Content = new Pawn(i + 1, true, new Position((i * 8) + 2, Board.Files[i].FileID, "2"));  // set white pawns
+                Fields[Chessboard.BoardsFiles[i].FileID + "2"].Content = new Pawn(i + 1, true, new Position((i * 8) + 2, Chessboard.BoardsFiles[i].FileID, "2"));  // set white pawns
             }
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Board.Files[i].FileID + "7"].Content = new Pawn(i + 7, false, new Position((i * 8) + 7, Board.Files[i].FileID, "7"));  // set black pawns 
+                Fields[Chessboard.BoardsFiles[i].FileID + "7"].Content = new Pawn(i + 7, false, new Position((i * 8) + 7, Chessboard.BoardsFiles[i].FileID, "7"));  // set black pawns 
             }
             Fields["a1"].Content = new Rook(17, true, new Position(1, "a", "1"));        // set white rooks
             Fields["h1"].Content = new Rook(18, true, new Position(57, "h", "1"));
@@ -241,12 +241,12 @@ namespace ChessApp.Models.Chess
             }
 
             bool AttackingPieceCanBeCaptured()
-            {
+            {/*
                 for (var i = 0; i < Board.boardSize; i++)
                 {
                     for (var j = 0; j < Board.boardSize; j++)
                     {
-                        Piece piece = Board.FieldColumns[i].Fields[j].Content;
+                        Piece piece = board.FieldColumns[i].Fields[j].Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -259,18 +259,18 @@ namespace ChessApp.Models.Chess
                             }
                         }
                     }
-                }
+                }*/
                 return false;
             }
 
             bool CheckCanBeBlockedOrAttackingPieceCanBeCaptured() // Return positions that are blocking check
-            {
-                List<string> blockingPositions = new List<string>();
-                int currentPlayersPieceFile = Board.Files.IndexOf(CurrentPlayerPiecesAttackingTheKing[0].Position.File);
-                int currentPlayersPieceRank = Board.Ranks.IndexOf(CurrentPlayerPiecesAttackingTheKing[0].Position.Rank);
+            {/*
+                List<string> blockingPositions = new List<string>();//
+                int currentPlayersPieceFile = board.BoardsFiles.IndexOf(board.BoardsFiles.Single(bf => bf.FileID == CurrentPlayerPiecesAttackingTheKing[0].Position.File.FileID));
+                int currentPlayersPieceRank = board.BoardsRanks.IndexOf(board.BoardsRanks.Single(br => br.RankID == CurrentPlayerPiecesAttackingTheKing[0].Position.Rank.RankID));
                 King oponentsKing = CurrentPlayer == Sides.White ? BlackKing : WhiteKing;
-                int oponentsKingFile = Board.Files.IndexOf(oponentsKing.Position.File);
-                int oponentsKingRank = Board.Ranks.IndexOf(oponentsKing.Position.Rank);
+                int oponentsKingFile = board.BoardsFiles.IndexOf(board.BoardsFiles.Single(bf => bf.FileID == oponentsKing.Position.File.FileID));
+                int oponentsKingRank = board.BoardsRanks.IndexOf(board.BoardsRanks.Single(br => br.RankID == oponentsKing.Position.Rank.RankID));
 
                 int x = oponentsKingFile == currentPlayersPieceFile ? 0 : (oponentsKingFile > currentPlayersPieceFile ? 1 : -1);    // Check if both pieces are on the same file --> A rook or a queen is an attacking piece
                 int y = oponentsKingRank == currentPlayersPieceRank ? 0 : (oponentsKingRank > currentPlayersPieceRank ? 1 : -1);    // Check if both pieces are on the same rank --> A rook or a queen is an attacking piece
@@ -281,7 +281,7 @@ namespace ChessApp.Models.Chess
                                                 : (oponentsKingRank > currentPlayersPieceRank ? rank < oponentsKingRank : rank > oponentsKingRank);
                 while (canMoveInBetween)
                 {
-                    blockingPositions.Add(Board.Files[file].FileID + Board.Ranks[rank].RankID);
+                    blockingPositions.Add(board.BoardsFiles[file].FileID + board.BoardsRanks[rank].RankID);
                     file += x;
                     rank += y;
                 }
@@ -290,7 +290,7 @@ namespace ChessApp.Models.Chess
                 {
                     for (int j = 0; j < Board.boardSize; j++)
                     {
-                        Piece piece = Board.FieldColumns[i].Fields[j].Content;
+                        Piece piece = board.FieldColumns[i].Fields[j].Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -313,7 +313,7 @@ namespace ChessApp.Models.Chess
                             }
                         }
                     }
-                }
+                }*/
                 return false;
             }
         }
@@ -346,12 +346,12 @@ namespace ChessApp.Models.Chess
         }
 
         private bool StalemateOccured()
-        {
+        {/*
             for (int i = 0; i < Board.boardSize; i++)
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    Piece piece = Board.FieldColumns[i].Fields[j].Content;
+                    Piece piece = board.FieldColumns[i].Fields[j].Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -361,7 +361,7 @@ namespace ChessApp.Models.Chess
                         }
                     }
                 }
-            }
+            }*/
             return true;
         }
     }

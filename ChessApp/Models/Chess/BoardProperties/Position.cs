@@ -1,10 +1,7 @@
 ﻿using ChessApp.Models.Chess.Pieces;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ChessApp.Models.Chess.BoardProperties
 {
@@ -30,6 +27,7 @@ namespace ChessApp.Models.Chess.BoardProperties
         public Field Field { get; set; }
         public HashSet<Piece> NextAvailablePositions { get; set; }
         public HashSet<Piece> ControlledSquares { get; set; }
+        public List<BoardPosition> BoardsPositions { get; set; }
 
         public Position(int positionId, string fileId, string rankId)
         {

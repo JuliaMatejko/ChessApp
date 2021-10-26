@@ -58,18 +58,6 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-            //Add PieceNames
-            var pieceNames = new PieceName[Piece.pieceNames.Length];
-            for (int i = 0; i < Piece.pieceNames.Length; i++)
-            {
-                pieceNames[i] = new PieceName(Piece.pieceNames[i]);
-            }
-            foreach (PieceName pn in pieceNames)
-            {
-                context.PieceNames.Add(pn);
-            }
-            context.SaveChanges();
-
             //Add FieldColumns
             var fieldColumns = new FieldColumn[Board.boardSize];
             for (int i = 0; i < Board.boardSize; i++)
@@ -79,6 +67,71 @@ namespace ChessApp.Data
             foreach (FieldColumn fc in fieldColumns)
             {
                 context.FieldColumns.Add(fc);
+            }
+            context.SaveChanges();
+
+            //Add Board
+            var board = new Board();
+            context.Boards.Add(board);
+            context.SaveChanges();
+
+            //Add BoardsFiles
+            var boardsFiles = new BoardFile[Board.boardSize];
+            for (int i = 0; i < Board.files.Length; i++)
+            {
+                boardsFiles[i] = new BoardFile(board.BoardID, files[i].FileID);
+            }
+            foreach (BoardFile bf in boardsFiles)
+            {
+                context.BoardsFiles.Add(bf);
+            }
+            context.SaveChanges();
+
+            //Add BoardsRanks
+            var boardsRanks = new BoardRank[Board.boardSize];
+            for (int i = 0; i < Board.ranks.Length; i++)
+            {
+                boardsRanks[i] = new BoardRank(board.BoardID, ranks[i].RankID);
+            }
+            foreach (BoardRank br in boardsRanks)
+            {
+                context.BoardsRanks.Add(br);
+            }
+            context.SaveChanges();
+
+            //Add BoardsPositions
+            var boardsPositions = new BoardPosition[Board.boardSize * Board.boardSize];
+            for (int i = 0; i < Board.boardSize * Board.boardSize; i++)
+            {
+                boardsPositions[i] = new BoardPosition(board.BoardID, positions[i].PositionID);
+            }
+            foreach (BoardPosition bp in boardsPositions)
+            {
+                context.BoardsPositions.Add(bp);
+            }
+            context.SaveChanges();
+
+            //Add BoardsFieldColumns
+            var boardsFieldColumns = new BoardFieldColumn[Board.boardSize];
+            for (int i = 0; i < Board.boardSize; i++)
+            {
+                boardsFieldColumns[i] = new BoardFieldColumn(board.BoardID, fieldColumns[i].FieldColumnID);
+            }
+            foreach (BoardFieldColumn bfc in boardsFieldColumns)
+            {
+                context.BoardsFieldColumns.Add(bfc);
+            }
+            context.SaveChanges();
+
+            //Add PieceNames
+            var pieceNames = new PieceName[Piece.pieceNames.Length];
+            for (int i = 0; i < Piece.pieceNames.Length; i++)
+            {
+                pieceNames[i] = new PieceName(Piece.pieceNames[i]);
+            }
+            foreach (PieceName pn in pieceNames)
+            {
+                context.PieceNames.Add(pn);
             }
             context.SaveChanges();
 
@@ -228,8 +281,7 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-            //Add Board
-
+           
 
 
 
