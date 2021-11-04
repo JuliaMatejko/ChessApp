@@ -7,16 +7,6 @@ namespace ChessApp.Models.Chess
 {
     public class GameState
     {
-        public GameState()
-        {
-
-        }
-
-        public GameState(int gameId)
-        {
-            GameID = gameId;
-        }
-
         [Key]
         public int GameID { get; set; }
         public Game Game { get; set; }
@@ -50,6 +40,16 @@ namespace ChessApp.Models.Chess
         public bool IsAStalemate => StalemateOccured();
         public bool IsAWin => WinConditionMet();
         public bool IsADraw => DrawConditionMet();
+
+        public GameState(int gameId)
+        {
+            GameID = gameId;
+        }
+
+        public GameState()
+        {
+
+        }
 
         private bool DrawConditionMet()
         {

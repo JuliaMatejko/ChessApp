@@ -30,8 +30,8 @@ namespace ChessApp.Models.Chess.Pieces
         public GameState GameState { get; set; }
 
         public Field Field { get; set; }
-        public HashSet<Position> NextAvailablePositions { get; set; }
-        public HashSet<Position> ControlledSquares { get; set; }
+        public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }
+        public HashSet<ControlledSquare> ControlledSquares { get; set; }
 
 
 

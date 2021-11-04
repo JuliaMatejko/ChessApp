@@ -1,13 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ChessApp.Models;
-using ChessApp.Models.Chess;
+﻿using ChessApp.Models.Chess;
 using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChessApp.Data
 {
@@ -38,7 +33,8 @@ namespace ChessApp.Data
         public DbSet<BoardFieldColumn> BoardsFieldColumns { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<GameState> GameStates { get; set; }
-        
+        public DbSet<ControlledSquare> ControlledSquares { get; set; }
+        public DbSet<NextAvailablePosition> NextAvailablePositions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
@@ -47,16 +43,6 @@ namespace ChessApp.Data
                 .WithOne(p => p.Position)
                 .HasForeignKey<Piece>(i => i.PositionID)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Position>()
-                .HasMany(i => i.NextAvailablePositions)
-                .WithMany(p => p.NextAvailablePositions)
-                .UsingEntity(j => j.ToTable("NextAvailablePositions"));
-
-            modelBuilder.Entity<Position>()
-                .HasMany(i => i.ControlledSquares)
-                .WithMany(p => p.ControlledSquares)
-                .UsingEntity(j => j.ToTable("ControlledSquares"));
 
             modelBuilder.Entity<Position>()
                 .HasOne(i => i.Field)
@@ -100,6 +86,11 @@ namespace ChessApp.Data
                 .WithOne(p => p.GameStateBlackPawn)
                 .HasForeignKey<GameState>(i => i.BlackPawnThatCanBeTakenByEnPassantMoveID);
 
+            modelBuilder.Entity<ControlledSquare>()
+               .HasKey(k => new { k.PieceID, k.PositionID });
+
+            modelBuilder.Entity<NextAvailablePosition>()
+               .HasKey(k => new { k.PieceID, k.PositionID });
         }
     }
 }

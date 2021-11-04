@@ -295,6 +295,9 @@ namespace ChessApp.Data
             gameState.WhiteKingID = kings[0].PieceID;
             gameState.BlackKingID = kings[1].PieceID;
             context.SaveChanges();
+
+            //Add ControlledSquares
+            //Add NextAvailablePositions
         }
     }
 }
