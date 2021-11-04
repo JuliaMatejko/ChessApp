@@ -2,15 +2,15 @@
 {
     public class BoardFieldColumn
     {
-        public int BoardID { get; set; }
+        public int GameID { get; set; }
         public int FieldColumnID { get; set; }
 
         public Board Board { get; set; }
         public FieldColumn FieldColumn { get; set; }
 
-        public BoardFieldColumn(int boardId, int fieldColumnId)
+        public BoardFieldColumn(int gameId, int fieldColumnId)
         {
-            BoardID = boardId;
+            GameID = gameId;
             FieldColumnID = fieldColumnId;
         }
 

@@ -17,6 +17,14 @@ namespace ChessApp.Data
                 return;
             }
 
+            var game = new Game();
+            context.Games.Add(game);
+            context.SaveChanges();
+
+            var gameState = new GameState(game.GameID);
+            context.GameStates.Add(gameState);
+            context.SaveChanges();
+
             //Add Files
             var files = new File[Board.boardSize];
             for (int i = 0; i < Board.files.Length; i++)
@@ -71,7 +79,7 @@ namespace ChessApp.Data
             context.SaveChanges();
 
             //Add Board
-            var board = new Board();
+            var board = new Board(game.GameID);
             context.Boards.Add(board);
             context.SaveChanges();
 
@@ -79,7 +87,7 @@ namespace ChessApp.Data
             var boardsFiles = new BoardFile[Board.boardSize];
             for (int i = 0; i < Board.files.Length; i++)
             {
-                boardsFiles[i] = new BoardFile(board.BoardID, files[i].FileID);
+                boardsFiles[i] = new BoardFile(board.GameID, files[i].FileID);
             }
             foreach (BoardFile bf in boardsFiles)
             {
@@ -91,7 +99,7 @@ namespace ChessApp.Data
             var boardsRanks = new BoardRank[Board.boardSize];
             for (int i = 0; i < Board.ranks.Length; i++)
             {
-                boardsRanks[i] = new BoardRank(board.BoardID, ranks[i].RankID);
+                boardsRanks[i] = new BoardRank(board.GameID, ranks[i].RankID);
             }
             foreach (BoardRank br in boardsRanks)
             {
@@ -103,7 +111,7 @@ namespace ChessApp.Data
             var boardsPositions = new BoardPosition[Board.boardSize * Board.boardSize];
             for (int i = 0; i < Board.boardSize * Board.boardSize; i++)
             {
-                boardsPositions[i] = new BoardPosition(board.BoardID, positions[i].PositionID);
+                boardsPositions[i] = new BoardPosition(board.GameID, positions[i].PositionID);
             }
             foreach (BoardPosition bp in boardsPositions)
             {
@@ -115,7 +123,7 @@ namespace ChessApp.Data
             var boardsFieldColumns = new BoardFieldColumn[Board.boardSize];
             for (int i = 0; i < Board.boardSize; i++)
             {
-                boardsFieldColumns[i] = new BoardFieldColumn(board.BoardID, fieldColumns[i].FieldColumnID);
+                boardsFieldColumns[i] = new BoardFieldColumn(board.GameID, fieldColumns[i].FieldColumnID);
             }
             foreach (BoardFieldColumn bfc in boardsFieldColumns)
             {

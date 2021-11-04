@@ -1,6 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ChessApp.Models.Chess
@@ -11,7 +9,9 @@ namespace ChessApp.Models.Chess
         public static readonly string[] files = new string[boardSize] { "a", "b", "c", "d", "e", "f", "g", "h" };
         public static readonly string[] ranks = new string[boardSize] { "1", "2", "3", "4", "5", "6", "7", "8" };
 
-        public int BoardID { get; set; }
+        [Key]
+        public int GameID { get; set; }
+        public Game Game { get; set; }
         [Required]
         public List<BoardFile> BoardsFiles { get; set; }
         [Required]
@@ -54,6 +54,10 @@ namespace ChessApp.Models.Chess
          }
         */
 
+        public Board(int gameId)
+        {
+            GameID = gameId;
+        }
 
         public Board()
         {

@@ -36,9 +36,9 @@ namespace ChessApp.Data
         public DbSet<BoardRank> BoardsRanks { get; set; }
         public DbSet<BoardPosition> BoardsPositions { get; set; }
         public DbSet<BoardFieldColumn> BoardsFieldColumns { get; set; }
-        /*
-        public DbSet<Game> GameStates { get; set; }
-        public DbSet<Game> Games { get; set; }*/
+        public DbSet<Game> Games { get; set; }
+        public DbSet<GameState> GameStates { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
@@ -69,36 +69,16 @@ namespace ChessApp.Data
                 .HasForeignKey<Field>(i => i.PieceID);
 
             modelBuilder.Entity<BoardFile>()
-               .HasKey(k => new { k.BoardID, k.FileID });
+               .HasKey(k => new { k.GameID, k.FileID });
 
             modelBuilder.Entity<BoardRank>()
-               .HasKey(k => new { k.BoardID, k.RankID });
+               .HasKey(k => new { k.GameID, k.RankID });
 
             modelBuilder.Entity<BoardPosition>()
-               .HasKey(k => new { k.BoardID, k.PositionID });
+               .HasKey(k => new { k.GameID, k.PositionID });
 
             modelBuilder.Entity<BoardFieldColumn>()
-               .HasKey(k => new { k.BoardID, k.FieldColumnID });
-            /*
-            modelBuilder.Entity<Board>()
-                .HasMany(i => i.Files)
-                .WithMany(p => p.Files)
-                .UsingEntity(j => j.ToTable("BoardsFiles"));
-
-            modelBuilder.Entity<Board>()
-                .HasMany(i => i.Ranks)
-                .WithMany(p => p.Ranks)
-                .UsingEntity(j => j.ToTable("BoardsRanks"));
-
-            modelBuilder.Entity<Board>()
-                .HasMany(i => i.Positions)
-                .WithMany(p => p.Positions)
-                .UsingEntity(j => j.ToTable("BoardsPositions"));
-
-            modelBuilder.Entity<Board>()
-                .HasMany(i => i.FieldColumns)
-                .WithMany(p => p.FieldColumns)
-                .UsingEntity(j => j.ToTable("BoardsFieldColumns"));*/
+               .HasKey(k => new { k.GameID, k.FieldColumnID });
 
         }
     }

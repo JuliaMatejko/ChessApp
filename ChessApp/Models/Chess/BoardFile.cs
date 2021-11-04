@@ -4,15 +4,15 @@ namespace ChessApp.Models.Chess
 {
     public class BoardFile
     {
-        public int BoardID { get; set; }
+        public int GameID { get; set; }
         public string FileID { get; set; }
 
         public Board Board { get; set; }
         public File File { get; set; }
 
-        public BoardFile(int boardId, string fileId)
+        public BoardFile(int gameId, string fileId)
         {
-            BoardID = boardId;
+            GameID = gameId;
             FileID = fileId;
         }
 

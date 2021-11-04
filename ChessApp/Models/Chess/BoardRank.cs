@@ -4,15 +4,15 @@ namespace ChessApp.Models.Chess
 {
     public class BoardRank
     {
-        public int BoardID { get; set; }
+        public int GameID { get; set; }
         public string RankID { get; set; }
 
         public Board Board { get; set; }
         public Rank Rank { get; set; }
 
-        public BoardRank(int boardId, string rankId)
+        public BoardRank(int gameId, string rankId)
         {
-            BoardID = boardId;
+            GameID = gameId;
             RankID = rankId;
         }
 
