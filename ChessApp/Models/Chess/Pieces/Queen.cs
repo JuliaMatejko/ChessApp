@@ -4,8 +4,9 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Queen : Piece//, IDiagonallyMovingPiece, IHorizontallyAndVerticallyMovingPiece
     {
-        public Queen(int pieceId, bool isWhite, Position position)
+        public Queen(int gameId, int pieceId, bool isWhite, Position position)
         {
+            GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;

@@ -10,16 +10,18 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(true)]
         public bool IsFirstMove { get; set; } = true;
 
-        public Rook(int pieceId, bool isWhite, Position position)
+        public Rook(int gameId, int pieceId, bool isWhite, Position position)
         {
+            GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
             PieceNameID = isWhite ? PieceNameID = "rw" : PieceNameID = "rb";
         }
 
-        public Rook(int pieceId, bool isWhite, Position position, bool isFirstMove)
+        public Rook(int gameId, int pieceId, bool isWhite, Position position, bool isFirstMove)
         {
+            GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;

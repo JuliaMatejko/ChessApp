@@ -12,15 +12,17 @@ namespace ChessApp.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.Files.Any())
+            if (context.Games.Any())
             {
                 return;
             }
 
+            //Add Game
             var game = new Game();
             context.Games.Add(game);
             context.SaveChanges();
 
+            //Add GameState
             var gameState = new GameState(game.GameID);
             context.GameStates.Add(gameState);
             context.SaveChanges();
@@ -147,12 +149,12 @@ namespace ChessApp.Data
             var pawns = new Pawn[Board.boardSize * 2];
             for (var i = 0; i < Board.boardSize; i++)
             {
-                pawns[i] = new Pawn(i + 1, true, positions[(i * 8) + 1]);  // set white pawns
+                pawns[i] = new Pawn(gameState.GameID, i + 1, true, positions[(i * 8) + 1]);  // set white pawns
             }
             var k = 0;
             for (var i = Board.boardSize; i < Board.boardSize * 2; i++)
             {
-                pawns[i] = new Pawn(i + 1, false, positions[(k * 8) + 6]);  // set black pawns 
+                pawns[i] = new Pawn(gameState.GameID, i + 1, false, positions[(k * 8) + 6]);  // set black pawns 
                 k++;
             }
             foreach (Pawn p in pawns)
@@ -164,10 +166,10 @@ namespace ChessApp.Data
             //Add Rooks
             var rooks = new Rook[]
             {
-                new Rook(17, true, positions[0]),
-                new Rook(18, true, positions[56]),
-                new Rook(19, false, positions[7]),
-                new Rook(20, false, positions[63])
+                new Rook(gameState.GameID, 17, true, positions[0]),
+                new Rook(gameState.GameID, 18, true, positions[56]),
+                new Rook(gameState.GameID, 19, false, positions[7]),
+                new Rook(gameState.GameID, 20, false, positions[63])
             };
             foreach (Rook r in rooks)
             {
@@ -178,10 +180,10 @@ namespace ChessApp.Data
             //Add Knights
             var knights = new Knight[]
             {
-                new Knight(21, true, positions[8]),
-                new Knight(22, true, positions[48]),
-                new Knight(23, false, positions[15]),
-                new Knight(24, false, positions[55])
+                new Knight(gameState.GameID, 21, true, positions[8]),
+                new Knight(gameState.GameID, 22, true, positions[48]),
+                new Knight(gameState.GameID, 23, false, positions[15]),
+                new Knight(gameState.GameID, 24, false, positions[55])
             };
             foreach (Knight kn in knights)
             {
@@ -192,10 +194,10 @@ namespace ChessApp.Data
             //Add Bishops
             var bishops = new Bishop[]
             {
-                new Bishop(25, true, positions[16]),
-                new Bishop(26, true, positions[40]),
-                new Bishop(27, false, positions[23]),
-                new Bishop(28, false, positions[47])
+                new Bishop(gameState.GameID, 25, true, positions[16]),
+                new Bishop(gameState.GameID, 26, true, positions[40]),
+                new Bishop(gameState.GameID, 27, false, positions[23]),
+                new Bishop(gameState.GameID, 28, false, positions[47])
             };
             foreach (Bishop b in bishops)
             {
@@ -206,8 +208,8 @@ namespace ChessApp.Data
             //Add Queens
             var queens = new Queen[]
             {
-                new Queen(29, true, positions[24]),
-                new Queen(30, false, positions[31])
+                new Queen(gameState.GameID, 29, true, positions[24]),
+                new Queen(gameState.GameID, 30, false, positions[31])
             };
             foreach (Queen q in queens)
             {
@@ -218,8 +220,8 @@ namespace ChessApp.Data
             //Add Kings
             var kings = new King[]
             {
-                new King(31, true, positions[32]),
-                new King(32, false, positions[39])
+                new King(gameState.GameID, 31, true, positions[32]),
+                new King(gameState.GameID, 32, false, positions[39])
             };
             foreach (King kg in kings)
             {
@@ -289,11 +291,10 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-           
-
-
-
-
+            //Update GameState
+            gameState.WhiteKingID = kings[0].PieceID;
+            gameState.BlackKingID = kings[1].PieceID;
+            context.SaveChanges();
         }
     }
 }

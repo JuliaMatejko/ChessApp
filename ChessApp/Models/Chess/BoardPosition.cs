@@ -1,9 +1,11 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess
 {
     public class BoardPosition
     {
+        [ForeignKey("Board")]
         public int GameID { get; set; }
         public int PositionID { get; set; }
 

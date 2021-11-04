@@ -1,7 +1,10 @@
-﻿namespace ChessApp.Models.Chess
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ChessApp.Models.Chess
 {
     public class BoardFieldColumn
     {
+        [ForeignKey("Board")]
         public int GameID { get; set; }
         public int FieldColumnID { get; set; }
 

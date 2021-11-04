@@ -25,10 +25,15 @@ namespace ChessApp.Models.Chess.Pieces
         [Display(Name = "Piece Name")]
         public string PieceNameID { get; set; }
         public PieceName Name { get; set; }
+        [ForeignKey("GameState")]
+        public int GameID { get; set; }
+        public GameState GameState { get; set; }
 
         public Field Field { get; set; }
         public HashSet<Position> NextAvailablePositions { get; set; }
         public HashSet<Position> ControlledSquares { get; set; }
+
+
 
         /*
         public HashSet<string> ReturnAvailablePieceMoves(string currentPosition, Board board)

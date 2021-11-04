@@ -1,6 +1,7 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -13,8 +14,11 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(false)]
         public bool CanBeTakenByEnPassantMove { get; set; } = false;
 
-        public Pawn(int pieceId, bool isWhite, Position position)
+        public GameState GameStateWhitePawn { get; set; }
+        public GameState GameStateBlackPawn { get; set; }
+        public Pawn(int gameId, int pieceId, bool isWhite, Position position)
         {
+            GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;

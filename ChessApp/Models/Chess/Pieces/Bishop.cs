@@ -6,8 +6,9 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Bishop : Piece//, IDiagonallyMovingPiece
     {
-        public Bishop(int pieceId, bool isWhite, Position position)
+        public Bishop(int gameId, int pieceId, bool isWhite, Position position)
         {
+            GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;

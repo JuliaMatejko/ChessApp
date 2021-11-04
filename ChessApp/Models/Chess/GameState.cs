@@ -1,6 +1,7 @@
 ﻿using ChessApp.Models.Chess.Pieces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChessApp.Models.Chess
 {
@@ -20,9 +21,17 @@ namespace ChessApp.Models.Chess
         public int GameID { get; set; }
         public Game Game { get; set; }
 
+        [ForeignKey("WhiteKing")]
+        public int? WhiteKingID { get; set; }
         public King WhiteKing { get; set; }
+        [ForeignKey("BlackKing")]
+        public int? BlackKingID { get; set; }
         public King BlackKing { get; set; }
+        public int? WhitePawnThatCanBeTakenByEnPassantMoveID { get; set; }
+        [ForeignKey("WhitePawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn WhitePawnThatCanBeTakenByEnPassantMove { get; set; }
+        public int? BlackPawnThatCanBeTakenByEnPassantMoveID { get; set; }
+        [ForeignKey("BlackPawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn BlackPawnThatCanBeTakenByEnPassantMove { get; set; }
         public List<Piece> CurrentPlayerPiecesAttackingTheKing { get; set; } = new List<Piece>();
         public enum Sides
@@ -30,19 +39,12 @@ namespace ChessApp.Models.Chess
             White = 1,
             Black = 0
         }
-        [Required]
         public Sides CurrentPlayer { get; set; } = Sides.White;
-        [Required]
         public bool WhiteKingIsInCheck { get; set; } = false;
-        [Required]
         public bool BlackKingIsInCheck { get; set; } = false;
-        [Required]
         public bool CurrentPlayerKingIsInCheck => CurrentPlayer == Sides.White ? WhiteKingIsInCheck : BlackKingIsInCheck;
-        [Required]
         public bool PlayersAgreedToADraw { get; set; } = false;
-        [Required]
         public bool PlayerResigned { get; set; } = false;
-        [Required]
         public bool PlayerOfferedADraw { get; set; } = false;
         public bool IsACheckmate => CheckmateOccured();
         public bool IsAStalemate => StalemateOccured();
