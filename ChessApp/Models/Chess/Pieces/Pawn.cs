@@ -1,7 +1,10 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -29,15 +32,15 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             StandardPawnMove(fileIndex, rankIndex, board, positions);
             EnPassantPawnMove(fileIndex, rankIndex, positions);
             return positions;
         }
 
-        private HashSet<string> StandardPawnMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        private HashSet<NextAvailablePosition> StandardPawnMove(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             if (IsWhite)
             {
@@ -95,28 +98,28 @@ namespace ChessApp.Models.Chess.Pieces
             void MoveOneForwardDiagonallyLeft() => MovePawn(-1, 1, fileIndex, rankIndex, board, positions);
         }
 
-        private HashSet<string> EnPassantPawnMove(int fileIndex, int rankIndex, HashSet<string> positions)
+        private HashSet<NextAvailablePosition> EnPassantPawnMove(int fileIndex, int rankIndex, HashSet<NextAvailablePosition> positions)
         {
             if (IsWhite)
             {
-                if (rankIndex == 4 && Program.Game.BlackPawnThatCanBeTakenByEnPassantMove != null)
+                if (rankIndex == 4 && GameState.BlackPawnThatCanBeTakenByEnPassantMove != null)
                 {
-                    string oponentPawnFile = Program.Game.BlackPawnThatCanBeTakenByEnPassantMove.Position[0].ToString();
-                    if (fileIndex == 0 && oponentPawnFile == Board.Files[fileIndex + 1])
+                    string oponentPawnFile = GameState.BlackPawnThatCanBeTakenByEnPassantMove.Position.FileID;
+                    if (fileIndex == 0 && oponentPawnFile == Board.files[fileIndex + 1])
                     {
                         EnPassantRight();
                     }
-                    else if (fileIndex == 7 && oponentPawnFile == Board.Files[fileIndex - 1])
+                    else if (fileIndex == 7 && oponentPawnFile == Board.files[fileIndex - 1])
                     {
                         EnPassantLeft();
                     }
                     else
                     {
-                        if (oponentPawnFile == Board.Files[fileIndex + 1])
+                        if (oponentPawnFile == Board.files[fileIndex + 1])
                         {
                             EnPassantRight();
                         }
-                        if (oponentPawnFile == Board.Files[fileIndex - 1])
+                        if (oponentPawnFile == Board.files[fileIndex - 1])
                         {
                             EnPassantLeft();
                         }
@@ -125,24 +128,24 @@ namespace ChessApp.Models.Chess.Pieces
             }
             else
             {
-                if (rankIndex == 3 && Program.Game.WhitePawnThatCanBeTakenByEnPassantMove != null)
+                if (rankIndex == 3 && GameState.WhitePawnThatCanBeTakenByEnPassantMove != null)
                 {
-                    string oponentPawnFile = Program.Game.WhitePawnThatCanBeTakenByEnPassantMove.Position[0].ToString();
-                    if (fileIndex == 0 && oponentPawnFile == Board.Files[fileIndex + 1])
+                    string oponentPawnFile = GameState.WhitePawnThatCanBeTakenByEnPassantMove.Position.FileID;
+                    if (fileIndex == 0 && oponentPawnFile == Board.files[fileIndex + 1])
                     {
                         EnPassantLeft();
                     }
-                    else if (fileIndex == 7 && oponentPawnFile == Board.Files[fileIndex - 1])
+                    else if (fileIndex == 7 && oponentPawnFile == Board.files[fileIndex - 1])
                     {
                         EnPassantRight();
                     }
                     else
                     {
-                        if (oponentPawnFile == Board.Files[fileIndex + 1])
+                        if (oponentPawnFile == Board.files[fileIndex + 1])
                         {
                             EnPassantLeft();
                         }
-                        if (oponentPawnFile == Board.Files[fileIndex - 1])
+                        if (oponentPawnFile == Board.files[fileIndex - 1])
                         {
                             EnPassantRight();
                         }
@@ -152,42 +155,47 @@ namespace ChessApp.Models.Chess.Pieces
             void EnPassantRight() => EnPassant(1, 1, fileIndex, rankIndex, positions);
             void EnPassantLeft() => EnPassant(-1, 1, fileIndex, rankIndex, positions);
 
-            void EnPassant(int x_white, int y_white, int fileIndex, int rankIndex, HashSet<string> positions)
+            void EnPassant(int x_white, int y_white, int fileIndex, int rankIndex, HashSet<NextAvailablePosition> positions)
             {
                 int x = IsWhite ? x_white : -x_white;
                 int y = IsWhite ? y_white : -y_white;
-                positions.Add(Board.Files[fileIndex + x] + Board.Ranks[rankIndex + y]);
+                positions.Add(new NextAvailablePosition(PieceID, (fileIndex + x + 1) * 8 + (rankIndex + y + 1)));
             }
             return positions;
         }
 
-        private void MovePawn(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        private void MovePawn(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
-            Field newField = board[fileIndex + x][rankIndex + y];
+            int fieldAndPositionId = (fileIndex + x + 1) * 8 + (rankIndex + y + 1);
+            int contentId = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content.PieceID;
+            Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
 
             if (x_white == 0)
             {
                 if (y_white == 2)
                 {
                     int z = IsWhite ? -1 : 1;
-                    if ((board[fileIndex][rankIndex + y + z].Content == null) && (newField.Content == null))
+                    Field secondRowField = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + 1)
+                                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == (fileIndex + 1) * 8 + (rankIndex + y + 1 + z));
+                    if ((secondRowField.Content == null) && (newField.Content == null))
                     {
-                        positions.Add(newField.Name);
+                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                     }
                 }
                 if (y_white == 1)
                 {
                     if (newField.Content == null)
                     {
-                        positions.Add(newField.Name);
+                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                     }
                 }
             }
             if ((x_white == -1 || x_white == 1) && y_white == 1)
             {
-                ControlledSquares.Add(newField.Name);
+                ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
                 if (newField.Content != null)
                 {
@@ -196,23 +204,23 @@ namespace ChessApp.Models.Chess.Pieces
                     {
                         if (newField.Content.GetType() != typeof(King))
                         {
-                            positions.Add(newField.Name);
+                            positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                         }
                         else
                         {
                             if (IsWhite)
                             {
-                                Program.Game.BlackKingIsInCheck = true;
+                                GameState.BlackKingIsInCheck = true;
                             }
                             else
                             {
-                                Program.Game.WhiteKingIsInCheck = true;
+                                GameState.WhiteKingIsInCheck = true;
                             }
-                            Program.Game.CurrentPlayerPiecesAttackingTheKing.Add(this);
+                            GameState.CurrentPlayerPiecesAttackingTheKing.Add(this);
                         }
                     }
                 }
             }
-        }*/
+        }
     }
 }

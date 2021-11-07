@@ -35,18 +35,18 @@ namespace ChessApp.Models.Chess.Pieces
 
 
 
-        /*
-        public HashSet<string> ReturnAvailablePieceMoves(string currentPosition, Board board)
+        
+        public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Position currentPosition, Board board)
         {
-            int fileIndex = Array.IndexOf(Board.Files, Convert.ToString(currentPosition[0]));
-            int rankIndex = Array.IndexOf(Board.Ranks, Convert.ToString(currentPosition[1]));
-            HashSet<string> positions = new HashSet<string>();
+            int fileIndex = Array.IndexOf(Board.files, currentPosition.FileID);
+            int rankIndex = Array.IndexOf(Board.ranks,currentPosition.RankID);
+            HashSet<NextAvailablePosition> positions = new HashSet<NextAvailablePosition>();
             positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
             return positions;
         }
 
-        protected abstract HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions);
-        */
+        protected abstract HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions);
+        
         public object Clone()
         {
             return this != null ? MemberwiseClone() : null;
