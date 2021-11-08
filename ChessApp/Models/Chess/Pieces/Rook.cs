@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
-    public class Rook : Piece, IHorizontallyAndVerticallyMovingPiece
+    public class Rook : Piece, IHorizontallyAndVerticallyMovingPiece, IFirstMoveMattersPiece
     {
         [Required]
         [DefaultValue(true)]
@@ -140,11 +140,13 @@ namespace ChessApp.Models.Chess.Pieces
             int y = IsWhite ? y_white : -y_white;
             int tempfile = file;
             int fieldAndPositionId = (file + x) * 8 + (rank + y) + 1;
-            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
+            var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new Field(fieldAndPositionId, file + x + 1, fieldAndPositionId, contentId);
-            newField.Content = contentId != null ? content : null;
+            Field newField = new(fieldAndPositionId, file + x + 1, fieldAndPositionId, contentId)
+            {
+                Content = contentId != null ? content : null
+            };
             ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
             if (newField.Content == null)

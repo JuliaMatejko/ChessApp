@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
-    public class King : Piece
+    public class King : Piece, IFirstMoveMattersPiece
     {
         [Required]
         [DefaultValue(true)]
@@ -41,13 +41,13 @@ namespace ChessApp.Models.Chess.Pieces
             bool kingIsNotInCheck = IsWhite ? !GameState.WhiteKingIsInCheck : !GameState.BlackKingIsInCheck;
             if (IsFirstMove && kingIsNotInCheck)
             {
-                Piece? whiteRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
+                var whiteRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "1").Content;
-                Piece? whiteRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
+                var whiteRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "1").Content;
-                Piece? blackRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
+                var blackRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "8").Content;
-                Piece? blackRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
+                var blackRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "8").Content;
 
                 Piece[] pieces = IsWhite ? new Piece[] { whiteRookR, whiteRookL }
@@ -103,7 +103,7 @@ namespace ChessApp.Models.Chess.Pieces
                 for (var j = 0; j < Board.boardSize; j++)
                 {
                     int fieldId = ((i * 8) + j + 1);
-                    Piece? piece = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
+                    var piece = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldId).Content;
                     if (piece != null)
                     {
@@ -227,10 +227,10 @@ namespace ChessApp.Models.Chess.Pieces
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
             int fieldAndPositionId = (fileIndex + x) * 8 + (rankIndex + y) + 1;
-            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
+            var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
+            Field newField = new(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
             newField.Content = contentId != null ? content : null;
             ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
