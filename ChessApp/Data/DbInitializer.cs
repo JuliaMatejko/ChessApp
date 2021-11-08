@@ -339,6 +339,26 @@ namespace ChessApp.Data
                 }
             }
             context.SaveChanges();
+
+            foreach (var knight in knights)
+            {
+                HashSet<NextAvailablePosition> availableMoves = knight.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                }
+            }
+            context.SaveChanges();
+
+            foreach (var king in kings)
+            {
+                HashSet<NextAvailablePosition> availableMoves = king.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                }
+            }
+            context.SaveChanges();
         }
     }
 }

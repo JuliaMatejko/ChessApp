@@ -1,6 +1,7 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -19,14 +20,14 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        
+
         protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-            //KnightMove(fileIndex, rankIndex, board, positions);
+            KnightMove(fileIndex, rankIndex, board, positions);
             return positions;
         }
-        /*
-        private HashSet<string> KnightMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+
+        private HashSet<NextAvailablePosition> KnightMove(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             if (rankIndex < Board.boardSize - 2)
             {
@@ -166,17 +167,21 @@ namespace ChessApp.Models.Chess.Pieces
             void MoveTwoLeftOneBackwards() => MoveKnight(-2, -1, fileIndex, rankIndex, board, positions);
         }
 
-        private void MoveKnight(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        private void MoveKnight(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
-            Field newField = board[fileIndex + x][rankIndex + y];
+            int fieldAndPositionId = (fileIndex + x) * 8 + (rankIndex + y) + 1;
+            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+            int? contentId = content?.PieceID;
+            Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
 
-            ControlledSquares.Add(newField.Name);
+            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
             if (newField.Content == null)
             {
-                positions.Add(newField.Name);
+                positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
             }
             else
             {
@@ -185,21 +190,22 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     if (newField.Content.GetType() != typeof(King))
                     {
-                        positions.Add(newField.Name);
+                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                     }
                     else
                     {
                         if (IsWhite)
                         {
-                            Program.Game.BlackKingIsInCheck = true;
+                            GameState.BlackKingIsInCheck = true;
                         }
                         else
                         {
-                            Program.Game.WhiteKingIsInCheck = true;
+                            GameState.WhiteKingIsInCheck = true;
                         }
-                        Program.Game.CurrentPlayerPiecesAttackingTheKing.Add(this);
+                        GameState.CurrentPlayerPiecesAttackingTheKing.Add(this);
                     }
                 }
-            }*/
+            }
         }
     }
+}

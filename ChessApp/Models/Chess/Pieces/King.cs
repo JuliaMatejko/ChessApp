@@ -3,7 +3,7 @@ using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -31,18 +31,27 @@ namespace ChessApp.Models.Chess.Pieces
         
         protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-           // KingMove(fileIndex, rankIndex, board, positions);
-           // CastlingMove(fileIndex, rankIndex, board, positions);
+            KingMove(fileIndex, rankIndex, board, positions);
+            CastlingMove(fileIndex, rankIndex, board, positions);
             return positions;
         }
-        /*
-        private HashSet<string> CastlingMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        
+        private HashSet<NextAvailablePosition> CastlingMove(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-            bool kingIsNotInCheck = IsWhite ? !Program.Game.WhiteKingIsInCheck : !Program.Game.BlackKingIsInCheck;
+            bool kingIsNotInCheck = IsWhite ? !GameState.WhiteKingIsInCheck : !GameState.BlackKingIsInCheck;
             if (IsFirstMove && kingIsNotInCheck)
             {
-                Piece[] pieces = IsWhite ? new Piece[] { board[7][0].Content, board[0][0].Content }
-                                         : new Piece[] { board[7][7].Content, board[0][7].Content };
+                Piece? whiteRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "1").Content;
+                Piece? whiteRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "1").Content;
+                Piece? blackRookR = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 8)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "8").Content;
+                Piece? blackRookL = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.Position.RankID == "8").Content;
+
+                Piece[] pieces = IsWhite ? new Piece[] { whiteRookR, whiteRookL }
+                                         : new Piece[] { blackRookR, blackRookL };
                 if (pieces[0] != null && pieces[0].GetType() == typeof(Rook))
                 {
                     Rook rook = (Rook)pieces[0];
@@ -68,29 +77,38 @@ namespace ChessApp.Models.Chess.Pieces
             void CastleKingMove(int x, int file, int rank)
             {
                 int z = x == 2 ? 1 : -1;
-                if (board[file + z][rank].Content == null && board[file + x][rank].Content == null)
+                int fieldId = (((file + z) * 8) + rank + 1);
+                int sfieldId = (((file + x) * 8) + rank + 1);
+                Field field = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + z + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldId);
+                Field sfield = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == sfieldId);
+
+                if (field.Content == null && sfield.Content == null)
                 {
-                    string kingNewPosition = Board.Files[file + x] + Board.Ranks[rank];
-                    if (KingNewPositionIsSafe(board[file + z][rank].Name, board)
+                    NextAvailablePosition kingNewPosition = new(PieceID, sfield.PositionID);
+                    if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, field.PositionID), board)
                         && KingNewPositionIsSafe(kingNewPosition, board))
                     {
                         positions.Add(kingNewPosition);
                     }
                 }
-            }
+            }  
         }
 
-        private bool KingNewPositionIsSafe(string newPosition, Board board)
+        private bool KingNewPositionIsSafe(NextAvailablePosition newPosition, Board board)
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
                 for (var j = 0; j < Board.boardSize; j++)
                 {
-                    Piece piece = board[i][j].Content;
+                    int fieldId = ((i * 8) + j + 1);
+                    Piece? piece = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldId).Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = IsWhite ? !piece.IsWhite : piece.IsWhite;
-                        if (isOponentsPiece && piece.ControlledSquares.Contains(newPosition))
+                        if (isOponentsPiece && piece.ControlledSquares.Contains(new ControlledSquare(piece.PieceID, newPosition.PositionID)))
                         {
                             return false;
                         }
@@ -100,7 +118,7 @@ namespace ChessApp.Models.Chess.Pieces
             return true;
         }
 
-        private HashSet<string> KingMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        private HashSet<NextAvailablePosition> KingMove(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             if (rankIndex < Board.boardSize - 1)
             {
@@ -204,19 +222,23 @@ namespace ChessApp.Models.Chess.Pieces
             void MoveOneLeft() => MoveKing(-1, 0, fileIndex, rankIndex, board, positions);
         }
 
-        private void MoveKing(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        private void MoveKing(int x_white, int y_white, int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
-            Field newField = board[fileIndex + x][rankIndex + y];
+            int fieldAndPositionId = (fileIndex + x) * 8 + (rankIndex + y) + 1;
+            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+            int? contentId = content?.PieceID;
+            Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
 
-            ControlledSquares.Add(newField.Name);
+            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
             if (newField.Content == null)
             {
-                if (KingNewPositionIsSafe(newField.Name, board))
+                if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, newField.PositionID), board))
                 {
-                    positions.Add(newField.Name);
+                    positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                 }
             }
             else
@@ -224,12 +246,12 @@ namespace ChessApp.Models.Chess.Pieces
                 bool z = IsWhite ? !(newField.Content.IsWhite) : newField.Content.IsWhite;
                 if (z && newField.Content.GetType() != typeof(King))
                 {
-                    if (KingNewPositionIsSafe(newField.Name, board))
+                    if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, newField.PositionID), board))
                     {
-                        positions.Add(newField.Name);
+                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                     }
                 }
             }
-        }*/
+        }
     }
 }
