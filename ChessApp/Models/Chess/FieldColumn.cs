@@ -13,9 +13,22 @@ namespace ChessApp.Models.Chess
         public List<Field> Fields { get; set; }
         public List<BoardFieldColumn> BoardsFieldColumns { get; set; }
 
-        public FieldColumn(int fieldColumnId)
+        public FieldColumn(int fieldColumnId, ref int squaresNumber)
         {
             FieldColumnID = fieldColumnId;
+            Fields = AddFields(ref squaresNumber);
+        }
+
+        private List<Field> AddFields(ref int squaresNumber)
+        {
+            int initialSquaresNumber = squaresNumber;
+            List<Field> list = new();
+            for (int i = squaresNumber + 1; i <= Board.boardSize + initialSquaresNumber;)
+            {
+                list.Add(new Field(fieldId: i, FieldColumnID, positionId: i, contentId: null));
+                squaresNumber++;
+            }
+            return list;
         }
 
         public FieldColumn()

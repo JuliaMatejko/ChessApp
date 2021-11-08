@@ -23,9 +23,9 @@ namespace ChessApp.Data
             context.Games.Add(game);
             context.SaveChanges();
 
-            //Add GameState
-            var gameState = new GameState(game.GameID);
-            context.GameStates.Add(gameState);
+            //Add Board
+            var board = new Board(game.GameID);
+            context.Boards.Add(board);
             context.SaveChanges();
 
             //Add Files
@@ -51,7 +51,7 @@ namespace ChessApp.Data
                 context.Ranks.Add(r);
             }
             context.SaveChanges();
-            
+
             //Add Positions
             var positions = new Position[Board.boardSize * Board.boardSize];
             int count = 0;
@@ -73,7 +73,7 @@ namespace ChessApp.Data
             var fieldColumns = new FieldColumn[Board.boardSize];
             for (int i = 0; i < Board.boardSize; i++)
             {
-                fieldColumns[i] = new FieldColumn(i + 1);
+                fieldColumns[i] = new FieldColumn(i + 1, ref board.squaresNumber);
             }
             foreach (FieldColumn fc in fieldColumns)
             {
@@ -81,10 +81,17 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-            //Add Board
-            var board = new Board(game.GameID);
-            context.Boards.Add(board);
-            context.SaveChanges();
+            //Add Fields
+            var fields = new Field[positions.Length];
+            count = 0;
+            for (int i = 0; i < Board.boardSize; i++)
+            {
+                for (int j = 0; j < Board.boardSize; j++)
+                {
+                    fields[count] = new Field(count + 1, fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
+                    count++;
+                }
+            }
 
             //Add BoardsFiles
             var boardsFiles = new BoardFile[Board.boardSize];
@@ -132,6 +139,11 @@ namespace ChessApp.Data
             {
                 context.BoardsFieldColumns.Add(bfc);
             }
+            context.SaveChanges();
+
+            //Add GameState
+            var gameState = new GameState(game.GameID);
+            context.GameStates.Add(gameState);
             context.SaveChanges();
 
             //Add PieceNames
@@ -230,17 +242,6 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
-            //Add Fields
-            var fields = new Field[positions.Length];
-            count = 0;
-            for (int i = 0; i < Board.boardSize; i++)
-            {
-                for (int j = 0; j < Board.boardSize; j++)
-                {
-                    fields[count] = new Field(count + 1, fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
-                    count++;
-                }
-            }
             //Set field content
             ////Set pawns
             //////white
