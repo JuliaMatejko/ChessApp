@@ -298,7 +298,7 @@ namespace ChessApp.Data
             context.SaveChanges();
 
 
-            //Add NextAvailablePositions
+            //Add NextAvailablePositions  //TO DO: problem (?) pieces doesnt 'see' eachother
             //Add ControlledSquares
             foreach (var pawn in pawns)
             {
@@ -307,6 +307,36 @@ namespace ChessApp.Data
                 {
                     context.NextAvailablePositions.Add(move);
                 } 
+            }
+            context.SaveChanges();
+
+            foreach (var bishop in bishops)
+            {
+                HashSet<NextAvailablePosition> availableMoves = bishop.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                }
+            }
+            context.SaveChanges();
+
+            foreach (var rook in rooks)
+            {
+                HashSet<NextAvailablePosition> availableMoves = rook.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                }
+            }
+            context.SaveChanges();
+
+            foreach (var queen in queens)
+            {
+                HashSet<NextAvailablePosition> availableMoves = queen.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                }
             }
             context.SaveChanges();
         }

@@ -1,10 +1,11 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
 {
-    public class Bishop : Piece//, IDiagonallyMovingPiece
+    public class Bishop : Piece, IDiagonallyMovingPiece
     {
         public Bishop(int gameId, int pieceId, bool isWhite, Position position)
         {
@@ -19,17 +20,17 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        
+
         protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-           /* MoveRightForward(fileIndex, rankIndex, board, positions);
+            MoveRightForward(fileIndex, rankIndex, board, positions);
             MoveLeftBackwards(fileIndex, rankIndex, board, positions);
             MoveLeftForward(fileIndex, rankIndex, board, positions);
-            MoveRightBackwards(fileIndex, rankIndex, board, positions);*/
+            MoveRightBackwards(fileIndex, rankIndex, board, positions);
             return positions;
         }
-        /*
-        public void MoveRightForward(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+
+        public void MoveRightForward(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             bool canMove = true;
             bool kingInTheWay = false;
@@ -51,7 +52,7 @@ namespace ChessApp.Models.Chess.Pieces
             }
         }
 
-        public void MoveLeftBackwards(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        public void MoveLeftBackwards(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             bool canMove = true;
             bool kingInTheWay = false;
@@ -73,7 +74,7 @@ namespace ChessApp.Models.Chess.Pieces
             }
         }
 
-        public void MoveLeftForward(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        public void MoveLeftForward(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             bool canMove = true;
             bool kingInTheWay = false;
@@ -95,7 +96,7 @@ namespace ChessApp.Models.Chess.Pieces
             }
         }
 
-        public void MoveRightBackwards(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        public void MoveRightBackwards(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
             bool canMove = true;
             bool kingInTheWay = false;
@@ -117,19 +118,25 @@ namespace ChessApp.Models.Chess.Pieces
             }
         }
 
-        public void MoveOne(int x_white, int y_white, ref int file, ref int rank, ref bool canMove, ref bool kingInTheWay, Board board, HashSet<string> positions)
+        public void MoveOne(int x_white, int y_white, ref int file, ref int rank, ref bool canMove, ref bool kingInTheWay, Board board, HashSet<NextAvailablePosition> positions)
         {
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
-            Field newField = board[file + x][rank + y];
+            int tempfile = file;//hm
+            int fieldAndPositionId = (file + x) * 8 + (rank + y) + 1;
+            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+            int? contentId = content?.PieceID;
 
-            ControlledSquares.Add(newField.Name);
+            Field newField = new Field(fieldAndPositionId, file + x + 1, fieldAndPositionId, contentId);
+
+            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
             if (newField.Content == null)
             {
                 if (!kingInTheWay)
                 {
-                    positions.Add(newField.Name);
+                    positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                 }
                 file += x;
                 rank += y;
@@ -143,7 +150,7 @@ namespace ChessApp.Models.Chess.Pieces
                     {
                         if (!kingInTheWay)
                         {
-                            positions.Add(newField.Name);
+                            positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
                         }
                         canMove = false;
                     }
@@ -151,13 +158,13 @@ namespace ChessApp.Models.Chess.Pieces
                     {
                         if (IsWhite)
                         {
-                            Program.Game.BlackKingIsInCheck = true;
+                            GameState.BlackKingIsInCheck = true;
                         }
                         else
                         {
-                            Program.Game.WhiteKingIsInCheck = true;
+                            GameState.WhiteKingIsInCheck = true;
                         }
-                        Program.Game.CurrentPlayerPiecesAttackingTheKing.Add(this);
+                        GameState.CurrentPlayerPiecesAttackingTheKing.Add(this);
 
                         kingInTheWay = true;
                         file += x;
@@ -168,6 +175,7 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     canMove = false;
                 }
-            }*/
+            }
         }
     }
+}
