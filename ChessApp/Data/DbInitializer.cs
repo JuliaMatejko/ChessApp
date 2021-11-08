@@ -298,7 +298,7 @@ namespace ChessApp.Data
             context.SaveChanges();
 
 
-            //Add NextAvailablePositions  //TO DO: problem (?) pieces doesnt 'see' eachother
+            //Add NextAvailablePositions
             //Add ControlledSquares
             foreach (var pawn in pawns)
             {

@@ -2,6 +2,7 @@
 using ChessApp.Models.Chess.Pieces;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChessApp.Models.Chess
 {
@@ -31,68 +32,78 @@ namespace ChessApp.Models.Chess
             Console.WriteLine(" 3. To castle, just move your king two squares and rook will go on the right place");
             Console.WriteLine(" 4. To resign, type 'resign'");
             Console.WriteLine(" 5. To propose a draw, type 'draw'");*/
+
             SetStartingBoard();
+
             //BoardController.RefreshAttackedSquares();
+
             //BoardView.PrintBoard(Board);
-            /*
-            while (!IsAWin && !IsADraw)
+            
+            while (!GameState.IsAWin && !GameState.IsADraw)
             {
-                BoardController.MakeAMove();
-                BoardController.RefreshAttackedSquares();
-                if (PlayersAgreedToADraw)
+                //BoardController.MakeAMove();
+                //BoardController.RefreshAttackedSquares();
+                if (GameState.PlayersAgreedToADraw)
                 {
-                    Console.WriteLine(" Players agreed to a draw.");
-                    Console.WriteLine(" It's a draw!");
+                    //Console.WriteLine(" Players agreed to a draw.");
+                    //Console.WriteLine(" It's a draw!");
                 }
-                else if (PlayerResigned)
+                else if (GameState.PlayerResigned)
                 {
-                    Console.Write($" {CurrentPlayer} resigned.");
-                    ChangeTurns();
-                    Console.WriteLine($" {CurrentPlayer} won the game!");
+                    //Console.Write($" {CurrentPlayer} resigned.");
+                   // GameState.ChangeTurns();
+                    //Console.WriteLine($" {CurrentPlayer} won the game!");
                 }
-                else if (IsACheckmate)
+                else if (GameState.IsACheckmate)
                 {
-                    BoardView.PrintBoard(Board);
-                    Console.WriteLine(" Checkmate.");
-                    Console.WriteLine($" {CurrentPlayer} won the game!");
+                    //BoardView.PrintBoard(Board);
+
+                    //Console.WriteLine(" Checkmate.");
+                    //Console.WriteLine($" {CurrentPlayer} won the game!");
                 }
-                else if (IsAStalemate)
+                else if (GameState.IsAStalemate)
                 {
-                    BoardView.PrintBoard(Board);
-                    Console.WriteLine(" Stalemate.");
-                    Console.WriteLine(" It's a draw!");
+                    //BoardView.PrintBoard(Board);
+
+                    //Console.WriteLine(" Stalemate.");
+                    //Console.WriteLine(" It's a draw!");
                 }
                 else
                 {
-                    BoardView.PrintBoard(Board);
-                    ResetEnPassantFlag();
-                    ResetCurrentPiecesAttackingTheKing();
-                    ChangeTurns();
+                    //BoardView.PrintBoard(Board);
+                    GameState.ResetEnPassantFlag();
+                    GameState.ResetCurrentPiecesAttackingTheKing();
+                    GameState.ChangeTurns();
                 }
-            }*/
+            }
         }
-        
+
         public static Dictionary<string, Field> CreateFieldsDictionary(Board board)
         {
             Dictionary<string, Field> fields = new();
-            /*int i = 0;
+            int i = 0;
             int j = 0;
-            foreach (Position position in board.Positions)
+            int fieldAndPositionId = ((i * 8) + j + 1);
+            foreach (BoardPosition boardPosition in board.BoardsPositions.Where(s => s.GameID == board.GameID))
             {
                 if (j < Board.boardSize)
                 {
-                    fields[position.Name] = board.FieldColumns[i].Fields[j];
+                    fields[boardPosition.Position.Name] = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId);
                 }
                 else
                 {
                     j = 0;
                     i++;
-                    fields[position.Name] = board.FieldColumns[i].Fields[j];
+                    fields[boardPosition.Position.Name] = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId);
                 }
                 j++;
-            }*/
+            }
             return fields;
         }
+
+        //TO DO someday: 1. SetBoard() -from standard board notation 2. Do an analysis board - without time, ability to undo a move
 
         private void SetStartingBoard() // set pieces on the starting position on the board
         {

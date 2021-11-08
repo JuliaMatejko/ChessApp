@@ -17,7 +17,7 @@ namespace ChessApp.Models.Chess
         [Required]
         public List<BoardRank> BoardsRanks { get; set; }
         [Required]
-        public List<BoardPosition> BoardsPositions { get; set; }//
+        public List<BoardPosition> BoardsPositions { get; set; }
         [Required]
         public List<BoardFieldColumn> BoardsFieldColumns { get; set; } //= AddFieldColumns();
 
@@ -36,23 +36,6 @@ namespace ChessApp.Models.Chess
             }*/
             return columns;
         }
-        /*
-         public static Board CreateABoard()
-         {
-             Board board = new Board();
-
-             for (var i = 0; i < boardSize; i++)
-             {
-                 board.Add(new List<Field>());
-
-                 for (var j = 0; j < boardSize; j++)
-                 {
-                     board[i].Add(new Field(Files[i], Ranks[j], null));
-                 }
-             }
-             return board;
-         }
-        */
 
         public Board(int gameId)
         {

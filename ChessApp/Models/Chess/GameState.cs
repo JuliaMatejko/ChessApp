@@ -1,7 +1,11 @@
-﻿using ChessApp.Models.Chess.Pieces;
+﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace ChessApp.Models.Chess
 {
@@ -51,7 +55,7 @@ namespace ChessApp.Models.Chess
 
         }
 
-        private bool DrawConditionMet()
+        public bool DrawConditionMet()
         {
             /*   TODO someday:
              if (IsADeadPosition()) // automatic draw
@@ -78,13 +82,15 @@ namespace ChessApp.Models.Chess
             return PlayersAgreedToADraw || IsAStalemate;
         }
 
-        private bool StalemateOccured()
-        {/*
+        public bool StalemateOccured()
+        {
             for (int i = 0; i < Board.boardSize; i++)
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    Piece piece = board.FieldColumns[i].Fields[j].Content;
+                    int fieldAndPositionId = ((i * 8) + j + 1);
+                    var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -94,17 +100,17 @@ namespace ChessApp.Models.Chess
                         }
                     }
                 }
-            }*/
+            }
             return true;
         }
 
-        private void ChangeTurns()
+        public void ChangeTurns()
         {
             CurrentPlayer = CurrentPlayer == Sides.White ? CurrentPlayer = Sides.Black
                                                          : CurrentPlayer = Sides.White;
         }
 
-        private void ResetEnPassantFlag()
+        public void ResetEnPassantFlag()
         {
             if (CurrentPlayer == Sides.White)
             {
@@ -136,7 +142,7 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        private bool CheckmateOccured()
+        public bool CheckmateOccured()
         {
             bool oponentsKingIsInCheck = CurrentPlayer == Sides.White ? BlackKingIsInCheck : WhiteKingIsInCheck;
             if (oponentsKingIsInCheck)
@@ -175,36 +181,38 @@ namespace ChessApp.Models.Chess
             }
 
             bool AttackingPieceCanBeCaptured()
-            {/*
+            {
                 for (var i = 0; i < Board.boardSize; i++)
                 {
                     for (var j = 0; j < Board.boardSize; j++)
                     {
-                        Piece piece = board.FieldColumns[i].Fields[j].Content;
+                        int fieldAndPositionId = ((i * 8) + j + 1);
+                        var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
+                                        .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
                             if (isOponentsPiece)
                             {
-                                if (piece.NextAvailablePositions.Contains(CurrentPlayerPiecesAttackingTheKing[0].Position))
+                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))
                                 {
                                     return true;
                                 }
                             }
                         }
                     }
-                }*/
+                }
                 return false;
             }
 
-            bool CheckCanBeBlockedOrAttackingPieceCanBeCaptured() // Return positions that are blocking check
-            {/*
-                List<string> blockingPositions = new List<string>();//
-                int currentPlayersPieceFile = board.BoardsFiles.IndexOf(board.BoardsFiles.Single(bf => bf.FileID == CurrentPlayerPiecesAttackingTheKing[0].Position.File.FileID));
-                int currentPlayersPieceRank = board.BoardsRanks.IndexOf(board.BoardsRanks.Single(br => br.RankID == CurrentPlayerPiecesAttackingTheKing[0].Position.Rank.RankID));
+            bool CheckCanBeBlockedOrAttackingPieceCanBeCaptured() // Return positions that block check
+            {
+                List<Position> blockingPositions = new();
+                int currentPlayersPieceFile = Array.IndexOf(Board.files, CurrentPlayerPiecesAttackingTheKing[0].Position.File.FileID);
+                int currentPlayersPieceRank = Array.IndexOf(Board.ranks, CurrentPlayerPiecesAttackingTheKing[0].Position.Rank.RankID);
                 King oponentsKing = CurrentPlayer == Sides.White ? BlackKing : WhiteKing;
-                int oponentsKingFile = board.BoardsFiles.IndexOf(board.BoardsFiles.Single(bf => bf.FileID == oponentsKing.Position.File.FileID));
-                int oponentsKingRank = board.BoardsRanks.IndexOf(board.BoardsRanks.Single(br => br.RankID == oponentsKing.Position.Rank.RankID));
+                int oponentsKingFile = Array.IndexOf(Board.files, oponentsKing.Position.File.FileID);
+                int oponentsKingRank = Array.IndexOf(Board.ranks, oponentsKing.Position.Rank.RankID);
 
                 int x = oponentsKingFile == currentPlayersPieceFile ? 0 : (oponentsKingFile > currentPlayersPieceFile ? 1 : -1);    // Check if both pieces are on the same file --> A rook or a queen is an attacking piece
                 int y = oponentsKingRank == currentPlayersPieceRank ? 0 : (oponentsKingRank > currentPlayersPieceRank ? 1 : -1);    // Check if both pieces are on the same rank --> A rook or a queen is an attacking piece
@@ -213,9 +221,11 @@ namespace ChessApp.Models.Chess
 
                 bool canMoveInBetween = y == 0 ? (oponentsKingFile > currentPlayersPieceFile ? file < oponentsKingFile : file > oponentsKingFile)
                                                 : (oponentsKingRank > currentPlayersPieceRank ? rank < oponentsKingRank : rank > oponentsKingRank);
+                int fieldAndPositionId = ((file * 8) + rank + 1);
                 while (canMoveInBetween)
                 {
-                    blockingPositions.Add(board.BoardsFiles[file].FileID + board.BoardsRanks[rank].RankID);
+                    
+                    blockingPositions.Add(new Position(fieldAndPositionId, Board.files[file], Board.ranks[rank]));
                     file += x;
                     rank += y;
                 }
@@ -224,21 +234,22 @@ namespace ChessApp.Models.Chess
                 {
                     for (int j = 0; j < Board.boardSize; j++)
                     {
-                        Piece piece = board.FieldColumns[i].Fields[j].Content;
+                        var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
+                                        .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
                             if (isOponentsPiece)
                             {
-                                if (piece.NextAvailablePositions.Contains(CurrentPlayerPiecesAttackingTheKing[0].Position))    // Check if any of the oponents pieces can capture attacking piece
+                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))    // Check if any of the oponents pieces can capture attacking piece
                                 {
                                     return true;
                                 }
-                                foreach (string position in blockingPositions)                                                 // Check if any of the oponents pieces can move on the blocking position
+                                foreach (Position position in blockingPositions)                                                 // Check if any of the oponents pieces can move on the blocking position
                                 {
-                                    foreach (Position p in piece.NextAvailablePositions)
+                                    foreach (NextAvailablePosition p in piece.NextAvailablePositions)
                                     {
-                                        if ((p.Name).Equals(position))
+                                        if ((p.Position.PositionID).Equals(position.PositionID))
                                         {
                                             return true;
                                         }
@@ -247,17 +258,17 @@ namespace ChessApp.Models.Chess
                             }
                         }
                     }
-                }*/
+                }
                 return false;
             }
         }
 
-        private void ResetCurrentPiecesAttackingTheKing()
+        public void ResetCurrentPiecesAttackingTheKing()
         {
             CurrentPlayerPiecesAttackingTheKing.Clear();
         }
 
-        private bool WinConditionMet()
+        public bool WinConditionMet()
         {
             return IsACheckmate || PlayerResigned;
         }
