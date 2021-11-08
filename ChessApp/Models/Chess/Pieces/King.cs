@@ -231,7 +231,7 @@ namespace ChessApp.Models.Chess.Pieces
                                     .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
             Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
-
+            newField.Content = contentId != null ? content : null;
             ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 
             if (newField.Content == null)

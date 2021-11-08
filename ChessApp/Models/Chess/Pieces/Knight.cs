@@ -176,8 +176,8 @@ namespace ChessApp.Models.Chess.Pieces
                                     .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
             Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
-
-            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
+            newField.Content = contentId != null ? content : null;
+            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));//TO DO: problem - nie dodaje pola na którym znajduje się, figura gracza, która może być przecież zbita
 
             if (newField.Content == null)
             {
