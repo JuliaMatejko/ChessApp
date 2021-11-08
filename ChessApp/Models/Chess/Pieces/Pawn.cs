@@ -3,7 +3,6 @@ using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ChessApp.Models.Chess.Pieces
@@ -159,7 +158,7 @@ namespace ChessApp.Models.Chess.Pieces
             {
                 int x = IsWhite ? x_white : -x_white;
                 int y = IsWhite ? y_white : -y_white;
-                positions.Add(new NextAvailablePosition(PieceID, (fileIndex + x + 1) * 8 + (rankIndex + y + 1)));
+                positions.Add(new NextAvailablePosition(PieceID, (fileIndex + x) * 8 + (rankIndex + y) + 1));
             }
             return positions;
         }
@@ -168,9 +167,10 @@ namespace ChessApp.Models.Chess.Pieces
         {
             int x = IsWhite ? x_white : -x_white;
             int y = IsWhite ? y_white : -y_white;
-            int fieldAndPositionId = (fileIndex + x + 1) * 8 + (rankIndex + y + 1);
-            int contentId = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content.PieceID;
+            int fieldAndPositionId = (fileIndex + x ) * 8 + (rankIndex + y) + 1;
+            Piece? content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+            int? contentId = content?.PieceID; 
             Field newField = new Field(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
 
             if (x_white == 0)
@@ -179,7 +179,7 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     int z = IsWhite ? -1 : 1;
                     Field secondRowField = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + 1)
-                                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == (fileIndex + 1) * 8 + (rankIndex + y + 1 + z));
+                                                    .FieldColumn.Fields.Single(s => s.FieldID == (fileIndex * 8) + (rankIndex + y + z) + 1);
                     if ((secondRowField.Content == null) && (newField.Content == null))
                     {
                         positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));

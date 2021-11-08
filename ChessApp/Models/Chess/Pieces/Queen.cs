@@ -1,4 +1,6 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System.Collections.Generic;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -17,9 +19,9 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
-        {
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
+        {/*
             MoveForward(fileIndex, rankIndex, board, positions);
             MoveBackwards(fileIndex, rankIndex, board, positions);
             MoveLeft(fileIndex, rankIndex, board, positions);
@@ -27,10 +29,10 @@ namespace ChessApp.Models.Chess.Pieces
             MoveRightForward(fileIndex, rankIndex, board, positions);
             MoveLeftBackwards(fileIndex, rankIndex, board, positions);
             MoveLeftForward(fileIndex, rankIndex, board, positions);
-            MoveRightBackwards(fileIndex, rankIndex, board, positions);
+            MoveRightBackwards(fileIndex, rankIndex, board, positions);*/
             return positions;
         }
-
+        /*
         public void MoveForward(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
             bool canMove = true;

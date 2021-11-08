@@ -1,4 +1,6 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,14 +28,14 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-            KingMove(fileIndex, rankIndex, board, positions);
-            CastlingMove(fileIndex, rankIndex, board, positions);
+           // KingMove(fileIndex, rankIndex, board, positions);
+           // CastlingMove(fileIndex, rankIndex, board, positions);
             return positions;
         }
-
+        /*
         private HashSet<string> CastlingMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
             bool kingIsNotInCheck = IsWhite ? !Program.Game.WhiteKingIsInCheck : !Program.Game.BlackKingIsInCheck;

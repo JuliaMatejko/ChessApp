@@ -1,4 +1,6 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System.Collections.Generic;
 
 namespace ChessApp.Models.Chess.Pieces
 {
@@ -17,13 +19,13 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-            KnightMove(fileIndex, rankIndex, board, positions);
+            //KnightMove(fileIndex, rankIndex, board, positions);
             return positions;
         }
-
+        /*
         private HashSet<string> KnightMove(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
             if (rankIndex < Board.boardSize - 2)

@@ -31,17 +31,15 @@ namespace ChessApp.Models.Chess.Pieces
 
         public Field Field { get; set; }
         public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }
-        public HashSet<ControlledSquare> ControlledSquares { get; set; }
-
-
+        public HashSet<ControlledSquare> ControlledSquares { get; set; } = new();
 
         
-        public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Position currentPosition, Board board)
+        public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves()
         {
-            int fileIndex = Array.IndexOf(Board.files, currentPosition.FileID);
-            int rankIndex = Array.IndexOf(Board.ranks,currentPosition.RankID);
-            HashSet<NextAvailablePosition> positions = new HashSet<NextAvailablePosition>();
-            positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
+            int fileIndex = Array.IndexOf(Board.files, Position.FileID);
+            int rankIndex = Array.IndexOf(Board.ranks, Position.RankID);
+            HashSet<NextAvailablePosition> positions = new();
+            positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, GameState.Game.Chessboard, positions);
             return positions;
         }
 

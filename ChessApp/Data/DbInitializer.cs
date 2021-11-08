@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ChessApp.Models.Chess;
 using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces;
@@ -296,8 +297,18 @@ namespace ChessApp.Data
             gameState.BlackKingID = kings[1].PieceID;
             context.SaveChanges();
 
-            //Add ControlledSquares
+
             //Add NextAvailablePositions
+            //Add ControlledSquares
+            foreach (var pawn in pawns)
+            {
+                HashSet<NextAvailablePosition> availableMoves = pawn.ReturnAvailablePieceMoves();
+                foreach (var move in availableMoves)
+                {
+                    context.NextAvailablePositions.Add(move);
+                } 
+            }
+            context.SaveChanges();
         }
     }
 }

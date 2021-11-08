@@ -1,4 +1,6 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces.PieceProperties;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,16 +35,16 @@ namespace ChessApp.Models.Chess.Pieces
         {
                 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
-        {
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
+        {/*
             MoveForward(fileIndex, rankIndex, board, positions);
             MoveBackwards(fileIndex, rankIndex, board, positions);
             MoveLeft(fileIndex, rankIndex, board, positions);
-            MoveRight(fileIndex, rankIndex, board, positions);
+            MoveRight(fileIndex, rankIndex, board, positions);*/
             return positions;
         }
-
+        /*
         public void MoveForward(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
             bool canMove = true;

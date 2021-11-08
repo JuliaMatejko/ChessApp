@@ -19,16 +19,16 @@ namespace ChessApp.Models.Chess.Pieces
         {
 
         }
-        /*
-        protected override HashSet<string> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
+        
+        protected override HashSet<NextAvailablePosition> ReturnCorrectPieceMoves(int fileIndex, int rankIndex, Board board, HashSet<NextAvailablePosition> positions)
         {
-            MoveRightForward(fileIndex, rankIndex, board, positions);
+           /* MoveRightForward(fileIndex, rankIndex, board, positions);
             MoveLeftBackwards(fileIndex, rankIndex, board, positions);
             MoveLeftForward(fileIndex, rankIndex, board, positions);
-            MoveRightBackwards(fileIndex, rankIndex, board, positions);
+            MoveRightBackwards(fileIndex, rankIndex, board, positions);*/
             return positions;
         }
-
+        /*
         public void MoveRightForward(int fileIndex, int rankIndex, Board board, HashSet<string> positions)
         {
             bool canMove = true;
