@@ -13,7 +13,7 @@ namespace ChessApp.Models.Chess.Pieces
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            PieceNameID = isWhite ? PieceNameID = "nw" : PieceNameID = "nb";
+            PieceNameID = isWhite ? PieceNameID = pieceNames[5] : PieceNameID = pieceNames[4];
         }
 
         public Knight()

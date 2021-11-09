@@ -11,10 +11,10 @@ namespace ChessApp.Models.Chess.Pieces
     {
         [Required]
         [DefaultValue(true)]
-        public bool IsFirstMove { get; set; } = true;
+        public bool IsFirstMove { get; set; }
         [Required]
         [DefaultValue(false)]
-        public bool CanBeTakenByEnPassantMove { get; set; } = false;
+        public bool CanBeTakenByEnPassantMove { get; set; }
 
         public GameState GameStateWhitePawn { get; set; }
         public GameState GameStateBlackPawn { get; set; }
@@ -24,7 +24,9 @@ namespace ChessApp.Models.Chess.Pieces
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            PieceNameID = isWhite ? PieceNameID = "pw" : PieceNameID = "pb";
+            PieceNameID = isWhite ? PieceNameID = pieceNames[7] : PieceNameID = pieceNames[6];
+            IsFirstMove = true;
+            CanBeTakenByEnPassantMove = false;
         }
 
         public Pawn()

@@ -73,7 +73,7 @@ namespace ChessApp.Data
             var fieldColumns = new FieldColumn[Board.boardSize];
             for (int i = 0; i < Board.boardSize; i++)
             {
-                fieldColumns[i] = new FieldColumn(i + 1, ref board.squaresNumber);
+                fieldColumns[i] = new FieldColumn(i + 1);
             }
             foreach (FieldColumn fc in fieldColumns)
             {

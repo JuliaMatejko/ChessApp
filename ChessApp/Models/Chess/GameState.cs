@@ -21,39 +21,53 @@ namespace ChessApp.Models.Chess
         [ForeignKey("BlackKing")]
         public int? BlackKingID { get; set; }
         public King BlackKing { get; set; }
+
         public int? WhitePawnThatCanBeTakenByEnPassantMoveID { get; set; }
         [ForeignKey("WhitePawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn WhitePawnThatCanBeTakenByEnPassantMove { get; set; }
         public int? BlackPawnThatCanBeTakenByEnPassantMoveID { get; set; }
         [ForeignKey("BlackPawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn BlackPawnThatCanBeTakenByEnPassantMove { get; set; }
-        public List<Piece> CurrentPlayerPiecesAttackingTheKing { get; set; } = new List<Piece>();
+
+        public List<Piece> CurrentPlayerPiecesAttackingTheKing { get; set; }
         public enum Sides
         {
             White = 1,
             Black = 0
         }
-        public Sides CurrentPlayer { get; set; } = Sides.White;
-        public bool WhiteKingIsInCheck { get; set; } = false;
-        public bool BlackKingIsInCheck { get; set; } = false;
-        public bool CurrentPlayerKingIsInCheck => CurrentPlayer == Sides.White ? WhiteKingIsInCheck : BlackKingIsInCheck;
-        public bool PlayersAgreedToADraw { get; set; } = false;
-        public bool PlayerResigned { get; set; } = false;
-        public bool PlayerOfferedADraw { get; set; } = false;
-        public bool IsACheckmate => CheckmateOccured();
-        public bool IsAStalemate => StalemateOccured();
-        public bool IsAWin => WinConditionMet();
-        public bool IsADraw => DrawConditionMet();
+        public Sides CurrentPlayer { get; set; }
+        public bool WhiteKingIsInCheck { get; set; }
+        public bool BlackKingIsInCheck { get; set; }
+        public bool PlayersAgreedToADraw { get; set; }
+        public bool PlayerResigned { get; set; }
+        public bool PlayerOfferedADraw { get; set; }
 
         public GameState(int gameId)
         {
             GameID = gameId;
+            WhiteKingID = null;
+            BlackKingID = null;
+            WhitePawnThatCanBeTakenByEnPassantMoveID = null;
+            BlackPawnThatCanBeTakenByEnPassantMoveID = null;
+            CurrentPlayerPiecesAttackingTheKing = new List<Piece>();
+            CurrentPlayer = Sides.White;
+            WhiteKingIsInCheck = false;
+            BlackKingIsInCheck = false;
+            PlayersAgreedToADraw = false;
+            PlayerResigned = false;
+            PlayerOfferedADraw = false;
         }
 
         public GameState()
         {
 
         }
+
+        public bool CurrentPlayerKingIsInCheck => CurrentPlayer == Sides.White ? WhiteKingIsInCheck : BlackKingIsInCheck;
+        public bool IsACheckmate => CheckmateOccured();
+        public bool IsAStalemate => StalemateOccured();
+        public bool IsAWin => WinConditionMet();
+        public bool IsADraw => DrawConditionMet();
 
         public bool DrawConditionMet()
         {

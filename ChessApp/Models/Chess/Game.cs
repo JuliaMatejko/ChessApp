@@ -11,15 +11,14 @@ namespace ChessApp.Models.Chess
         public int GameID { get; set; }
  
         public Board Chessboard { get; set; }
-        public GameState GameState { get; set; }
-        public List<Move> Moves { get; set; }
+        public GameState GameState { get; set; } 
+        public List<Move> Moves { get; set; } 
 
         public Game()
         {
-            Chessboard = new Board(GameID);
-            GameState = new GameState(GameID);
-            Moves = new List<Move>(GameID);
+
         }
+
         [NotMapped]
         public Dictionary<string, Field> Fields
         {

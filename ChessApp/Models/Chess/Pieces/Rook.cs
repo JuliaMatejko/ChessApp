@@ -11,7 +11,7 @@ namespace ChessApp.Models.Chess.Pieces
     {
         [Required]
         [DefaultValue(true)]
-        public bool IsFirstMove { get; set; } = true;
+        public bool IsFirstMove { get; set; }
 
         public Rook(int gameId, int pieceId, bool isWhite, Position position)
         {
@@ -19,7 +19,8 @@ namespace ChessApp.Models.Chess.Pieces
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            PieceNameID = isWhite ? PieceNameID = "rw" : PieceNameID = "rb";
+            PieceNameID = isWhite ? PieceNameID = pieceNames[11] : PieceNameID = pieceNames[10];
+            IsFirstMove = true;
         }
 
         public Rook(int gameId, int pieceId, bool isWhite, Position position, bool isFirstMove)
@@ -28,7 +29,7 @@ namespace ChessApp.Models.Chess.Pieces
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
-            PieceNameID = isWhite ? PieceNameID = "rw" : PieceNameID = "rb";
+            PieceNameID = isWhite ? PieceNameID = pieceNames[11] : PieceNameID = pieceNames[10];
             IsFirstMove = isFirstMove;
         }
 

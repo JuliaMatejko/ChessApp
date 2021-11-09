@@ -11,12 +11,14 @@ namespace ChessApp.Models.Chess.Pieces
     {
         public static readonly string[] pieceNames = new string[] { "bb", "bw", "kb", "kw", "nb", "nw", "pb", "pw", "qb", "qw", "rb", "rw" };
 
+        [ForeignKey("GameState")]
+        public int GameID { get; set; }
+        public GameState GameState { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PieceID { get; set; }
         [Required]
         public bool IsWhite { get; set; }
-        public static List<PieceName> PieceNames { get; set; }
         [Required]
         public int PositionID { get; set; }
         public Position Position { get; set; }
@@ -25,9 +27,7 @@ namespace ChessApp.Models.Chess.Pieces
         [Display(Name = "Piece Name")]
         public string PieceNameID { get; set; }
         public PieceName Name { get; set; }
-        [ForeignKey("GameState")]
-        public int GameID { get; set; }
-        public GameState GameState { get; set; }
+        public static List<PieceName> PieceNames { get; set; }
 
         public Field Field { get; set; }
         public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }
