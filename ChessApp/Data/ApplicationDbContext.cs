@@ -90,7 +90,7 @@ namespace ChessApp.Data
                .HasKey(k => new { k.PieceID, k.PositionID });
 
             modelBuilder.Entity<NextAvailablePosition>()
-               .HasKey(k => new { k.PieceID, k.PositionID });
+               .HasKey(k => new { k.PieceID, k.PositionID });   
         }
     }
 }

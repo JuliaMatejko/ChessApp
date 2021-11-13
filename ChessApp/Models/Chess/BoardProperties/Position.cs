@@ -30,11 +30,13 @@ namespace ChessApp.Models.Chess.BoardProperties
         public HashSet<ControlledSquare> ControlledSquares { get; set; }
         public List<BoardPosition> BoardsPositions { get; set; }
 
-        public Position(int positionId, string fileId, string rankId)
+        public Position(int positionId, File file, Rank rank)
         {
             PositionID = positionId;
-            FileID = fileId;
-            RankID = rankId;
+            File = file;
+            Rank = rank;
+            FileID = file.FileID;
+            RankID = rank.RankID;
         }
 
         public Position()

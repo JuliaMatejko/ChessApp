@@ -27,19 +27,18 @@ namespace ChessApp.Models.Chess.Pieces
         [Display(Name = "Piece Name")]
         public string PieceNameID { get; set; }
         public PieceName Name { get; set; }
-        public static List<PieceName> PieceNames { get; set; }
 
         public Field Field { get; set; }
         public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }
         public HashSet<ControlledSquare> ControlledSquares { get; set; } = new();
 
         
-        public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves()
+        public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Board board)
         {
             int fileIndex = Array.IndexOf(Board.files, Position.FileID);
             int rankIndex = Array.IndexOf(Board.ranks, Position.RankID);
             HashSet<NextAvailablePosition> positions = new();
-            positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, GameState.Game.Chessboard, positions);
+            positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
             return positions;
         }
 

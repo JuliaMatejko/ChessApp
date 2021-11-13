@@ -162,12 +162,12 @@ namespace ChessApp.Data
             var pawns = new Pawn[Board.boardSize * 2];
             for (var i = 0; i < Board.boardSize; i++)
             {
-                pawns[i] = new Pawn(gameState.GameID, i + 1, true, positions[(i * 8) + 1]);  // set white pawns
+                pawns[i] = new Pawn(gameState.GameID, i + 1, true, positions[(i * 8) + 1], gameState);  // set white pawns
             }
             var k = 0;
             for (var i = Board.boardSize; i < Board.boardSize * 2; i++)
             {
-                pawns[i] = new Pawn(gameState.GameID, i + 1, false, positions[(k * 8) + 6]);  // set black pawns 
+                pawns[i] = new Pawn(gameState.GameID, i + 1, false, positions[(k * 8) + 6], gameState);  // set black pawns 
                 k++;
             }
             foreach (Pawn p in pawns)
@@ -233,8 +233,8 @@ namespace ChessApp.Data
             //Add Kings
             var kings = new King[]
             {
-                new King(gameState.GameID, 31, true, positions[32]),
-                new King(gameState.GameID, 32, false, positions[39])
+                new King(gameState.GameID, 31, true, positions[32], gameState),
+                new King(gameState.GameID, 32, false, positions[39], gameState)
             };
             foreach (King kg in kings)
             {
@@ -303,7 +303,7 @@ namespace ChessApp.Data
             //Add ControlledSquares
             foreach (var pawn in pawns)
             {
-                HashSet<NextAvailablePosition> availableMoves = pawn.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = pawn.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
@@ -313,7 +313,7 @@ namespace ChessApp.Data
 
             foreach (var bishop in bishops)
             {
-                HashSet<NextAvailablePosition> availableMoves = bishop.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = bishop.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
@@ -323,7 +323,7 @@ namespace ChessApp.Data
 
             foreach (var rook in rooks)
             {
-                HashSet<NextAvailablePosition> availableMoves = rook.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = rook.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
@@ -333,7 +333,7 @@ namespace ChessApp.Data
 
             foreach (var queen in queens)
             {
-                HashSet<NextAvailablePosition> availableMoves = queen.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = queen.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
@@ -343,7 +343,7 @@ namespace ChessApp.Data
 
             foreach (var knight in knights)
             {
-                HashSet<NextAvailablePosition> availableMoves = knight.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = knight.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
@@ -353,13 +353,15 @@ namespace ChessApp.Data
 
             foreach (var king in kings)
             {
-                HashSet<NextAvailablePosition> availableMoves = king.ReturnAvailablePieceMoves();
+                HashSet<NextAvailablePosition> availableMoves = king.ReturnAvailablePieceMoves(board);
                 foreach (var move in availableMoves)
                 {
                     context.NextAvailablePositions.Add(move);
                 }
             }
             context.SaveChanges();
+
+            game.StartGame();
         }
     }
 }

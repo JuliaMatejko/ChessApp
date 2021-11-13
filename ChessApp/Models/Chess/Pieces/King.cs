@@ -15,7 +15,7 @@ namespace ChessApp.Models.Chess.Pieces
 
         public GameState GameStateWhiteKing { get; set; }
         public GameState GameStateBlackKing { get; set; }
-        public King(int gameId, int pieceId, bool isWhite, Position position)
+        public King(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
@@ -23,6 +23,7 @@ namespace ChessApp.Models.Chess.Pieces
             Position = position;
             PieceNameID = isWhite ? PieceNameID = pieceNames[3]: PieceNameID = pieceNames[2];
             IsFirstMove = true;
+            GameState = gameState;
         }
 
         public King()
