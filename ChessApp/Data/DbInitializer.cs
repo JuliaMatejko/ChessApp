@@ -18,15 +18,12 @@ namespace ChessApp.Data
                 return;
             }
 
-            //Add Game
-            var game = new Game();
-            context.Games.Add(game);
-            context.SaveChanges();
+            
 
             //Add Board
-            var board = new Board(game.GameID);
+            /*var board = new Board(game.GameID);
             context.Boards.Add(board);
-            context.SaveChanges();
+            context.SaveChanges();*/
 
             //Add Files
             var files = new File[Board.boardSize];
@@ -71,7 +68,7 @@ namespace ChessApp.Data
 
             //Add FieldColumns
             var fieldColumns = new FieldColumn[Board.boardSize];
-            for (int i = 0; i < Board.boardSize; i++)
+            for (int i = 0; i < Board.files.Length; i++)
             {
                 fieldColumns[i] = new FieldColumn(i + 1);
             }
@@ -93,6 +90,23 @@ namespace ChessApp.Data
                 }
             }
 
+            //Add PieceNames
+            var pieceNames = new PieceName[Piece.pieceNames.Length];
+            for (int i = 0; i < Piece.pieceNames.Length; i++)
+            {
+                pieceNames[i] = new PieceName(Piece.pieceNames[i]);
+            }
+            foreach (PieceName pn in pieceNames)
+            {
+                context.PieceNames.Add(pn);
+            }
+            context.SaveChanges();
+
+            //Add Game
+            var game = new Game();
+            context.Games.Add(game);
+            context.SaveChanges();
+            /*
             //Add BoardsFiles
             var boardsFiles = new BoardFile[Board.boardSize];
             for (int i = 0; i < Board.files.Length; i++)
@@ -139,24 +153,14 @@ namespace ChessApp.Data
             {
                 context.BoardsFieldColumns.Add(bfc);
             }
-            context.SaveChanges();
+            context.SaveChanges();*/
 
             //Add GameState
             var gameState = new GameState(game.GameID);
             context.GameStates.Add(gameState);
             context.SaveChanges();
 
-            //Add PieceNames
-            var pieceNames = new PieceName[Piece.pieceNames.Length];
-            for (int i = 0; i < Piece.pieceNames.Length; i++)
-            {
-                pieceNames[i] = new PieceName(Piece.pieceNames[i]);
-            }
-            foreach (PieceName pn in pieceNames)
-            {
-                context.PieceNames.Add(pn);
-            }
-            context.SaveChanges();
+            
 
             //Add Pawns
             var pawns = new Pawn[Board.boardSize * 2];
@@ -298,7 +302,7 @@ namespace ChessApp.Data
             gameState.BlackKingID = kings[1].PieceID;
             context.SaveChanges();
 
-
+            /*
             //Add NextAvailablePositions
             //Add ControlledSquares
             foreach (var pawn in pawns)
@@ -359,9 +363,9 @@ namespace ChessApp.Data
                     context.NextAvailablePositions.Add(move);
                 }
             }
-            context.SaveChanges();
+            context.SaveChanges();*/
 
-            game.StartGame();
+            //game.StartGame();
         }
     }
 }

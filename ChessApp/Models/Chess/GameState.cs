@@ -222,11 +222,11 @@ namespace ChessApp.Models.Chess
             bool CheckCanBeBlockedOrAttackingPieceCanBeCaptured() // Return positions that block check
             {
                 List<Position> blockingPositions = new();
-                int currentPlayersPieceFile = Array.IndexOf(Board.files, CurrentPlayerPiecesAttackingTheKing[0].Position.File.FileID);
-                int currentPlayersPieceRank = Array.IndexOf(Board.ranks, CurrentPlayerPiecesAttackingTheKing[0].Position.Rank.RankID);
+                int currentPlayersPieceFile = Array.IndexOf(Board.files, CurrentPlayerPiecesAttackingTheKing[0].Position.FileID);
+                int currentPlayersPieceRank = Array.IndexOf(Board.ranks, CurrentPlayerPiecesAttackingTheKing[0].Position.RankID);
                 King oponentsKing = CurrentPlayer == Sides.White ? BlackKing : WhiteKing;
-                int oponentsKingFile = Array.IndexOf(Board.files, oponentsKing.Position.File.FileID);
-                int oponentsKingRank = Array.IndexOf(Board.ranks, oponentsKing.Position.Rank.RankID);
+                int oponentsKingFile = Array.IndexOf(Board.files, oponentsKing.Position.FileID);
+                int oponentsKingRank = Array.IndexOf(Board.ranks, oponentsKing.Position.RankID);
 
                 int x = oponentsKingFile == currentPlayersPieceFile ? 0 : (oponentsKingFile > currentPlayersPieceFile ? 1 : -1);    // Check if both pieces are on the same file --> A rook or a queen is an attacking piece
                 int y = oponentsKingRank == currentPlayersPieceRank ? 0 : (oponentsKingRank > currentPlayersPieceRank ? 1 : -1);    // Check if both pieces are on the same rank --> A rook or a queen is an attacking piece

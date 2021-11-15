@@ -14,12 +14,13 @@ namespace ChessApp.Models.Chess
  
         public Board Chessboard { get; set; }
         public GameState GameState { get; set; } 
-        public List<Move> Moves { get; set; }
+        public List<Move> Moves { get; set; }//TO DO: dodaj ruch do listy po każdym ruchu
         public static readonly string[] pieceNames = { "qb", "qw", "nw", "nb", "rw", "rb", "bw", "bb", "kw","kb","pw","pb" };
 
         public Game()
         {
-
+            Chessboard = new(GameID);
+            GameState = new(GameID);
         }
 
         [NotMapped]

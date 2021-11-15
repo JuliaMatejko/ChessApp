@@ -1,4 +1,5 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -26,6 +27,54 @@ namespace ChessApp.Models.Chess
         public Board(int gameId)
         {
             GameID = gameId;
+            BoardsFiles = AddBoardFiles();
+            BoardsRanks = AddBoardRanks();
+            BoardsPositions = AddBoardPositions();
+            BoardsFieldColumns = AddBoardFieldColumns();
+        }
+
+        private List<BoardFieldColumn> AddBoardFieldColumns()
+        {
+            List<BoardFieldColumn> boardFieldColumns = new();
+            for (int i = 0; i < files.Length; i++)
+            {
+                boardFieldColumns.Add(new BoardFieldColumn(GameID, i + 1));
+            }
+            return boardFieldColumns;
+        }
+
+        private List<BoardPosition> AddBoardPositions()
+        {
+            List<BoardPosition> boardsPositions = new();
+            for (int i = 0; i < files.Length; i++)
+            {
+                for (int j = 0; j < ranks.Length; j++)
+                {
+                    int positionId = (i * 8) + j + 1;
+                    boardsPositions.Add(new BoardPosition(GameID, positionId));
+                }
+            }
+            return boardsPositions;
+        }
+
+        private List<BoardRank> AddBoardRanks()
+        {
+            List<BoardRank> boardsRanks = new();
+            foreach (var rank in ranks)
+            {
+                boardsRanks.Add(new BoardRank(GameID, rank));
+            }
+            return boardsRanks;
+        }
+
+        private List<BoardFile> AddBoardFiles()
+        {
+            List<BoardFile> boardsFiles = new();
+            foreach (var file in files)
+            {
+                boardsFiles.Add(new BoardFile(GameID, file));
+            }
+            return boardsFiles;
         }
 
         public Board()
