@@ -221,9 +221,15 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        private bool UserInputIsValid(string chosenMove, ref Move move)
+        private bool UserInputIsValid(string chosenMove, ref Move move) //TO DO: rewrite using regex
         {
-            if (chosenMove.Length == 8 && chosenMove[2] == ' ' && chosenMove[5] == ' ')
+            if (chosenMove.Length == 8 
+                && chosenMove[2] == ' '
+                && chosenMove[5] == ' ' 
+                && Board.files.Contains(chosenMove[3].ToString())
+                && Board.ranks.Contains(chosenMove[4].ToString())
+                && Board.files.Contains(chosenMove[6].ToString())
+                && Board.ranks.Contains(chosenMove[7].ToString()))
             {
                 move = StringToMove(chosenMove);
                 int currentPositionId = (int)move.CurrentPositionID;
@@ -237,7 +243,14 @@ namespace ChessApp.Models.Chess
                     return true;
                 }
             }
-            else if (chosenMove.Length == 11 && chosenMove[2] == ' ' && chosenMove[5] == ' ' && chosenMove[8] == ' ')
+            else if (chosenMove.Length == 11 
+                && chosenMove[2] == ' ' 
+                && chosenMove[5] == ' ' 
+                && chosenMove[8] == ' '
+                && Board.files.Contains(chosenMove[3].ToString())
+                && Board.ranks.Contains(chosenMove[4].ToString())
+                && Board.files.Contains(chosenMove[6].ToString())
+                && Board.ranks.Contains(chosenMove[7].ToString()))
             {
                 move = StringToMove(chosenMove);
                 int currentPositionId = (int)move.CurrentPositionID;
