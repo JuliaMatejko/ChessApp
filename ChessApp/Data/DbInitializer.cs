@@ -18,13 +18,6 @@ namespace ChessApp.Data
                 return;
             }
 
-            
-
-            //Add Board
-            /*var board = new Board(game.GameID);
-            context.Boards.Add(board);
-            context.SaveChanges();*/
-
             //Add Files
             var files = new File[Board.boardSize];
             for (int i = 0; i < Board.files.Length; i++)
@@ -85,10 +78,15 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    fields[count] = new Field(count + 1, fieldColumns[i].FieldColumnID, positions[count].PositionID, contentId: null);
+                    fields[count] = new Field(positions[count].PositionID, fieldColumns[i].FieldColumnID, contentId: null);
                     count++;
                 }
             }
+            foreach (Field f in fields)
+            {
+                context.Fields.Add(f);
+            }
+            context.SaveChanges();
 
             //Add PieceNames
             var pieceNames = new PieceName[Piece.pieceNames.Length];
@@ -154,13 +152,13 @@ namespace ChessApp.Data
                 context.BoardsFieldColumns.Add(bfc);
             }
             context.SaveChanges();*/
-
+            /*
             //Add GameState
             var gameState = new GameState(game.GameID);
             context.GameStates.Add(gameState);
-            context.SaveChanges();
+            context.SaveChanges();*/
 
-            
+            /*
 
             //Add Pawns
             var pawns = new Pawn[Board.boardSize * 2];
@@ -301,7 +299,7 @@ namespace ChessApp.Data
             gameState.WhiteKingID = kings[0].PieceID;
             gameState.BlackKingID = kings[1].PieceID;
             context.SaveChanges();
-
+            */
             /*
             //Add NextAvailablePositions
             //Add ControlledSquares
@@ -365,7 +363,7 @@ namespace ChessApp.Data
             }
             context.SaveChanges();*/
 
-            //game.StartGame();
+            game.StartGame();
         }
     }
 }

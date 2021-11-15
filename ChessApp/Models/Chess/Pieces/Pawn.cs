@@ -16,8 +16,6 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(false)]
         public bool CanBeTakenByEnPassantMove { get; set; }
 
-        public GameState GameStateWhitePawn { get; set; }
-        public GameState GameStateBlackPawn { get; set; }
         public Pawn(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
@@ -172,9 +170,9 @@ namespace ChessApp.Models.Chess.Pieces
             int y = IsWhite ? y_white : -y_white;
             int fieldAndPositionId = (fileIndex + x ) * 8 + (rankIndex + y) + 1;
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID; 
-            Field newField = new(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
+            Field newField = new(fieldAndPositionId, fileIndex + x + 1, contentId);
             newField.Content = contentId != null ? content : null;
             if (x_white == 0)
             {
@@ -182,7 +180,7 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     int z = IsWhite ? -1 : 1;
                     Field secondRowField = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + 1)
-                                                    .FieldColumn.Fields.Single(s => s.FieldID == (fileIndex * 8) + (rankIndex + y + z) + 1);
+                                                    .FieldColumn.Fields.Single(s => s.PositionID == (fileIndex * 8) + (rankIndex + y + z) + 1);
                     if ((secondRowField.Content == null) && (newField.Content == null))
                     {
                         positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));

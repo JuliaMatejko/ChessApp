@@ -8,10 +8,6 @@ namespace ChessApp.Models.Chess
     public class Field
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int FieldID { get; set; }
-        
-        [Required]
         public int PositionID { get; set; }
         public Position Position { get; set; }
         [Column("ContentID")]
@@ -21,11 +17,10 @@ namespace ChessApp.Models.Chess
         public int FieldColumnID { get; set; }
         public FieldColumn FieldColumn { get; set; }
 
-        public Field(int fieldId, int fieldColumnId, int positionId, int? contentId)
+        public Field(int positionId, int fieldColumnId, int? contentId)
         {
-            FieldID = fieldId;
-            FieldColumnID = fieldColumnId;
             PositionID = positionId;
+            FieldColumnID = fieldColumnId;
             PieceID = contentId;
         }
 

@@ -13,8 +13,6 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(true)]
         public bool IsFirstMove { get; set; }
 
-        public GameState GameStateWhiteKing { get; set; }
-        public GameState GameStateBlackKing { get; set; }
         public King(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
@@ -82,9 +80,9 @@ namespace ChessApp.Models.Chess.Pieces
                 int fieldId = (((file + z) * 8) + rank + 1);
                 int sfieldId = (((file + x) * 8) + rank + 1);
                 Field field = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + z + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldId);
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldId);
                 Field sfield = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == sfieldId);
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == sfieldId);
 
                 if (field.Content == null && sfield.Content == null)
                 {
@@ -106,7 +104,7 @@ namespace ChessApp.Models.Chess.Pieces
                 {
                     int fieldId = ((i * 8) + j + 1);
                     var piece = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldId).Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = IsWhite ? !piece.IsWhite : piece.IsWhite;
@@ -230,9 +228,9 @@ namespace ChessApp.Models.Chess.Pieces
             int y = IsWhite ? y_white : -y_white;
             int fieldAndPositionId = (fileIndex + x) * 8 + (rankIndex + y) + 1;
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new(fieldAndPositionId, fileIndex + x + 1, fieldAndPositionId, contentId);
+            Field newField = new(fieldAndPositionId, fileIndex + x + 1, contentId);
             newField.Content = contentId != null ? content : null;
             ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 

@@ -66,31 +66,11 @@ namespace ChessApp.Data
             modelBuilder.Entity<BoardFieldColumn>()
                .HasKey(k => new { k.GameID, k.FieldColumnID });
 
-            modelBuilder.Entity<GameState>()
-                .HasOne(i => i.WhiteKing)
-                .WithOne(p => p.GameStateWhiteKing)
-                .HasForeignKey<GameState>(i => i.WhiteKingID);
-
-            modelBuilder.Entity<GameState>()
-                .HasOne(i => i.BlackKing)
-                .WithOne(p => p.GameStateBlackKing)
-                .HasForeignKey<GameState>(i => i.BlackKingID);
-
-            modelBuilder.Entity<GameState>()
-                .HasOne(i => i.WhitePawnThatCanBeTakenByEnPassantMove)
-                .WithOne(p => p.GameStateWhitePawn)
-                .HasForeignKey<GameState>(i => i.WhitePawnThatCanBeTakenByEnPassantMoveID);
-
-            modelBuilder.Entity<GameState>()
-                .HasOne(i => i.BlackPawnThatCanBeTakenByEnPassantMove)
-                .WithOne(p => p.GameStateBlackPawn)
-                .HasForeignKey<GameState>(i => i.BlackPawnThatCanBeTakenByEnPassantMoveID);
-
             modelBuilder.Entity<ControlledSquare>()
                .HasKey(k => new { k.PieceID, k.PositionID });
 
             modelBuilder.Entity<NextAvailablePosition>()
-               .HasKey(k => new { k.PieceID, k.PositionID });   
+               .HasKey(k => new { k.PieceID, k.PositionID });
         }
     }
 }

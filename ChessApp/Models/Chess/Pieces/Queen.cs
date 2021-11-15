@@ -7,13 +7,14 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Queen : Piece, IDiagonallyMovingPiece, IHorizontallyAndVerticallyMovingPiece
     {
-        public Queen(int gameId, int pieceId, bool isWhite, Position position)
+        public Queen(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
             PieceNameID = isWhite ? PieceNameID = pieceNames[9] : PieceNameID = pieceNames[8];
+            GameState = gameState;
         }
 
         public Queen()
@@ -217,9 +218,9 @@ namespace ChessApp.Models.Chess.Pieces
             int tempfile = file;
             int fieldAndPositionId = (file + x) * 8 + (rank + y) + 1;
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new(fieldAndPositionId, file + x + 1, fieldAndPositionId, contentId);
+            Field newField = new(fieldAndPositionId, file + x + 1, contentId);
             newField.Content = contentId != null ? content : null;
             ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
 

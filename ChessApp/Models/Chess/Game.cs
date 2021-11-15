@@ -99,7 +99,7 @@ namespace ChessApp.Models.Chess
                 {
                     fieldAndPositionId = (i * 8) + j + 1;
                     fields[boardPosition.Position.Name] = Chessboard.BoardsFieldColumns.Single(s => s.GameID == Chessboard.GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId);
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId);
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace ChessApp.Models.Chess
                     i++;
                     fieldAndPositionId = (i * 8) + j + 1;
                     fields[boardPosition.Position.Name] = Chessboard.BoardsFieldColumns.Single(s => s.GameID == Chessboard.GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId);
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId);
                 }
                 j++;
                 
@@ -127,20 +127,20 @@ namespace ChessApp.Models.Chess
             {
                 Fields[Chessboard.BoardsFiles[i].FileID + "7"].Content = new Pawn(GameID, i + 9, false, new Position((i * 8) + 7, Chessboard.BoardsFiles[i].FileID, "7"), GameState);  // set black pawns 
             }
-            Fields["a1"].Content = new Rook(GameID, 17, true, new Position(1, "a", "1"));        // set white rooks
-            Fields["h1"].Content = new Rook(GameID, 18, true, new Position(57, "h", "1"));
-            Fields["a8"].Content = new Rook(GameID, 19, false, new Position(8, "a", "8"));       // set black rooks
-            Fields["h8"].Content = new Rook(GameID, 20, false, new Position(64, "h", "8"));
-            Fields["b1"].Content = new Knight(GameID, 21, true, new Position(9, "b", "1"));      // set white knights
-            Fields["g1"].Content = new Knight(GameID, 22, true, new Position(49, "g", "1"));
-            Fields["b8"].Content = new Knight(GameID, 23, false, new Position(16, "b", "8"));     // set black knights
-            Fields["g8"].Content = new Knight(GameID, 24, false, new Position(56, "g", "8"));
-            Fields["c1"].Content = new Bishop(GameID, 25, true, new Position(17, "c", "1"));      // set white bishops
-            Fields["f1"].Content = new Bishop(GameID, 26, true, new Position(41, "f", "1"));
-            Fields["c8"].Content = new Bishop(GameID, 27, false, new Position(24, "c", "8"));     // set black bishops
-            Fields["f8"].Content = new Bishop(GameID, 28, false, new Position(48, "f", "8"));
-            Fields["d1"].Content = new Queen(GameID, 29, true, new Position(25, "d", "1"));       // set white queen
-            Fields["d8"].Content = new Queen(GameID, 30, false, new Position(32, "d", "8"));      // set black queen
+            Fields["a1"].Content = new Rook(GameID, 17, true, new Position(1, "a", "1"), GameState);        // set white rooks
+            Fields["h1"].Content = new Rook(GameID, 18, true, new Position(57, "h", "1"), GameState);
+            Fields["a8"].Content = new Rook(GameID, 19, false, new Position(8, "a", "8"), GameState);       // set black rooks
+            Fields["h8"].Content = new Rook(GameID, 20, false, new Position(64, "h", "8"), GameState);
+            Fields["b1"].Content = new Knight(GameID, 21, true, new Position(9, "b", "1"), GameState);      // set white knights
+            Fields["g1"].Content = new Knight(GameID, 22, true, new Position(49, "g", "1"), GameState);
+            Fields["b8"].Content = new Knight(GameID, 23, false, new Position(16, "b", "8"), GameState);     // set black knights
+            Fields["g8"].Content = new Knight(GameID, 24, false, new Position(56, "g", "8"), GameState);
+            Fields["c1"].Content = new Bishop(GameID, 25, true, new Position(17, "c", "1"), GameState);      // set white bishops
+            Fields["f1"].Content = new Bishop(GameID, 26, true, new Position(41, "f", "1"), GameState);
+            Fields["c8"].Content = new Bishop(GameID, 27, false, new Position(24, "c", "8"), GameState);     // set black bishops
+            Fields["f8"].Content = new Bishop(GameID, 28, false, new Position(48, "f", "8"), GameState);
+            Fields["d1"].Content = new Queen(GameID, 29, true, new Position(25, "d", "1"), GameState);       // set white queen
+            Fields["d8"].Content = new Queen(GameID, 30, false, new Position(32, "d", "8"), GameState);      // set black queen
             Fields["e1"].Content = new King(GameID, 31, true, new Position(33, "e", "1"), GameState);        // set white king
             GameState.WhiteKing = (King)Fields["e1"].Content;
             Fields["e8"].Content = new King(GameID, 32, false, new Position(40, "e", "8"), GameState);       // set black king
@@ -155,7 +155,7 @@ namespace ChessApp.Models.Chess
                 {
                     int fieldAndPositionId = ((i * 8) + j + 1);
                     var piece = Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
                     if (piece != null && piece.GetType() != typeof(King))
                     {
                         piece.ControlledSquares.Clear();
@@ -461,28 +461,28 @@ namespace ChessApp.Models.Chess
             switch (move.PromotionTo.PieceNameID)
             {
                 case "qw":
-                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "qb":
-                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "nw":
-                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "nb":
-                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "rw":
-                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false);
+                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
                     break;
                 case "rb":
-                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false);
+                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
                     break;
                 case "bw":
-                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "bb":
-                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition);
+                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
             }
             Fields[move.CurrentPosition.Name].Content = null;

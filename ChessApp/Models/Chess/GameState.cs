@@ -104,7 +104,7 @@ namespace ChessApp.Models.Chess
                 {
                     int fieldAndPositionId = ((i * 8) + j + 1);
                     var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -202,7 +202,7 @@ namespace ChessApp.Models.Chess
                     {
                         int fieldAndPositionId = ((i * 8) + j + 1);
                         var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
-                                        .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                        .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
@@ -249,7 +249,7 @@ namespace ChessApp.Models.Chess
                     for (int j = 0; j < Board.boardSize; j++)
                     {
                         var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
-                                        .FieldColumn.Fields.SingleOrDefault(s => s.FieldID == fieldAndPositionId).Content;
+                                        .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
                         if (piece != null)
                         {
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
