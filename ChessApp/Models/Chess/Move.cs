@@ -18,20 +18,24 @@ namespace ChessApp.Models.Chess
         public string PromotionToID { get; set; }
         public PieceName PromotionTo { get; set; }
 
-        public Move(int gameId, string pieceNameId, int currentPositionId, int newPositionId)
+        public Move(int gameId, string pieceNameId, Position currentPosition, Position newPosition)
         {
             GameID = gameId;
             PieceNameID = pieceNameId;
-            CurrentPositionID = currentPositionId;
-            NewPositionID = newPositionId;
+            CurrentPosition = currentPosition;
+            CurrentPositionID = currentPosition.PositionID;
+            NewPosition = newPosition;
+            NewPositionID = newPosition.PositionID;
         }
 
-        public Move(int gameId, string pieceNameId, int currentPositionId, int newPositionId, string promotionToId)
+        public Move(int gameId, string pieceNameId, Position currentPosition, Position newPosition, string promotionToId)
         {
             GameID = gameId;
             PieceNameID = pieceNameId;
-            CurrentPositionID = currentPositionId;
-            NewPositionID = newPositionId;
+            CurrentPosition = currentPosition;
+            CurrentPositionID = currentPosition.PositionID;
+            NewPosition = newPosition;
+            NewPositionID = newPosition.PositionID;
             PromotionToID = promotionToId;
         }
 

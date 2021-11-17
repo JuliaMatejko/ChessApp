@@ -239,8 +239,8 @@ namespace ChessApp.Models.Chess
                 int fieldAndPositionId = ((file * 8) + rank + 1);
                 while (canMoveInBetween)
                 {
-                    
-                    blockingPositions.Add(new Position(fieldAndPositionId, Board.files[file], Board.ranks[rank]));
+
+                    blockingPositions.Add(new Position(fieldAndPositionId, Game.Chessboard.BoardsFiles[file].File, Game.Chessboard.BoardsRanks[rank].Rank));
                     file += x;
                     rank += y;
                 }

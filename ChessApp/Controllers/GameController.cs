@@ -185,7 +185,7 @@ namespace ChessApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StartNewGame(
-            [Bind("GameID")] Game game)
+             [Bind("GameID, WhitePlayerID, BlackPlayerID")] Game game)
         {
             if (ModelState.IsValid)
             {

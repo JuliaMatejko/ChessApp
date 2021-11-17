@@ -12,10 +12,11 @@ namespace ChessApp.Models.Chess
         public Board Board { get; set; }
         public File File { get; set; }
 
-        public BoardFile(int gameId, string fileId)
+        public BoardFile(int gameId, File file)
         {
             GameID = gameId;
-            FileID = fileId;
+            File = file;
+            FileID = file.FileID;
         }
 
         public BoardFile()

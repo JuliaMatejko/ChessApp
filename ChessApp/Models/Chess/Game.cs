@@ -11,6 +11,9 @@ namespace ChessApp.Models.Chess
 {
     public class Game
     {
+        private static int _nextGameId = 0;
+
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GameID { get; set; }
 
         [Display(Name = "White player")]
@@ -22,20 +25,19 @@ namespace ChessApp.Models.Chess
         public List<Move> Moves { get; set; }//TO DO: dodaj ruch do listy po każdym ruchu
         public static readonly string[] pieceNames = { "qb", "qw", "nw", "nb", "rw", "rb", "bw", "bb", "kw","kb","pw","pb" };
 
-        public Game()
+        public Game(File[] files, Rank[] ranks, Position[] positions, FieldColumn[] fieldColumns)
         {
-            Chessboard = new(GameID);
-            GameState = new(this);
+            _nextGameId += 1;
+            GameID = _nextGameId;
+            Chessboard = new(GameID, files, ranks, positions, fieldColumns);
             Moves = new();
+            GameState = new(this);
         }
 
-        [NotMapped]
-        public Dictionary<string, Field> Fields
+        public Game()
         {
-            get => CreateFieldsDictionary();
-            set => _fields = value;
+
         }
-        private Dictionary<string, Field> _fields;
 
         public void StartGame()
         {
@@ -118,30 +120,30 @@ namespace ChessApp.Models.Chess
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Chessboard.BoardsFiles[i].FileID + "2"].Content = new Pawn(GameID, i + 1, true, new Position((i * 8) + 2, Chessboard.BoardsFiles[i].FileID, "2"), GameState);  // set white pawns
+                Chessboard.BoardsFieldColumns[i].FieldColumn.Fields[1].Content = new Pawn(GameID, i + 1, true, new Position((i * 8) + 2, Chessboard.BoardsFiles[i].File, Chessboard.BoardsRanks[1].Rank), GameState);  // set white pawns
             }
             for (var i = 0; i < Board.boardSize; i++)
             {
-                Fields[Chessboard.BoardsFiles[i].FileID + "7"].Content = new Pawn(GameID, i + 9, false, new Position((i * 8) + 7, Chessboard.BoardsFiles[i].FileID, "7"), GameState);  // set black pawns 
+                Chessboard.BoardsFieldColumns[i].FieldColumn.Fields[6].Content = new Pawn(GameID, i + 9, false, new Position((i * 8) + 7, Chessboard.BoardsFiles[i].File, Chessboard.BoardsRanks[6].Rank), GameState);  // set black pawns 
             }
-            Fields["a1"].Content = new Rook(GameID, 17, true, new Position(1, "a", "1"), GameState);        // set white rooks
-            Fields["h1"].Content = new Rook(GameID, 18, true, new Position(57, "h", "1"), GameState);
-            Fields["a8"].Content = new Rook(GameID, 19, false, new Position(8, "a", "8"), GameState);       // set black rooks
-            Fields["h8"].Content = new Rook(GameID, 20, false, new Position(64, "h", "8"), GameState);
-            Fields["b1"].Content = new Knight(GameID, 21, true, new Position(9, "b", "1"), GameState);      // set white knights
-            Fields["g1"].Content = new Knight(GameID, 22, true, new Position(49, "g", "1"), GameState);
-            Fields["b8"].Content = new Knight(GameID, 23, false, new Position(16, "b", "8"), GameState);     // set black knights
-            Fields["g8"].Content = new Knight(GameID, 24, false, new Position(56, "g", "8"), GameState);
-            Fields["c1"].Content = new Bishop(GameID, 25, true, new Position(17, "c", "1"), GameState);      // set white bishops
-            Fields["f1"].Content = new Bishop(GameID, 26, true, new Position(41, "f", "1"), GameState);
-            Fields["c8"].Content = new Bishop(GameID, 27, false, new Position(24, "c", "8"), GameState);     // set black bishops
-            Fields["f8"].Content = new Bishop(GameID, 28, false, new Position(48, "f", "8"), GameState);
-            Fields["d1"].Content = new Queen(GameID, 29, true, new Position(25, "d", "1"), GameState);       // set white queen
-            Fields["d8"].Content = new Queen(GameID, 30, false, new Position(32, "d", "8"), GameState);      // set black queen
-            Fields["e1"].Content = new King(GameID, 31, true, new Position(33, "e", "1"), GameState);        // set white king
-            GameState.WhiteKing = (King)Fields["e1"].Content;
-            Fields["e8"].Content = new King(GameID, 32, false, new Position(40, "e", "8"), GameState);       // set black king
-            GameState.BlackKing = (King)Fields["e8"].Content;
+            Chessboard.BoardsFieldColumns[0].FieldColumn.Fields[0].Content = new Rook(GameID, 17, true, new Position(1, Chessboard.BoardsFiles[0].File, Chessboard.BoardsRanks[0].Rank), GameState);        // set white rooks
+            Chessboard.BoardsFieldColumns[7].FieldColumn.Fields[0].Content = new Rook(GameID, 18, true, new Position(57, Chessboard.BoardsFiles[7].File, Chessboard.BoardsRanks[0].Rank), GameState);
+            Chessboard.BoardsFieldColumns[0].FieldColumn.Fields[7].Content = new Rook(GameID, 19, false, new Position(8, Chessboard.BoardsFiles[0].File, Chessboard.BoardsRanks[7].Rank), GameState);       // set black rooks
+            Chessboard.BoardsFieldColumns[7].FieldColumn.Fields[7].Content  = new Rook(GameID, 20, false, new Position(64, Chessboard.BoardsFiles[7].File, Chessboard.BoardsRanks[7].Rank), GameState);
+            Chessboard.BoardsFieldColumns[1].FieldColumn.Fields[0].Content = new Knight(GameID, 21, true, new Position(9, Chessboard.BoardsFiles[1].File, Chessboard.BoardsRanks[0].Rank), GameState);      // set white knights
+            Chessboard.BoardsFieldColumns[6].FieldColumn.Fields[0].Content = new Knight(GameID, 22, true, new Position(49, Chessboard.BoardsFiles[6].File, Chessboard.BoardsRanks[0].Rank), GameState);
+            Chessboard.BoardsFieldColumns[1].FieldColumn.Fields[7].Content = new Knight(GameID, 23, false, new Position(16, Chessboard.BoardsFiles[1].File, Chessboard.BoardsRanks[7].Rank), GameState);     // set black knights
+            Chessboard.BoardsFieldColumns[6].FieldColumn.Fields[7].Content = new Knight(GameID, 24, false, new Position(56, Chessboard.BoardsFiles[6].File, Chessboard.BoardsRanks[7].Rank), GameState);
+            Chessboard.BoardsFieldColumns[2].FieldColumn.Fields[0].Content = new Bishop(GameID, 25, true, new Position(17, Chessboard.BoardsFiles[2].File, Chessboard.BoardsRanks[0].Rank), GameState);      // set white bishops
+            Chessboard.BoardsFieldColumns[5].FieldColumn.Fields[0].Content = new Bishop(GameID, 26, true, new Position(41, Chessboard.BoardsFiles[5].File, Chessboard.BoardsRanks[0].Rank), GameState);
+            Chessboard.BoardsFieldColumns[2].FieldColumn.Fields[7].Content = new Bishop(GameID, 27, false, new Position(24, Chessboard.BoardsFiles[2].File, Chessboard.BoardsRanks[7].Rank), GameState);     // set black bishops
+            Chessboard.BoardsFieldColumns[5].FieldColumn.Fields[7].Content = new Bishop(GameID, 28, false, new Position(48, Chessboard.BoardsFiles[5].File, Chessboard.BoardsRanks[7].Rank), GameState);
+            Chessboard.BoardsFieldColumns[3].FieldColumn.Fields[0].Content = new Queen(GameID, 29, true, new Position(25, Chessboard.BoardsFiles[3].File, Chessboard.BoardsRanks[0].Rank), GameState);       // set white queen
+            Chessboard.BoardsFieldColumns[3].FieldColumn.Fields[7].Content = new Queen(GameID, 30, false, new Position(32, Chessboard.BoardsFiles[3].File, Chessboard.BoardsRanks[7].Rank), GameState);      // set black queen
+            Chessboard.BoardsFieldColumns[4].FieldColumn.Fields[0].Content = new King(GameID, 31, true, new Position(33, Chessboard.BoardsFiles[4].File, Chessboard.BoardsRanks[0].Rank), GameState);        // set white king
+            GameState.WhiteKing = (King)Chessboard.BoardsFieldColumns[4].FieldColumn.Fields[0].Content;
+            Chessboard.BoardsFieldColumns[4].FieldColumn.Fields[7].Content = new King(GameID, 32, false, new Position(40, Chessboard.BoardsFiles[4].File, Chessboard.BoardsRanks[7].Rank), GameState);       // set black king
+            GameState.BlackKing = (King)Chessboard.BoardsFieldColumns[4].FieldColumn.Fields[7].Content;
         }
 
         public void RefreshAttackedSquares()
@@ -178,7 +180,7 @@ namespace ChessApp.Models.Chess
             if (!GameState.PlayerResigned && !GameState.PlayerOfferedADraw)
             {
                 FindPieceAndValidateMove(ref chosenMove, ref move, ref piece);
-                ClonePieceAndNewPositionPiece(move.NewPosition.Name, piece, ref pieceCloned, ref newPositionContentCloned, Fields);
+                ClonePieceAndNewPositionPiece(move.NewPosition, piece, ref pieceCloned, ref newPositionContentCloned);
                 ChangeBoard(move, piece);
                 GameState.ResetKingCheckFlag();
                 RefreshAttackedSquares();
@@ -278,33 +280,29 @@ namespace ChessApp.Models.Chess
         public Move StringToMove(string str) // str parameter format ex.: "pw e2 e4" or "pw e7 e8 pw" (if its pawn promotion)
         {
             string[] substrings = str.Split(" ");
-            int currentPositionId = Chessboard.BoardsPositions.Single(s => s.Position.Name == substrings[1]).PositionID;
-            int nextPositionId = Chessboard.BoardsPositions.Single(s => s.Position.Name == substrings[2]).PositionID;
-            Move move = new();
+            Position currentPosition = Chessboard.BoardsPositions.Single(s => s.Position.Name == substrings[1]).Position;
+            Position nextPosition = Chessboard.BoardsPositions.Single(s => s.Position.Name == substrings[2]).Position;
+            Move move;
             if (str.Length == 8)
             {
-                move = new(GameID, substrings[0], currentPositionId, nextPositionId);
+                move = new(GameID, substrings[0], currentPosition, nextPosition);
             }
             else
             {
-                move = new Move(GameID, substrings[0], currentPositionId, nextPositionId, substrings[3]);
+                move = new Move(GameID, substrings[0], currentPosition, nextPosition, substrings[3]);
             }
-            Position currentPosition = new Position(currentPositionId, substrings[1][0].ToString(), substrings[1][1].ToString());
-            Position newPosition = new Position(currentPositionId, substrings[2][0].ToString(), substrings[2][1].ToString());
-            move.CurrentPosition = currentPosition;
-            move.NewPosition = newPosition;
             return move;
         }
 
         public void FindPieceAndValidateMove(ref string chosenMove, ref Move move, ref Piece piece)
         {
-            piece = FindPiece(move.PieceNameID, move.CurrentPosition.Name);
+            piece = FindPiece(move.PieceNameID, move.CurrentPosition);
             while (!MoveIsPossible(piece, move))
             {
                 Console.Write($" It's not a valid move. Choose a differnt piece or/and field: "); // TO DO: przepisz pod javascript (migające na czerwono pole, gdy MoveIsPossible = false
                 chosenMove = Console.ReadLine();
                 move = StringToMove(chosenMove);
-                piece = FindPiece(move.PieceNameID, move.CurrentPosition.Name);
+                piece = FindPiece(move.PieceNameID, move.CurrentPosition);
             }
 
             bool MoveIsPossible(Piece piece, Move move)
@@ -330,10 +328,11 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        public Piece FindPiece(string pieceName, string currentPosition)
+        public Piece FindPiece(string pieceName, Position currentPosition)
         {
-            Piece piece = Fields[currentPosition].Content;
-
+            int indexFile = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == currentPosition.FileID));
+            int indexRank = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == currentPosition.RankID));
+            Piece piece = Chessboard.BoardsFieldColumns[indexFile].FieldColumn.Fields[indexRank].Content;
             if (piece == null)
             {
                 return null;
@@ -345,9 +344,11 @@ namespace ChessApp.Models.Chess
             return null;
         }
 
-        public static void ClonePieceAndNewPositionPiece(string newPosition, Piece piece, ref Piece clonedPiece, ref Piece clonedNewPositionContent, Dictionary<string, Field> fields)
+        public void ClonePieceAndNewPositionPiece(Position newPosition, Piece piece, ref Piece clonedPiece, ref Piece clonedNewPositionContent)//newPosition.File
         {
-            clonedNewPositionContent = fields[newPosition].Content;
+            int indexFile = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == newPosition.FileID));
+            int indexRank = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == newPosition.RankID));
+            clonedNewPositionContent = Chessboard.BoardsFieldColumns[indexFile].FieldColumn.Fields[indexRank].Content;
             if (clonedNewPositionContent != null)
             {
                 clonedNewPositionContent = (Piece)clonedNewPositionContent.Clone();
@@ -388,7 +389,9 @@ namespace ChessApp.Models.Chess
                 else if ((pawn.IsWhite && pawn.Position.RankID == "5" && move.NewPosition.FileID != pawn.Position.FileID)
                          || (!pawn.IsWhite && pawn.Position.RankID == "4" && move.NewPosition.FileID != pawn.Position.FileID))   // en passant capture
                 {
-                    Fields[move.NewPosition.FileID + move.CurrentPosition.RankID].Content = null;
+                    int indexFile = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.NewPosition.FileID));
+                    int indexRank = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.CurrentPosition.RankID));
+                    Chessboard.BoardsFieldColumns[indexFile].FieldColumn.Fields[indexRank].Content = null;
                 }
             }
             else if (piece.GetType() == typeof(King))
@@ -402,8 +405,8 @@ namespace ChessApp.Models.Chess
                                    - Array.IndexOf(Board.files, move.CurrentPosition.FileID);
                 if (Math.Abs(squaresMoved) == 2)   // king castled
                 {
-                    Position oldPosition = new Position();
-                    Position newPosition = new Position();
+                    Position oldPosition = new();
+                    Position newPosition = new();
                     Rook rook;
                     if (squaresMoved == 2)   // king castled king side
                     {
@@ -417,10 +420,14 @@ namespace ChessApp.Models.Chess
                     }
                     oldPosition.RankID = move.NewPosition.RankID;
                     newPosition.RankID = move.NewPosition.RankID;
-                    rook = (Rook)Fields[oldPosition.Name].Content;   // move a rook
+                    int indexFileOld = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == oldPosition.FileID));
+                    int indexRankOld = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == oldPosition.RankID));
+                    rook = (Rook)Chessboard.BoardsFieldColumns[indexFileOld].FieldColumn.Fields[indexRankOld].Content; // move a rook
                     rook.Position = newPosition;
-                    Fields[newPosition.Name].Content = rook;
-                    Fields[oldPosition.Name].Content = null;
+                    int indexFile = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == newPosition.FileID));
+                    int indexRank = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == newPosition.RankID));
+                    Chessboard.BoardsFieldColumns[indexFile].FieldColumn.Fields[indexRank].Content = rook;
+                    Chessboard.BoardsFieldColumns[indexFileOld].FieldColumn.Fields[indexRankOld].Content = null;
                 }
             }
             else if (piece.GetType() == typeof(Rook))
@@ -432,8 +439,13 @@ namespace ChessApp.Models.Chess
                 }
             }
             piece.Position = move.NewPosition;
-            Fields[move.NewPosition.Name].Content = Fields[move.CurrentPosition.Name].Content;   // move piece on a new position
-            Fields[move.CurrentPosition.Name].Content = null;
+            int indexFileNew= Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.NewPosition.FileID));
+            int indexRankNew = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.NewPosition.RankID));
+            int indexFileCurrent = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.CurrentPosition.FileID));
+            int indexRankCurrent = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.CurrentPosition.RankID));
+            Chessboard.BoardsFieldColumns[indexFileNew].FieldColumn.Fields[indexRankNew].Content = Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn
+                                                                                                             .Fields[indexRankCurrent].Content;   // move piece on a new position
+            Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content = null;
         }
 
         public bool OponentAcceptsADraw()      // TO DO: frontend action
@@ -450,40 +462,54 @@ namespace ChessApp.Models.Chess
 
         public void UndoBoardChanges(Move move, Piece pieceCloned, Piece newPositionContentCloned)
         {
-            Fields[move.CurrentPosition.Name].Content = pieceCloned;   // move piece on a previous position
-            Fields[move.NewPosition.Name].Content = newPositionContentCloned;   // restore a previous NewPosition content
+            int indexFileNew = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.NewPosition.FileID));
+            int indexRankNew = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.NewPosition.RankID));
+            int indexFileCurrent = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.CurrentPosition.FileID));
+            int indexRankCurrent = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.CurrentPosition.RankID));
+            Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content = pieceCloned;   // move piece on a previous position
+            Chessboard.BoardsFieldColumns[indexFileNew].FieldColumn.Fields[indexRankNew].Content = newPositionContentCloned;   // restore a previous NewPosition content
         }
 
         public void PawnPromotion(Move move, int pieceId, bool isWhite)
         {
+            int indexFileCurrent = Chessboard.BoardsFiles.IndexOf(Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == move.CurrentPosition.FileID));
+            int indexRankCurrent = Chessboard.BoardsRanks.IndexOf(Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == move.CurrentPosition.RankID));
             switch (move.PromotionTo.PieceNameID)
             {
                 case "qw":
-                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content 
+                              = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "qb":
-                    Fields[move.CurrentPosition.Name].Content = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content 
+                              = new Queen(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "nw":
-                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                              = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "nb":
-                    Fields[move.CurrentPosition.Name].Content = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                               = new Knight(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "rw":
-                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                              = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
                     break;
                 case "rb":
-                    Fields[move.CurrentPosition.Name].Content = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                              = new Rook(GameID, pieceId, isWhite, move.NewPosition, false, GameState);
                     break;
                 case "bw":
-                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                               = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
                 case "bb":
-                    Fields[move.CurrentPosition.Name].Content = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
+                    Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content
+                              = new Bishop(GameID, pieceId, isWhite, move.NewPosition, GameState);
                     break;
             }
-            Fields[move.CurrentPosition.Name].Content = null;
+            Chessboard.BoardsFieldColumns[indexFileCurrent].FieldColumn.Fields[indexRankCurrent].Content = null;
         }
     }
 }
