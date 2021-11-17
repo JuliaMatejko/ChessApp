@@ -3,6 +3,7 @@ using ChessApp.Models.Chess.Pieces;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -11,7 +12,11 @@ namespace ChessApp.Models.Chess
     public class Game
     {
         public int GameID { get; set; }
- 
+
+        [Display(Name = "White player")]
+        public string WhitePlayerID { get; set; }
+        [Display(Name = "Black player")]
+        public string BlackPlayerID { get; set; }
         public Board Chessboard { get; set; }
         public GameState GameState { get; set; } 
         public List<Move> Moves { get; set; }//TO DO: dodaj ruch do listy po każdym ruchu
@@ -20,7 +25,8 @@ namespace ChessApp.Models.Chess
         public Game()
         {
             Chessboard = new(GameID);
-            GameState = new(GameID);
+            GameState = new(this);
+            Moves = new();
         }
 
         [NotMapped]
@@ -33,15 +39,6 @@ namespace ChessApp.Models.Chess
 
         public void StartGame()
         {
-            Console.WriteLine(" Let's play chess!");
-            Console.WriteLine("");
-            Console.WriteLine(" 1. To make a move, type a piece, current piece position and new piece position separated by a space, ex. 'pw e2 e4'");
-            Console.WriteLine(" 2. To promote a pawn, type, ex. 'pw e7 e8 Q'");
-            Console.WriteLine("    You can choose qb,qw, nw, nb,rw,rb,bw,bb, where each first letter corresponds to piece name and second letter to color: b - bishop, n - knight, r - rook, q - queen so ex. qw is white queen");
-            Console.WriteLine(" 3. To castle, just move your king two squares and rook will go on the right place");
-            Console.WriteLine(" 4. To resign, type 'resign'");
-            Console.WriteLine(" 5. To propose a draw, type 'draw'");//d
-
             SetStartingBoard();
 
             RefreshAttackedSquares();
@@ -87,7 +84,7 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        private Dictionary<string, Field> CreateFieldsDictionary()
+        public Dictionary<string, Field> CreateFieldsDictionary()
         {
             Dictionary<string, Field> fields = new();
             int i = 0;
@@ -117,7 +114,7 @@ namespace ChessApp.Models.Chess
 
         //TO DO someday: 1. SetBoard() -from standard board notation 2. Do an analysis board - without time, ability to undo a move
 
-        private void SetStartingBoard() // set pieces on the starting position on the board
+        public void SetStartingBoard() // set pieces on the starting position on the board
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
@@ -147,7 +144,7 @@ namespace ChessApp.Models.Chess
             GameState.BlackKing = (King)Fields["e8"].Content;
         }
 
-        private void RefreshAttackedSquares()
+        public void RefreshAttackedSquares()
         {
             for (var i = 0; i < Board.boardSize; i++)
             {
@@ -169,7 +166,7 @@ namespace ChessApp.Models.Chess
             GameState.BlackKing.NextAvailablePositions = GameState.BlackKing.ReturnAvailablePieceMoves(Chessboard);
         }
 
-        private void MakeAMove()
+        public void MakeAMove()
         {
             string chosenMove = null;
             Move move = null;
@@ -194,6 +191,7 @@ namespace ChessApp.Models.Chess
                     Console.WriteLine($" It's not a valid move. Your king would be in check. Choose a differnt piece or/and field.");
                     MakeAMove();
                 }
+                Moves.Add(move);
             }
             else if (GameState.PlayerOfferedADraw)
             {
@@ -211,7 +209,7 @@ namespace ChessApp.Models.Chess
         }
 
         //    TO DO : Rewrite to javascript client side validation!!   use javascript and frontend to get the input and change parameters values in this method
-        private void GetInputAndValidateIt(ref string chosenMove, ref Move move)
+        public void GetInputAndValidateIt(ref string chosenMove, ref Move move)
         {
             Console.Write($" {GameState.CurrentPlayer} turn, make a move: ");  // TO DO: frontend action
             chosenMove = Console.ReadLine();
@@ -222,7 +220,7 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        private bool UserInputIsValid(string chosenMove, ref Move move) //TO DO: rewrite using regex
+        public bool UserInputIsValid(string chosenMove, ref Move move) //TO DO: rewrite using regex
         {
             if (chosenMove.Length == 8 
                 && chosenMove[2] == ' '
@@ -277,7 +275,7 @@ namespace ChessApp.Models.Chess
             return false;
         }
 
-        private Move StringToMove(string str) // str parameter format ex.: "pw e2 e4" or "pw e7 e8 pw" (if its pawn promotion)
+        public Move StringToMove(string str) // str parameter format ex.: "pw e2 e4" or "pw e7 e8 pw" (if its pawn promotion)
         {
             string[] substrings = str.Split(" ");
             int currentPositionId = Chessboard.BoardsPositions.Single(s => s.Position.Name == substrings[1]).PositionID;
@@ -298,7 +296,7 @@ namespace ChessApp.Models.Chess
             return move;
         }
 
-        private void FindPieceAndValidateMove(ref string chosenMove, ref Move move, ref Piece piece)
+        public void FindPieceAndValidateMove(ref string chosenMove, ref Move move, ref Piece piece)
         {
             piece = FindPiece(move.PieceNameID, move.CurrentPosition.Name);
             while (!MoveIsPossible(piece, move))
@@ -332,7 +330,7 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        private Piece FindPiece(string pieceName, string currentPosition)
+        public Piece FindPiece(string pieceName, string currentPosition)
         {
             Piece piece = Fields[currentPosition].Content;
 
@@ -347,7 +345,7 @@ namespace ChessApp.Models.Chess
             return null;
         }
 
-        private static void ClonePieceAndNewPositionPiece(string newPosition, Piece piece, ref Piece clonedPiece, ref Piece clonedNewPositionContent, Dictionary<string, Field> fields)
+        public static void ClonePieceAndNewPositionPiece(string newPosition, Piece piece, ref Piece clonedPiece, ref Piece clonedNewPositionContent, Dictionary<string, Field> fields)
         {
             clonedNewPositionContent = fields[newPosition].Content;
             if (clonedNewPositionContent != null)
@@ -361,7 +359,7 @@ namespace ChessApp.Models.Chess
             clonedPiece = (Piece)piece.Clone();
         }
 
-        private void ChangeBoard(Move move, Piece piece)
+        public void ChangeBoard(Move move, Piece piece)
         {
             if (piece.GetType() == typeof(Pawn))
             {
@@ -438,7 +436,7 @@ namespace ChessApp.Models.Chess
             Fields[move.CurrentPosition.Name].Content = null;
         }
 
-        private bool OponentAcceptsADraw()      // TO DO: frontend action
+        public bool OponentAcceptsADraw()      // TO DO: frontend action
         {
             Console.Write($" {GameState.CurrentPlayer} offers a draw. Accept a draw? [yes|no]: ");  // TO DO: frontend action
             string acceptADraw = Console.ReadLine();//
@@ -450,13 +448,13 @@ namespace ChessApp.Models.Chess
             return acceptADraw == "yes";
         }
 
-        private void UndoBoardChanges(Move move, Piece pieceCloned, Piece newPositionContentCloned)
+        public void UndoBoardChanges(Move move, Piece pieceCloned, Piece newPositionContentCloned)
         {
             Fields[move.CurrentPosition.Name].Content = pieceCloned;   // move piece on a previous position
             Fields[move.NewPosition.Name].Content = newPositionContentCloned;   // restore a previous NewPosition content
         }
 
-        private void PawnPromotion(Move move, int pieceId, bool isWhite)
+        public void PawnPromotion(Move move, int pieceId, bool isWhite)
         {
             switch (move.PromotionTo.PieceNameID)
             {

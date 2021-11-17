@@ -42,9 +42,10 @@ namespace ChessApp.Models.Chess
         public bool PlayerResigned { get; set; }
         public bool PlayerOfferedADraw { get; set; }
 
-        public GameState(int gameId)
+        public GameState(Game game)
         {
-            GameID = gameId;
+            Game = game;
+            GameID = game.GameID;
             WhiteKingID = null;
             BlackKingID = null;
             WhitePawnThatCanBeTakenByEnPassantMoveID = null;

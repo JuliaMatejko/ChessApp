@@ -11,10 +11,11 @@ namespace ChessApp.Models.Chess
         public Board Board { get; set; }
         public FieldColumn FieldColumn { get; set; }
 
-        public BoardFieldColumn(int gameId, int fieldColumnId)
+        public BoardFieldColumn(int gameId, FieldColumn fieldColumn)
         {
             GameID = gameId;
-            FieldColumnID = fieldColumnId;
+            FieldColumn = fieldColumn;
+            FieldColumnID = fieldColumn.FieldColumnID;
         }
 
         public BoardFieldColumn()

@@ -88,6 +88,18 @@ namespace ChessApp.Data
             }
             context.SaveChanges();
 
+            //Add fields to fieldcolumns
+            int countFields = 0;
+            foreach (var fieldColumn in fieldColumns)
+            {
+                for (int i = 0; i < Board.boardSize; i++)
+                {
+                    fieldColumn.Fields.Add(fields[countFields]);
+                    countFields++;
+                }
+            }
+            context.SaveChanges();
+
             //Add PieceNames
             var pieceNames = new PieceName[Piece.pieceNames.Length];
             for (int i = 0; i < Piece.pieceNames.Length; i++)

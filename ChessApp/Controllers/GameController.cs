@@ -21,10 +21,15 @@ namespace ChessApp.Controllers
         }
 
         // GET: Game
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+        /*
+        public async Task<IActionResult> AllGames()
         {
             return View(await _context.Games.ToListAsync());
-        }
+        }*/
 
         // GET: Game/Play/5        *Details
         public async Task<IActionResult> Play(int? gameId)
@@ -35,7 +40,7 @@ namespace ChessApp.Controllers
             }
 
             var game = await _context.Games.Where(s => s.GameID == gameId)
-                /*.Include(s => s.Chessboard)
+                .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFiles)
                         .ThenInclude(e => e.File)
                 .Include(s => s.Chessboard)
@@ -49,7 +54,7 @@ namespace ChessApp.Controllers
                         .ThenInclude(e => e.FieldColumn)
                             .ThenInclude(e => e.Fields)
                                 .ThenInclude(e => e.Content)
-                                    .ThenInclude(e => e.ControlledSquares)*/
+                                    .ThenInclude(e => e.ControlledSquares)
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFieldColumns)
                         .ThenInclude(e => e.FieldColumn)
@@ -102,8 +107,72 @@ namespace ChessApp.Controllers
             {
                 return NotFound();
             }
+            game.SetStartingBoard();
+            game.RefreshAttackedSquares();
+            /*
+            while (!game.GameState.IsAWin && !game.GameState.IsADraw)
+            {
+                game.MakeAMove();
+                game.RefreshAttackedSquares();
+                if (game.GameState.PlayersAgreedToADraw)
+                {
+                    Console.WriteLine(" Players agreed to a draw.");//d
+                    Console.WriteLine(" It's a draw!");//d
+                }
+                else if (GameState.PlayerResigned)
+                {
+                    Console.Write($" {GameState.CurrentPlayer} resigned.");//d
+                    GameState.ChangeTurns();
+                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
+                }
+                else if (GameState.IsACheckmate)
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+
+                    Console.WriteLine(" Checkmate.");//d
+                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
+                }
+                else if (GameState.IsAStalemate)
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+
+                    Console.WriteLine(" Stalemate.");//d
+                    Console.WriteLine(" It's a draw!");//d
+                }
+                else
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+                    GameState.ResetEnPassantFlag();
+                    GameState.ResetCurrentPiecesAttackingTheKing();
+                    GameState.ChangeTurns();
+                }
+            }*/
 
             return View(game);
+        }
+        public IActionResult Draw()
+        {
+            return View();
+        }
+
+        public IActionResult Checkmate()
+        {
+            return View();
+        }
+
+        public IActionResult AcceptOrDenyADraw()
+        {
+            return View();
+        }
+
+        public IActionResult Resign()
+        {
+            return View();
+        }
+
+        public IActionResult OfferADraw()
+        {
+            return View();
         }
 
         // GET: Game/StartNewGame       *Create       
@@ -126,6 +195,53 @@ namespace ChessApp.Controllers
             }
             return View(game);
         }
+
+        /*public void StartGame()
+        {
+           // SetStartingBoard(); //done
+
+           // RefreshAttackedSquares(); //done
+
+           // BoardView.PrintBoard(Chessboard);//d  done in controller
+           /*
+            while (!GameState.IsAWin && !GameState.IsADraw)
+            {
+                MakeAMove();
+                RefreshAttackedSquares();
+                if (GameState.PlayersAgreedToADraw)
+                {
+                    Console.WriteLine(" Players agreed to a draw.");//d
+                    Console.WriteLine(" It's a draw!");//d
+                }
+                else if (GameState.PlayerResigned)
+                {
+                    Console.Write($" {GameState.CurrentPlayer} resigned.");//d
+                    GameState.ChangeTurns();
+                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
+                }
+                else if (GameState.IsACheckmate)
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+
+                    Console.WriteLine(" Checkmate.");//d
+                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
+                }
+                else if (GameState.IsAStalemate)
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+
+                    Console.WriteLine(" Stalemate.");//d
+                    Console.WriteLine(" It's a draw!");//d
+                }
+                else
+                {
+                    BoardView.PrintBoard(Chessboard);//d
+                    GameState.ResetEnPassantFlag();
+                    GameState.ResetCurrentPiecesAttackingTheKing();
+                    GameState.ChangeTurns();
+                }
+            }
+        }*/
 
         private bool GameExists(int id)
         {

@@ -38,7 +38,7 @@ namespace ChessApp.Models.Chess
             List<BoardFieldColumn> boardFieldColumns = new();
             for (int i = 0; i < files.Length; i++)
             {
-                boardFieldColumns.Add(new BoardFieldColumn(GameID, i + 1));
+                boardFieldColumns.Add(new BoardFieldColumn(GameID, new FieldColumn(GameID)));
             }
             return boardFieldColumns;
         }
