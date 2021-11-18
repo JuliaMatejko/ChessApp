@@ -32,6 +32,18 @@ namespace ChessApp.Models.Chess
             r1, r2, r3, r4, r5, r6, r7, r8
         }
 
+        private enum PositionIndex
+        {
+            a1, a2, a3, a4, a5, a6, a7, a8,
+            b1, b2, b3, b4, b5, b6, b7, b8,
+            c1, c2, c3, c4, c5, c6, c7, c8,
+            d1, d2, d3, d4, d5, d6, d7, d8,
+            e1, e2, e3, e4, e5, e6, e7, e8,
+            f1, f2, f3, f4, f5, f6, f7, f8,
+            g1, g2, g3, g4, g5, g6, g7, g8,
+            h1, h2, h3, h4, h5, h6, h7, h8
+        }
+
         public int GameID { get; set; }
         [Display(Name = "First Player")]
         public string FirstPlayerID { get; set; }
@@ -108,82 +120,82 @@ namespace ChessApp.Models.Chess
         {
             // set white pawns
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw1, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw1, true, Chessboard.BoardsPositions[(int)PositionIndex.a2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.b].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw2, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw2, true, Chessboard.BoardsPositions[(int)PositionIndex.b2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.c].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw3, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw3, true, Chessboard.BoardsPositions[(int)PositionIndex.c2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.d].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw4, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw4, true, Chessboard.BoardsPositions[(int)PositionIndex.d2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw5, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw5, true, Chessboard.BoardsPositions[(int)PositionIndex.e2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.f].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw6, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw6, true, Chessboard.BoardsPositions[(int)PositionIndex.f2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.g].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw7, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw7, true, Chessboard.BoardsPositions[(int)PositionIndex.g2].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.h].FieldColumn.Fields[(int)RankIndex.r2].Content
-                = new Pawn(GameID, (int)PieceId.pw8, true, Chessboard.BoardsPositions[(int)RankIndex.r2].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pw8, true, Chessboard.BoardsPositions[(int)PositionIndex.h2].Position, GameState);
             // set black pawns 
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb1, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb1, false, Chessboard.BoardsPositions[(int)PositionIndex.a8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.b].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb2, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb2, false, Chessboard.BoardsPositions[(int)PositionIndex.b8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.c].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb3, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb3, false, Chessboard.BoardsPositions[(int)PositionIndex.c8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.d].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb4, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb4, false, Chessboard.BoardsPositions[(int)PositionIndex.d8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb5, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb5, false, Chessboard.BoardsPositions[(int)PositionIndex.e8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.f].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb6, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb6, false, Chessboard.BoardsPositions[(int)PositionIndex.f8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.g].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb7, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb7, false, Chessboard.BoardsPositions[(int)PositionIndex.g8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.h].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb8, false, Chessboard.BoardsPositions[(int)RankIndex.r7].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb8, false, Chessboard.BoardsPositions[(int)PositionIndex.h8].Position, GameState);
             // set white rooks
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Rook(GameID, (int)PieceId.rw1, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Rook(GameID, (int)PieceId.rw1, true, Chessboard.BoardsPositions[(int)PositionIndex.a1].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.h].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Rook(GameID, (int)PieceId.rw2, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Rook(GameID, (int)PieceId.rw2, true, Chessboard.BoardsPositions[(int)PositionIndex.h1].Position, GameState);
             // set black rooks
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Rook(GameID, (int)PieceId.rb1, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Rook(GameID, (int)PieceId.rb1, false, Chessboard.BoardsPositions[(int)PositionIndex.a8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.h].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Rook(GameID, (int)PieceId.rb2, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Rook(GameID, (int)PieceId.rb2, false, Chessboard.BoardsPositions[(int)PositionIndex.h8].Position, GameState);
             // set white knights
             Chessboard.BoardsFieldColumns[(int)FileIndex.b].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Knight(GameID, (int)PieceId.nw1, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Knight(GameID, (int)PieceId.nw1, true, Chessboard.BoardsPositions[(int)PositionIndex.b1].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.g].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Knight(GameID, (int)PieceId.nw2, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Knight(GameID, (int)PieceId.nw2, true, Chessboard.BoardsPositions[(int)PositionIndex.g1].Position, GameState);
             // set black knights
             Chessboard.BoardsFieldColumns[(int)FileIndex.b].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Knight(GameID, (int)PieceId.nb1, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Knight(GameID, (int)PieceId.nb1, false, Chessboard.BoardsPositions[(int)PositionIndex.b8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.g].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Knight(GameID, (int)PieceId.nb2, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Knight(GameID, (int)PieceId.nb2, false, Chessboard.BoardsPositions[(int)PositionIndex.g8].Position, GameState);
             // set white bishops
             Chessboard.BoardsFieldColumns[(int)FileIndex.c].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Bishop(GameID, (int)PieceId.bw1, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Bishop(GameID, (int)PieceId.bw1, true, Chessboard.BoardsPositions[(int)PositionIndex.c1].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.f].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Bishop(GameID, (int)PieceId.bw2, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Bishop(GameID, (int)PieceId.bw2, true, Chessboard.BoardsPositions[(int)PositionIndex.f1].Position, GameState);
             // set black bishops
             Chessboard.BoardsFieldColumns[(int)FileIndex.c].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Bishop(GameID, (int)PieceId.bb1, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Bishop(GameID, (int)PieceId.bb1, false, Chessboard.BoardsPositions[(int)PositionIndex.c8].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.f].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Bishop(GameID, (int)PieceId.bb2, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Bishop(GameID, (int)PieceId.bb2, false, Chessboard.BoardsPositions[(int)PositionIndex.f8].Position, GameState);
             // set white queen
             Chessboard.BoardsFieldColumns[(int)FileIndex.d].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new Queen(GameID, (int)PieceId.qw, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new Queen(GameID, (int)PieceId.qw, true, Chessboard.BoardsPositions[(int)PositionIndex.d1].Position, GameState);
             // set black queen
             Chessboard.BoardsFieldColumns[(int)FileIndex.d].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new Queen(GameID, (int)PieceId.qb, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new Queen(GameID, (int)PieceId.qb, false, Chessboard.BoardsPositions[(int)PositionIndex.d8].Position, GameState);
             // set white king
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r1].Content
-                = new King(GameID, (int)PieceId.kw, true, Chessboard.BoardsPositions[(int)RankIndex.r1].Position, GameState);
+                = new King(GameID, (int)PieceId.kw, true, Chessboard.BoardsPositions[(int)PositionIndex.e1].Position, GameState);
             GameState.WhiteKing
                 = (King)Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r1].Content;
             // set black king
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r8].Content
-                = new King(GameID, (int)PieceId.kb, false, Chessboard.BoardsPositions[(int)RankIndex.r8].Position, GameState);
+                = new King(GameID, (int)PieceId.kb, false, Chessboard.BoardsPositions[(int)PositionIndex.e8].Position, GameState);
             GameState.BlackKing
                 = (King)Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r8].Content;
         }

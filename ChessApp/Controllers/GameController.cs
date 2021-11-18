@@ -41,12 +41,12 @@ namespace ChessApp.Controllers
             }
 
             var game = await _context.Games.Where(s => s.GameID == gameId)
-                /*.Include(s => s.Chessboard)
+                .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFiles)
                         .ThenInclude(e => e.File)
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsRanks)
-                        .ThenInclude(e => e.Rank)*/
+                        .ThenInclude(e => e.Rank)
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsPositions)
                         .ThenInclude(e => e.Position)
@@ -114,7 +114,7 @@ namespace ChessApp.Controllers
                 return NotFound();
             }
             game.SetStartingBoard();
-            //game.RefreshAttackedSquares();
+            game.RefreshAttackedSquares();
             /*
             while (!game.GameState.IsAWin && !game.GameState.IsADraw)
             {

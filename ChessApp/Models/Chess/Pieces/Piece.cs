@@ -35,8 +35,8 @@ namespace ChessApp.Models.Chess.Pieces
         
         public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Board board)
         {
-            int fileIndex = Array.IndexOf(Board.files, Position.FileID);
-            int rankIndex = Array.IndexOf(Board.ranks, Position.RankID);
+            int fileIndex = GameState.Game.Chessboard.BoardsFiles.IndexOf(GameState.Game.Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == Position.FileID));
+            int rankIndex = GameState.Game.Chessboard.BoardsRanks.IndexOf(GameState.Game.Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == Position.RankID));
             HashSet<NextAvailablePosition> positions = new();
             positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
             return positions;

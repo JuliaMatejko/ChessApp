@@ -77,12 +77,8 @@ namespace ChessApp.Models.Chess.Pieces
             void CastleKingMove(int x, int file, int rank)
             {
                 int z = x == 2 ? 1 : -1;
-                int fieldId = (((file + z) * 8) + rank + 1);
-                int sfieldId = (((file + x) * 8) + rank + 1);
-                Field field = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + z + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldId);
-                Field sfield = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == file + x + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == sfieldId);
+                Field field = board.BoardsFieldColumns[file + z].FieldColumn.Fields[0];
+                Field sfield = board.BoardsFieldColumns[file + x].FieldColumn.Fields[0];
 
                 if (field.Content == null && sfield.Content == null)
                 {
