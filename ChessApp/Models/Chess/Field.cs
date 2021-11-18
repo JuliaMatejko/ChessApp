@@ -17,9 +17,10 @@ namespace ChessApp.Models.Chess
         public int FieldColumnID { get; set; }
         public FieldColumn FieldColumn { get; set; }
 
-        public Field(int positionId, int fieldColumnId, int? contentId)
+        public Field(Position position, int fieldColumnId, int? contentId)
         {
-            PositionID = positionId;
+            Position = position;
+            PositionID = position.PositionID;
             FieldColumnID = fieldColumnId;
             PieceID = contentId;
         }

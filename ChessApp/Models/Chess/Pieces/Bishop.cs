@@ -128,7 +128,7 @@ namespace ChessApp.Models.Chess.Pieces
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new(fieldAndPositionId, file + x + 1, contentId)
+            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, file + x + 1, contentId)
             {
                 Content = contentId != null ? content : null
             };

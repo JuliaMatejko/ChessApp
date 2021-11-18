@@ -78,7 +78,7 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    fields[count] = new Field(positions[count].PositionID, fieldColumns[i].FieldColumnID, contentId: null);
+                    fields[count] = new Field(positions[count], fieldColumns[i].FieldColumnID, contentId: null);
                     count++;
                 }
             }
