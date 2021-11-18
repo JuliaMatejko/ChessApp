@@ -1,5 +1,6 @@
 ﻿using ChessApp.Data;
 using ChessApp.Models.Chess;
+using ChessApp.Models.Chess.BoardProperties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,7 @@ namespace ChessApp.Controllers
             }
 
             var game = await _context.Games.Where(s => s.GameID == gameId)
-                .Include(s => s.Chessboard)
+                /*.Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFiles)
                         .ThenInclude(e => e.File)
                 .Include(s => s.Chessboard)
@@ -99,7 +100,7 @@ namespace ChessApp.Controllers
                       .ThenInclude(e => e.NewPosition)
                   .Include(s => s.Moves)
                       .ThenInclude(e => e.PromotionTo)
-                  .AsSplitQuery()
+                  .AsSplitQuery()*/
                   .AsNoTracking()
                   .FirstOrDefaultAsync(m => m.GameID == gameId);
 
@@ -107,8 +108,8 @@ namespace ChessApp.Controllers
             {
                 return NotFound();
             }
-            game.SetStartingBoard();
-            game.RefreshAttackedSquares();
+            //game.SetStartingBoard();
+            //game.RefreshAttackedSquares();
             /*
             while (!game.GameState.IsAWin && !game.GameState.IsADraw)
             {
@@ -147,7 +148,7 @@ namespace ChessApp.Controllers
                     GameState.ChangeTurns();
                 }
             }*/
-
+            
             return View(game);
         }
         public IActionResult Draw()
@@ -187,13 +188,20 @@ namespace ChessApp.Controllers
         public async Task<IActionResult> StartNewGame(
              [Bind("GameID, WhitePlayerID, BlackPlayerID")] Game game)
         {
+
+            Game newGame = new(_context.Files.ToArray(),
+                               _context.Ranks.ToArray(),
+                               _context.Positions.ToArray(),
+                               _context.FieldColumns.ToArray());
+            newGame.WhitePlayerID = game.WhitePlayerID;
+            newGame.BlackPlayerID = game.BlackPlayerID;
             if (ModelState.IsValid)
             {
-                _context.Add(game);
+                _context.Add(newGame);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Play));
+                return RedirectToAction(nameof(Play), new { newGame.GameID });
             }
-            return View(game);
+            return RedirectToAction(nameof(Index));
         }
 
         /*public void StartGame()

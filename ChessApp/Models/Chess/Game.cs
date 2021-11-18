@@ -1,6 +1,5 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,9 +10,9 @@ namespace ChessApp.Models.Chess
 {
     public class Game
     {
-        private static int _nextGameId = 0;
+        //private static int _nextGameId = 0;
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int GameID { get; set; }
 
         [Display(Name = "White player")]
@@ -22,13 +21,13 @@ namespace ChessApp.Models.Chess
         public string BlackPlayerID { get; set; }
         public Board Chessboard { get; set; }
         public GameState GameState { get; set; } 
-        public List<Move> Moves { get; set; }//TO DO: dodaj ruch do listy po każdym ruchu
+        public List<Move> Moves { get; set; }
         public static readonly string[] pieceNames = { "qb", "qw", "nw", "nb", "rw", "rb", "bw", "bb", "kw","kb","pw","pb" };
 
         public Game(File[] files, Rank[] ranks, Position[] positions, FieldColumn[] fieldColumns)
         {
-            _nextGameId += 1;
-            GameID = _nextGameId;
+            //_nextGameId += 1;
+            //GameID = _nextGameId;
             Chessboard = new(GameID, files, ranks, positions, fieldColumns);
             Moves = new();
             GameState = new(this);
