@@ -24,16 +24,16 @@ namespace ChessApp.Models.Chess
         [Required]
         public List<BoardFieldColumn> BoardsFieldColumns { get; set; }
 
-        public Board(int gameId, File[] files, Rank[]ranks, Position[] positions, FieldColumn[] fieldColumns)
+        public Board(int gameId, File[] files, Rank[]ranks, Position[] positions, Field[] fields, FieldColumn[] fieldColumns)
         {
             GameID = gameId;
             BoardsFiles = AddBoardFiles(files);
             BoardsRanks = AddBoardRanks(ranks);
             BoardsPositions = AddBoardPositions(positions);
-            BoardsFieldColumns = AddBoardFieldColumns(fieldColumns);
+            BoardsFieldColumns = AddBoardFieldColumns(fieldColumns, fields);
         }
 
-        private List<BoardFieldColumn> AddBoardFieldColumns(FieldColumn[] fieldColumns)
+        private List<BoardFieldColumn> AddBoardFieldColumns(FieldColumn[] fieldColumns, Field[] fields)
         {
             List<BoardFieldColumn> boardFieldColumns = new();
             foreach (var fieldColumn in fieldColumns)
@@ -48,7 +48,7 @@ namespace ChessApp.Models.Chess
             List<BoardPosition> boardsPositions = new();
             foreach (var position in positions)
             {
-                boardsPositions.Add(new BoardPosition(GameID, position.PositionID));
+                boardsPositions.Add(new BoardPosition(GameID, position));
             }
             return boardsPositions;
         }

@@ -13,14 +13,14 @@
                 <form asp-action="StartNewGame">    <!--TO DO: Add option: random color -->
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="WhitePlayerID" class="control-label"></label>
-                        <input asp-for="WhitePlayerID" class="form-control" />
-                        <span asp-validation-for="WhitePlayerID" class="text-danger"></span>
+                        <label asp-for="FirstPlayerID" class="control-label"></label>
+                        <input asp-for="FirstPlayerID" class="form-control" />
+                        <span asp-validation-for="FirstPlayerID" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="BlackPlayerID" class="control-label"></label>
-                        <input asp-for="BlackPlayerID" class="form-control" />
-                        <span asp-validation-for="BlackPlayerID" class="text-danger"></span>
+                        <label asp-for="SecondPlayerID" class="control-label"></label>
+                        <input asp-for="SecondPlayerID" class="form-control" />
+                        <span asp-validation-for="SecondPlayerID" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Start" class="btn btn-primary" />

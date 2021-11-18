@@ -46,7 +46,7 @@ namespace ChessApp.Controllers
                         .ThenInclude(e => e.File)
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsRanks)
-                        .ThenInclude(e => e.Rank)
+                        .ThenInclude(e => e.Rank)*/
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsPositions)
                         .ThenInclude(e => e.Position)
@@ -62,7 +62,7 @@ namespace ChessApp.Controllers
                             .ThenInclude(e => e.Fields)
                                 .ThenInclude(e => e.Content)
                                     .ThenInclude(e => e.NextAvailablePositions)
-                 .Include(s => s.Chessboard)
+                 /*.Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFieldColumns)
                         .ThenInclude(e => e.FieldColumn)
                             .ThenInclude(e => e.Fields)
@@ -79,13 +79,13 @@ namespace ChessApp.Controllers
                             .ThenInclude(e => e.FieldColumn)
                                 .ThenInclude(e => e.Fields)
                                     .ThenInclude(e => e.Content)
-                                        .ThenInclude(e => e.Position)
+                                        .ThenInclude(e => e.Position)*/
 
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.WhiteKing)
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.BlackKing)
-                  .Include(s => s.GameState)
+                  .Include(s => s.GameState)/*
                       .ThenInclude(e => e.WhitePawnThatCanBeTakenByEnPassantMove)
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.BlackPawnThatCanBeTakenByEnPassantMove)
@@ -99,8 +99,8 @@ namespace ChessApp.Controllers
                   .Include(s => s.Moves)
                       .ThenInclude(e => e.NewPosition)
                   .Include(s => s.Moves)
-                      .ThenInclude(e => e.PromotionTo)
-                  .AsSplitQuery()*/
+                      .ThenInclude(e => e.PromotionTo)*/
+                  .AsSplitQuery()
                   .AsNoTracking()
                   .FirstOrDefaultAsync(m => m.GameID == gameId);
 
@@ -108,7 +108,7 @@ namespace ChessApp.Controllers
             {
                 return NotFound();
             }
-            //game.SetStartingBoard();
+            game.SetStartingBoard();
             //game.RefreshAttackedSquares();
             /*
             while (!game.GameState.IsAWin && !game.GameState.IsADraw)
@@ -186,15 +186,15 @@ namespace ChessApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> StartNewGame(
-             [Bind("GameID, WhitePlayerID, BlackPlayerID")] Game game)
+             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
         {
-
             Game newGame = new(_context.Files.ToArray(),
                                _context.Ranks.ToArray(),
                                _context.Positions.ToArray(),
+                               _context.Fields.ToArray(),
                                _context.FieldColumns.ToArray());
-            newGame.WhitePlayerID = game.WhitePlayerID;
-            newGame.BlackPlayerID = game.BlackPlayerID;
+            newGame.FirstPlayerID = game.FirstPlayerID;
+            newGame.SecondPlayerID = game.SecondPlayerID;
             if (ModelState.IsValid)
             {
                 _context.Add(newGame);

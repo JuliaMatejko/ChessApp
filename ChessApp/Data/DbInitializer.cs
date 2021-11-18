@@ -101,7 +101,7 @@ namespace ChessApp.Data
             context.SaveChanges();
 
             //Add Game
-            var game = new Game(files, ranks, positions, fieldColumns);
+            var game = new Game(files, ranks, positions, fields, fieldColumns);
             context.Games.Add(game);
             context.SaveChanges();
   

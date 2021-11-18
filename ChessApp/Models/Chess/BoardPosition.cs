@@ -12,10 +12,11 @@ namespace ChessApp.Models.Chess
         public Board Board { get; set; }
         public Position Position { get; set; }
 
-        public BoardPosition(int gameId, int positionId)
+        public BoardPosition(int gameId, Position position)
         {
             GameID = gameId;
-            PositionID = positionId;
+            Position = position;
+            PositionID = position.PositionID;
         }
 
         public BoardPosition()
