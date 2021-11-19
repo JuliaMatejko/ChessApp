@@ -38,11 +38,11 @@ namespace ChessApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {   
-            modelBuilder.Entity<Position>()
-                .HasOne(i => i.Piece)
-                .WithOne(p => p.Position)
-                .HasForeignKey<Piece>(i => i.PositionID)
-                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Piece>()
+                .HasOne(i => i.Position)
+                .WithOne(p => p.Piece)
+                .HasForeignKey<Position>(i => i.PieceID)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Position>()
                 .HasOne(i => i.Field)

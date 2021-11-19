@@ -19,6 +19,7 @@ namespace ChessApp.Models.Chess.Pieces
             PieceID = pieceId;
             IsWhite = isWhite;
             Position = position;
+            PositionID = position.PositionID;
             PieceNameID = isWhite ? PieceNameID = pieceNames[3]: PieceNameID = pieceNames[2];
             IsFirstMove = true;
             GameState = gameState;

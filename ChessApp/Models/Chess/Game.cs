@@ -3,9 +3,7 @@ using ChessApp.Models.Chess.Pieces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using static ChessApp.Models.Chess.GameState;
 
 namespace ChessApp.Models.Chess
 {
@@ -137,21 +135,21 @@ namespace ChessApp.Models.Chess
                 = new Pawn(GameID, (int)PieceId.pw8, true, Chessboard.BoardsPositions[(int)PositionIndex.h2].Position, GameState);
             // set black pawns 
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb1, false, Chessboard.BoardsPositions[(int)PositionIndex.a8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb1, false, Chessboard.BoardsPositions[(int)PositionIndex.a7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.b].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb2, false, Chessboard.BoardsPositions[(int)PositionIndex.b8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb2, false, Chessboard.BoardsPositions[(int)PositionIndex.b7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.c].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb3, false, Chessboard.BoardsPositions[(int)PositionIndex.c8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb3, false, Chessboard.BoardsPositions[(int)PositionIndex.c7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.d].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb4, false, Chessboard.BoardsPositions[(int)PositionIndex.d8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb4, false, Chessboard.BoardsPositions[(int)PositionIndex.d7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb5, false, Chessboard.BoardsPositions[(int)PositionIndex.e8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb5, false, Chessboard.BoardsPositions[(int)PositionIndex.e7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.f].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb6, false, Chessboard.BoardsPositions[(int)PositionIndex.f8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb6, false, Chessboard.BoardsPositions[(int)PositionIndex.f7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.g].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb7, false, Chessboard.BoardsPositions[(int)PositionIndex.g8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb7, false, Chessboard.BoardsPositions[(int)PositionIndex.g7].Position, GameState);
             Chessboard.BoardsFieldColumns[(int)FileIndex.h].FieldColumn.Fields[(int)RankIndex.r7].Content
-                = new Pawn(GameID, (int)PieceId.pb8, false, Chessboard.BoardsPositions[(int)PositionIndex.h8].Position, GameState);
+                = new Pawn(GameID, (int)PieceId.pb8, false, Chessboard.BoardsPositions[(int)PositionIndex.h7].Position, GameState);
             // set white rooks
             Chessboard.BoardsFieldColumns[(int)FileIndex.a].FieldColumn.Fields[(int)RankIndex.r1].Content
                 = new Rook(GameID, (int)PieceId.rw1, true, Chessboard.BoardsPositions[(int)PositionIndex.a1].Position, GameState);
@@ -193,11 +191,13 @@ namespace ChessApp.Models.Chess
                 = new King(GameID, (int)PieceId.kw, true, Chessboard.BoardsPositions[(int)PositionIndex.e1].Position, GameState);
             GameState.WhiteKing
                 = (King)Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r1].Content;
+            GameState.WhiteKingID = GameState.WhiteKing.PieceID;
             // set black king
             Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r8].Content
                 = new King(GameID, (int)PieceId.kb, false, Chessboard.BoardsPositions[(int)PositionIndex.e8].Position, GameState);
             GameState.BlackKing
                 = (King)Chessboard.BoardsFieldColumns[(int)FileIndex.e].FieldColumn.Fields[(int)RankIndex.r8].Content;
+            GameState.BlackKingID = GameState.BlackKing.PieceID;
         }
 
         public void RefreshAttackedSquares()
@@ -426,10 +426,12 @@ namespace ChessApp.Models.Chess
                     if (pawn.IsWhite)
                     {
                         GameState.WhitePawnThatCanBeTakenByEnPassantMove = pawn;
+                        GameState.WhitePawnThatCanBeTakenByEnPassantMoveID = GameState.WhitePawnThatCanBeTakenByEnPassantMove.PieceID;
                     }
                     else
                     {
                         GameState.BlackPawnThatCanBeTakenByEnPassantMove = pawn;
+                        GameState.BlackPawnThatCanBeTakenByEnPassantMoveID = GameState.BlackPawnThatCanBeTakenByEnPassantMove.PieceID;
                     }
                 }
                 else if (pawn.IsFirstMove)

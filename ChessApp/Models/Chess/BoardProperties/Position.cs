@@ -24,6 +24,7 @@ namespace ChessApp.Models.Chess.BoardProperties
 
         public File File { get; set; }
         public Rank Rank { get; set; }
+        public int? PieceID { get; set; }
         public Piece Piece { get; set; }
         public Field Field { get; set; }
         public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }

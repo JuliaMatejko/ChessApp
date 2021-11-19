@@ -26,13 +26,8 @@ namespace ChessApp.Controllers
         {
             return View();
         }
-        /*
-        public async Task<IActionResult> AllGames()
-        {
-            return View(await _context.Games.ToListAsync());
-        }*/
 
-        // GET: Game/Play/5        *Details
+        // GET: Game/Play/5        *Edit
         public async Task<IActionResult> Play(int? gameId)
         {
             if (gameId == null)
@@ -50,6 +45,29 @@ namespace ChessApp.Controllers
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsPositions)
                         .ThenInclude(e => e.Position)
+                 .Include(s => s.Chessboard)
+                    .ThenInclude(e => e.BoardsFieldColumns)
+                        .ThenInclude(e => e.FieldColumn)
+                            .ThenInclude(e => e.Fields)
+                                .ThenInclude(e => e.Content)
+                                    .ThenInclude(e => e.Position)
+                  .Include(s => s.Chessboard)
+                    .ThenInclude(e => e.BoardsFieldColumns)
+                        .ThenInclude(e => e.FieldColumn)
+                            .ThenInclude(e => e.Fields)
+                                .ThenInclude(e => e.Position)
+                  .Include(s => s.Chessboard)
+                     .ThenInclude(e => e.BoardsFieldColumns)
+                         .ThenInclude(e => e.FieldColumn)
+                             .ThenInclude(e => e.Fields)
+                                 .ThenInclude(e => e.Content)
+                                     .ThenInclude(e => e.GameState)
+                   .Include(s => s.Chessboard)
+                     .ThenInclude(e => e.BoardsFieldColumns)
+                         .ThenInclude(e => e.FieldColumn)
+                             .ThenInclude(e => e.Fields)
+                                 .ThenInclude(e => e.Content)
+                                     .ThenInclude(e => e.Name)
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFieldColumns)
                         .ThenInclude(e => e.FieldColumn)
@@ -62,35 +80,13 @@ namespace ChessApp.Controllers
                             .ThenInclude(e => e.Fields)
                                 .ThenInclude(e => e.Content)
                                     .ThenInclude(e => e.NextAvailablePositions)
-                .Include(s => s.Chessboard)
-                    .ThenInclude(e => e.BoardsFieldColumns)
-                        .ThenInclude(e => e.FieldColumn)
-                            .ThenInclude(e => e.Fields)
-                                .ThenInclude(e => e.Position)
-                  /*.Include(s => s.Chessboard)
-                     .ThenInclude(e => e.BoardsFieldColumns)
-                         .ThenInclude(e => e.FieldColumn)
-                             .ThenInclude(e => e.Fields)
-                                 .ThenInclude(e => e.Content)
-                                     .ThenInclude(e => e.GameState)
-                   .Include(s => s.Chessboard)
-                     .ThenInclude(e => e.BoardsFieldColumns)
-                         .ThenInclude(e => e.FieldColumn)
-                             .ThenInclude(e => e.Fields)
-                                 .ThenInclude(e => e.Content)
-                                     .ThenInclude(e => e.Name)
-                     .Include(s => s.Chessboard)
-                         .ThenInclude(e => e.BoardsFieldColumns)
-                             .ThenInclude(e => e.FieldColumn)
-                                 .ThenInclude(e => e.Fields)
-                                     .ThenInclude(e => e.Content)
-                                         .ThenInclude(e => e.Position)*/
+                
 
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.WhiteKing)
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.BlackKing)
-                  .Include(s => s.GameState)/*
+                  .Include(s => s.GameState)
                       .ThenInclude(e => e.WhitePawnThatCanBeTakenByEnPassantMove)
                   .Include(s => s.GameState)
                       .ThenInclude(e => e.BlackPawnThatCanBeTakenByEnPassantMove)
@@ -104,7 +100,7 @@ namespace ChessApp.Controllers
                   .Include(s => s.Moves)
                       .ThenInclude(e => e.NewPosition)
                   .Include(s => s.Moves)
-                      .ThenInclude(e => e.PromotionTo)*/
+                      .ThenInclude(e => e.PromotionTo)
                   .AsSplitQuery()
                   .AsNoTracking()
                   .FirstOrDefaultAsync(m => m.GameID == gameId);
@@ -113,8 +109,6 @@ namespace ChessApp.Controllers
             {
                 return NotFound();
             }
-            game.SetStartingBoard();
-            game.RefreshAttackedSquares();
             /*
             while (!game.GameState.IsAWin && !game.GameState.IsADraw)
             {
@@ -156,6 +150,42 @@ namespace ChessApp.Controllers
             
             return View(game);
         }
+
+        // POST: Game/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+        {
+            if (id != game.GameID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(game);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GameExists(game.GameID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Play), new { id = game.GameID });
+            }
+            return View(nameof(Play), game);
+        }
+
         public IActionResult Draw()
         {
             return View();
@@ -181,16 +211,16 @@ namespace ChessApp.Controllers
             return View();
         }
 
-        // GET: Game/StartNewGame       *Create       
-        public IActionResult StartNewGame()
+        // GET: Game/CreateNewGame       *Create       
+        public IActionResult CreateNewGame()
         {
             return View();
         }
 
-        // POST: Game/StartNewGame
+        // POST: Game/CreateNewGame
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> StartNewGame(
+        public async Task<IActionResult> CreateNewGame(
              [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
         {
             Game newGame = new(_context.Files.ToArray(),
@@ -203,6 +233,10 @@ namespace ChessApp.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(newGame);
+                await _context.SaveChangesAsync();
+                newGame.SetStartingBoard();
+                await _context.SaveChangesAsync();
+                newGame.RefreshAttackedSquares();
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Play), new { newGame.GameID });
             }
@@ -260,82 +294,5 @@ namespace ChessApp.Controllers
         {
             return _context.Games.Any(e => e.GameID == id);
         }
-        /*
-        // GET: Game/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var game = await _context.Games.FindAsync(id);
-            if (game == null)
-            {
-                return NotFound();
-            }
-            return View(game);
-        }
-
-        // POST: Game/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GameID")] Game game)
-        {
-            if (id != game.GameID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(game);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GameExists(game.GameID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Play), new { id = game.GameID });
-            }
-            return View(game);
-        }
-
-        // GET: Game/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var game = await _context.Games.FindAsync(id);
-            if (game == null)
-            {
-                return NotFound();
-            }
-
-            return View(game);
-        }
-
-        // POST: Game/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var game = await _context.Games.FindAsync(id);
-            _context.Games.Remove(game);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }*/
     }
 }
