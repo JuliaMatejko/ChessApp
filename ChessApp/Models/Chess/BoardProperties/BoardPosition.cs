@@ -1,7 +1,6 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ChessApp.Models.Chess
+namespace ChessApp.Models.Chess.BoardProperties
 {
     public class BoardPosition
     {

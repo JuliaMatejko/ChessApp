@@ -1,6 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
-using System.ComponentModel.DataAnnotations;
+﻿using ChessApp.Models.Chess.Pieces.PieceProperties;
 
 namespace ChessApp.Models.Chess
 {

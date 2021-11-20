@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ChessApp.Models.Chess;
-using ChessApp.Models.Chess.BoardProperties;
 using ChessApp.Models.Chess.Pieces;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 
@@ -78,7 +77,7 @@ namespace ChessApp.Data
             {
                 for (int j = 0; j < Board.boardSize; j++)
                 {
-                    fields[count] = new Field(positions[count], fieldColumns[i].FieldColumnID, contentId: null);
+                    fields[count] = new Field(positions[count], fieldColumns[i].FieldColumnID, contentId: null, pieceGameId: null);
                     count++;
                 }
             }

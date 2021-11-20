@@ -1,10 +1,11 @@
-﻿using ChessApp.Models.Chess.Pieces;
+﻿using ChessApp.Models.Chess.BoardProperties;
+using ChessApp.Models.Chess.Pieces;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ChessApp.Models.Chess.BoardProperties
+namespace ChessApp.Models.Chess
 {
     public class Position
     {
@@ -24,6 +25,7 @@ namespace ChessApp.Models.Chess.BoardProperties
 
         public File File { get; set; }
         public Rank Rank { get; set; }
+        public int? GameID { get; set; }
         public int? PieceID { get; set; }
         public Piece Piece { get; set; }
         public Field Field { get; set; }

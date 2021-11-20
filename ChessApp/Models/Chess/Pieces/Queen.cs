@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
+﻿using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +15,7 @@ namespace ChessApp.Models.Chess.Pieces
             PositionID = position.PositionID;
             PieceNameID = isWhite ? PieceNameID = pieceNames[9] : PieceNameID = pieceNames[8];
             GameState = gameState;
+            GameStateID = gameState.GameID;
         }
 
         public Queen()
@@ -221,15 +221,16 @@ namespace ChessApp.Models.Chess.Pieces
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == tempfile + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, file + x + 1, contentId);
+            int? contentGameId = content?.GameID;
+            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, file + x + 1, contentId, contentGameId);
             newField.Content = contentId != null ? content : null;
-            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
+            ControlledSquares.Add(new ControlledSquare(GameID, PieceID, newField.PositionID));
 
             if (newField.Content == null)
             {
                 if (!kingInTheWay)
                 {
-                    positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                    positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                 }
                 file += x;
                 rank += y;
@@ -243,7 +244,7 @@ namespace ChessApp.Models.Chess.Pieces
                     {
                         if (!kingInTheWay)
                         {
-                            positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                            positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                         }
                         canMove = false;
                     }

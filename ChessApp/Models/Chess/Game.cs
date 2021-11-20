@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces;
+﻿using ChessApp.Models.Chess.Pieces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -42,15 +41,20 @@ namespace ChessApp.Models.Chess
             h1, h2, h3, h4, h5, h6, h7, h8
         }
 
+        private static readonly string[] pieceNames = { "qb", "qw", "nw", "nb", "rw", "rb", "bw", "bb", "kw", "kb", "pw", "pb" };
+
         public int GameID { get; set; }
+
         [Display(Name = "First Player")]
         public string FirstPlayerID { get; set; }
         [Display(Name = "Second Player")]
         public string SecondPlayerID { get; set; }
+
         public Board Chessboard { get; set; }
         public GameState GameState { get; set; } 
         public List<Move> Moves { get; set; }
-        public static readonly string[] pieceNames = { "qb", "qw", "nw", "nb", "rw", "rb", "bw", "bb", "kw","kb","pw","pb" };
+
+        
 
         public Game(File[] files, Rank[] ranks, Position[] positions, Field[] fields, FieldColumn[] fieldColumns)
         {

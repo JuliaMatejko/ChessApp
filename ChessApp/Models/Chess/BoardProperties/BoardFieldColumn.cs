@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ChessApp.Models.Chess
+namespace ChessApp.Models.Chess.BoardProperties
 {
     public class BoardFieldColumn
     {

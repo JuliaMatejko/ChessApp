@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces;
+﻿using ChessApp.Models.Chess.Pieces;
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System;
 using System.Collections.Generic;
@@ -11,22 +10,17 @@ namespace ChessApp.Models.Chess
 {
     public class GameState
     {
-        [Key]
         public int GameID { get; set; }
         public Game Game { get; set; }
 
-        [ForeignKey("WhiteKing")]
         public int? WhiteKingID { get; set; }
         public King WhiteKing { get; set; }
-        [ForeignKey("BlackKing")]
         public int? BlackKingID { get; set; }
         public King BlackKing { get; set; }
 
         public int? WhitePawnThatCanBeTakenByEnPassantMoveID { get; set; }
-        [ForeignKey("WhitePawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn WhitePawnThatCanBeTakenByEnPassantMove { get; set; }
         public int? BlackPawnThatCanBeTakenByEnPassantMoveID { get; set; }
-        [ForeignKey("BlackPawnThatCanBeTakenByEnPassantMoveID")]
         public Pawn BlackPawnThatCanBeTakenByEnPassantMove { get; set; }
 
         public List<Piece> CurrentPlayerPiecesAttackingTheKing { get; set; }
@@ -209,7 +203,7 @@ namespace ChessApp.Models.Chess
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
                             if (isOponentsPiece)
                             {
-                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))
+                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(GameID, CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))
                                 {
                                     return true;
                                 }
@@ -256,7 +250,7 @@ namespace ChessApp.Models.Chess
                             bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
                             if (isOponentsPiece)
                             {
-                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))    // Check if any of the oponents pieces can capture attacking piece
+                                if (piece.NextAvailablePositions.Contains(new NextAvailablePosition(GameID, CurrentPlayerPiecesAttackingTheKing[0].PieceID, CurrentPlayerPiecesAttackingTheKing[0].PositionID)))    // Check if any of the oponents pieces can capture attacking piece
                                 {
                                     return true;
                                 }

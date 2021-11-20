@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
+﻿using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +15,9 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(false)]
         public bool CanBeTakenByEnPassantMove { get; set; }
 
+        public GameState WhitePawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
+        public GameState BlackPawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
+
         public Pawn(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
@@ -27,6 +29,7 @@ namespace ChessApp.Models.Chess.Pieces
             IsFirstMove = true;
             CanBeTakenByEnPassantMove = false;
             GameState = gameState;
+            GameStateID = gameState.GameID;
         }
 
         public Pawn()
@@ -160,7 +163,7 @@ namespace ChessApp.Models.Chess.Pieces
             {
                 int x = IsWhite ? x_white : -x_white;
                 int y = IsWhite ? y_white : -y_white;
-                positions.Add(new NextAvailablePosition(PieceID, (fileIndex + x) * 8 + (rankIndex + y) + 1));
+                positions.Add(new NextAvailablePosition(GameID, PieceID, (fileIndex + x) * 8 + (rankIndex + y) + 1));
             }
             return positions;
         }
@@ -172,8 +175,9 @@ namespace ChessApp.Models.Chess.Pieces
             int fieldAndPositionId = (fileIndex + x ) * 8 + (rankIndex + y) + 1;
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
-            int? contentId = content?.PieceID; 
-            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, fileIndex + x + 1, contentId);
+            int? contentId = content?.PieceID;
+            int? contentGameId = content?.GameID;
+            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, fileIndex + x + 1, contentId, contentGameId);
             newField.Content = contentId != null ? content : null;
             if (x_white == 0)
             {
@@ -184,20 +188,20 @@ namespace ChessApp.Models.Chess.Pieces
                                                     .FieldColumn.Fields.Single(s => s.PositionID == (fileIndex * 8) + (rankIndex + y + z) + 1);
                     if ((secondRowField.Content == null) && (newField.Content == null))
                     {
-                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                        positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                     }
                 }
                 if (y_white == 1)
                 {
                     if (newField.Content == null)
                     {
-                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                        positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                     }
                 }
             }
             if ((x_white == -1 || x_white == 1) && y_white == 1)
             {
-                ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
+                ControlledSquares.Add(new ControlledSquare(GameID, PieceID, newField.PositionID));
 
                 if (newField.Content != null)
                 {
@@ -206,7 +210,7 @@ namespace ChessApp.Models.Chess.Pieces
                     {
                         if (newField.Content.GetType() != typeof(King))
                         {
-                            positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                            positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                         }
                         else
                         {

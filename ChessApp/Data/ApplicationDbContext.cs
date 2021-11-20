@@ -37,25 +37,41 @@ namespace ChessApp.Data
         public DbSet<NextAvailablePosition> NextAvailablePositions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
+        {
+            modelBuilder.Entity<Move>()
+               .HasKey(k => new { k.GameID, k.MoveID });
+
+            modelBuilder.Entity<Board>()
+               .HasKey(k => k.GameID );
+
+            modelBuilder.Entity<GameState>()
+               .HasKey(k => k.GameID);
+
+            modelBuilder.Entity<GameState>()
+              .HasOne(i => i.WhiteKing)
+              .WithOne(i => i.WhiteKingGameState)
+              .HasForeignKey<GameState>(k => new { k.GameID, k.WhiteKingID });
+
+            modelBuilder.Entity<GameState>()
+              .HasOne(i => i.BlackKing)
+              .WithOne(i => i.BlackKingGameState)
+              .HasForeignKey<GameState>(k => new { k.GameID, k.BlackKingID });
+
+            modelBuilder.Entity<GameState>()
+              .HasOne(i => i.WhitePawnThatCanBeTakenByEnPassantMove)
+              .WithOne(i => i.WhitePawnThatCanBeTakenByEnPassantMoveGameState)
+              .HasForeignKey<GameState>(k => new { k.GameID, k.WhitePawnThatCanBeTakenByEnPassantMoveID });
+
+            modelBuilder.Entity<GameState>()
+              .HasOne(i => i.BlackPawnThatCanBeTakenByEnPassantMove)
+              .WithOne(i => i.BlackPawnThatCanBeTakenByEnPassantMoveGameState)
+              .HasForeignKey<GameState>(k => new { k.GameID, k.BlackPawnThatCanBeTakenByEnPassantMoveID });
+
             modelBuilder.Entity<Piece>()
-                .HasOne(i => i.Position)
-                .WithOne(p => p.Piece)
-                .HasForeignKey<Position>(i => i.PieceID)
-                .OnDelete(DeleteBehavior.SetNull);
-
-            modelBuilder.Entity<Position>()
-                .HasOne(i => i.Field)
-                .WithOne(p => p.Position)
-                .HasForeignKey<Field>(i => i.PositionID);
-
-            modelBuilder.Entity<Field>()
-                .HasOne(i => i.Content)
-                .WithOne(p => p.Field)
-                .HasForeignKey<Field>(i => i.PieceID);
+               .HasKey(k => new { k.GameID, k.PieceID });
 
             modelBuilder.Entity<BoardFile>()
-               .HasKey(k => new { k.GameID, k.FileID });
+              .HasKey(k => new { k.GameID, k.FileID });
 
             modelBuilder.Entity<BoardRank>()
                .HasKey(k => new { k.GameID, k.RankID });
@@ -67,10 +83,36 @@ namespace ChessApp.Data
                .HasKey(k => new { k.GameID, k.FieldColumnID });
 
             modelBuilder.Entity<ControlledSquare>()
-               .HasKey(k => new { k.PieceID, k.PositionID });
+               .HasKey(k => new { k.PieceGameID, k.PieceID, k.PositionID });
 
             modelBuilder.Entity<NextAvailablePosition>()
-               .HasKey(k => new { k.PieceID, k.PositionID });
+               .HasKey(k => new { k.PieceGameID, k.PieceID, k.PositionID });
+
+            //
+
+            modelBuilder.Entity<Piece>()
+                .HasOne(i => i.Position)
+                .WithOne(p => p.Piece)
+                .HasForeignKey<Position>(i => new { i.GameID, i.PieceID })
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Position>()
+                .HasOne(i => i.Field)
+                .WithOne(p => p.Position)
+                .HasForeignKey<Field>(i => i.PositionID);
+
+            modelBuilder.Entity<Field>()
+                .HasOne(i => i.Content)
+                .WithOne(p => p.Field)
+                .HasForeignKey<Field>(i => new { i.PieceGameID, i.PieceID });
+
+            modelBuilder.Entity<GameState>()
+                .HasMany(i => i.CurrentPlayerPiecesAttackingTheKing)
+                .WithOne(p => p.GameState)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
+           
         }
     }
 }

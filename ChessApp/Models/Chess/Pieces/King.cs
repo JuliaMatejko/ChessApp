@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
+﻿using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +12,8 @@ namespace ChessApp.Models.Chess.Pieces
         [DefaultValue(true)]
         public bool IsFirstMove { get; set; }
 
+        public GameState WhiteKingGameState { get; set; }
+        public GameState BlackKingGameState { get; set; }
         public King(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
         {
             GameID = gameId;
@@ -23,6 +24,7 @@ namespace ChessApp.Models.Chess.Pieces
             PieceNameID = isWhite ? PieceNameID = pieceNames[3]: PieceNameID = pieceNames[2];
             IsFirstMove = true;
             GameState = gameState;
+            GameStateID = gameState.GameID;
         }
 
         public King()
@@ -83,8 +85,8 @@ namespace ChessApp.Models.Chess.Pieces
 
                 if (field.Content == null && sfield.Content == null)
                 {
-                    NextAvailablePosition kingNewPosition = new(PieceID, sfield.PositionID);
-                    if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, field.PositionID), board)
+                    NextAvailablePosition kingNewPosition = new(GameID, PieceID, sfield.PositionID);
+                    if (KingNewPositionIsSafe(new NextAvailablePosition(GameID, PieceID, field.PositionID), board)
                         && KingNewPositionIsSafe(kingNewPosition, board))
                     {
                         positions.Add(kingNewPosition);
@@ -105,7 +107,7 @@ namespace ChessApp.Models.Chess.Pieces
                     if (piece != null)
                     {
                         bool isOponentsPiece = IsWhite ? !piece.IsWhite : piece.IsWhite;
-                        if (isOponentsPiece && piece.ControlledSquares.Contains(new ControlledSquare(piece.PieceID, newPosition.PositionID)))
+                        if (isOponentsPiece && piece.ControlledSquares.Contains(new ControlledSquare(GameID, piece.PieceID, newPosition.PositionID)))
                         {
                             return false;
                         }
@@ -227,15 +229,16 @@ namespace ChessApp.Models.Chess.Pieces
             var content = board.BoardsFieldColumns.Single(s => s.GameID == board.GameID && s.FieldColumnID == fileIndex + x + 1)
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
-            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, fileIndex + x + 1, contentId);
+            int? contentGameId = content?.GameID;
+            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, fileIndex + x + 1, contentId, contentGameId);
             newField.Content = contentId != null ? content : null;
-            ControlledSquares.Add(new ControlledSquare(PieceID, newField.PositionID));
+            ControlledSquares.Add(new ControlledSquare(GameID, PieceID, newField.PositionID));
 
             if (newField.Content == null)
             {
-                if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, newField.PositionID), board))
+                if (KingNewPositionIsSafe(new NextAvailablePosition(GameID, PieceID, newField.PositionID), board))
                 {
-                    positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                    positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                 }
             }
             else
@@ -243,9 +246,9 @@ namespace ChessApp.Models.Chess.Pieces
                 bool z = IsWhite ? !(newField.Content.IsWhite) : newField.Content.IsWhite;
                 if (z && newField.Content.GetType() != typeof(King))
                 {
-                    if (KingNewPositionIsSafe(new NextAvailablePosition(PieceID, newField.PositionID), board))
+                    if (KingNewPositionIsSafe(new NextAvailablePosition(GameID, PieceID, newField.PositionID), board))
                     {
-                        positions.Add(new NextAvailablePosition(PieceID, newField.PositionID));
+                        positions.Add(new NextAvailablePosition(GameID, PieceID, newField.PositionID));
                     }
                 }
             }

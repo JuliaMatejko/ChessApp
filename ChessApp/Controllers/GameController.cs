@@ -1,6 +1,5 @@
 ﻿using ChessApp.Data;
 using ChessApp.Models.Chess;
-using ChessApp.Models.Chess.BoardProperties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -156,7 +155,7 @@ namespace ChessApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
             int id,
-            [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+            [Bind("GameStateID, FirstPlayerID, SecondPlayerID")] Game game)
         {
             if (id != game.GameID)
             {
@@ -221,7 +220,7 @@ namespace ChessApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateNewGame(
-             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+             [Bind("GameStateID, FirstPlayerID, SecondPlayerID")] Game game)
         {
             Game newGame = new(_context.Files.ToArray(),
                                _context.Ranks.ToArray(),

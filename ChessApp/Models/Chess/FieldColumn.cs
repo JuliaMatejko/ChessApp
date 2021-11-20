@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ChessApp.Models.Chess.BoardProperties;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

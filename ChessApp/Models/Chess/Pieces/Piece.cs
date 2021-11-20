@@ -1,5 +1,4 @@
-﻿using ChessApp.Models.Chess.BoardProperties;
-using ChessApp.Models.Chess.Pieces.PieceProperties;
+﻿using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,8 +10,11 @@ namespace ChessApp.Models.Chess.Pieces
     {
         public static readonly string[] pieceNames = new string[] { "bb", "bw", "kb", "kw", "nb", "nw", "pb", "pw", "qb", "qw", "rb", "rw" };
 
-        [ForeignKey("GameState")]
+        [ForeignKey("Game")]
         public int GameID { get; set; }
+        public Game Game { get; set; }
+        [ForeignKey("GameState")]
+        public int GameStateID { get; set; }
         public GameState GameState { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -35,8 +37,8 @@ namespace ChessApp.Models.Chess.Pieces
         
         public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Board board)
         {
-            int fileIndex = GameState.Game.Chessboard.BoardsFiles.IndexOf(GameState.Game.Chessboard.BoardsFiles.Find(s => s.GameID == GameID && s.FileID == Position.FileID));
-            int rankIndex = GameState.Game.Chessboard.BoardsRanks.IndexOf(GameState.Game.Chessboard.BoardsRanks.Find(s => s.GameID == GameID && s.RankID == Position.RankID));
+            int fileIndex = GameState.Game.Chessboard.BoardsFiles.IndexOf(GameState.Game.Chessboard.BoardsFiles.Find(s => s.GameID == GameStateID && s.FileID == Position.FileID));
+            int rankIndex = GameState.Game.Chessboard.BoardsRanks.IndexOf(GameState.Game.Chessboard.BoardsRanks.Find(s => s.GameID == GameStateID && s.RankID == Position.RankID));
             HashSet<NextAvailablePosition> positions = new();
             positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
             return positions;
