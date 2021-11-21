@@ -25,10 +25,7 @@ namespace ChessApp.Models.Chess
 
         public File File { get; set; }
         public Rank Rank { get; set; }
-        public int? GameID { get; set; }
-        public int? PieceID { get; set; }
-        public Piece Piece { get; set; }
-        public Field Field { get; set; }
+        public ICollection<Field> Fields { get; set; }
         public HashSet<NextAvailablePosition> NextAvailablePositions { get; set; }
         public HashSet<ControlledSquare> ControlledSquares { get; set; }
         public List<BoardPosition> BoardsPositions { get; set; }

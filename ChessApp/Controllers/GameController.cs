@@ -44,17 +44,18 @@ namespace ChessApp.Controllers
                 .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsPositions)
                         .ThenInclude(e => e.Position)
-                 .Include(s => s.Chessboard)
-                    .ThenInclude(e => e.BoardsFieldColumns)
-                        .ThenInclude(e => e.FieldColumn)
-                            .ThenInclude(e => e.Fields)
-                                .ThenInclude(e => e.Content)
-                                    .ThenInclude(e => e.Position)
                   .Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFieldColumns)
                         .ThenInclude(e => e.FieldColumn)
                             .ThenInclude(e => e.Fields)
                                 .ThenInclude(e => e.Position)
+                                    .ThenInclude(e => e.File)
+                  .Include(s => s.Chessboard)
+                    .ThenInclude(e => e.BoardsFieldColumns)
+                        .ThenInclude(e => e.FieldColumn)
+                            .ThenInclude(e => e.Fields)
+                                .ThenInclude(e => e.Position)
+                                    .ThenInclude(e => e.Rank)
                   .Include(s => s.Chessboard)
                      .ThenInclude(e => e.BoardsFieldColumns)
                          .ThenInclude(e => e.FieldColumn)
@@ -222,11 +223,10 @@ namespace ChessApp.Controllers
         public async Task<IActionResult> CreateNewGame(
              [Bind("GameStateID, FirstPlayerID, SecondPlayerID")] Game game)
         {
-            Game newGame = new(_context.Files.ToArray(),
-                               _context.Ranks.ToArray(),
-                               _context.Positions.ToArray(),
-                               _context.Fields.ToArray(),
-                               _context.FieldColumns.ToArray());
+            Game newGame = new(_context.Files.ToList(),
+                               _context.Ranks.ToList(),
+                               _context.Positions.ToList(),
+                               _context.FieldColumns.ToList());
             newGame.FirstPlayerID = game.FirstPlayerID;
             newGame.SecondPlayerID = game.SecondPlayerID;
             if (ModelState.IsValid)

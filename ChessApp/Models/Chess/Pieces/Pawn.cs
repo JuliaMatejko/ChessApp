@@ -18,13 +18,11 @@ namespace ChessApp.Models.Chess.Pieces
         public GameState WhitePawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
         public GameState BlackPawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
 
-        public Pawn(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
+        public Pawn(int gameId, int pieceId, bool isWhite, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
-            Position = position;
-            PositionID = position.PositionID;
             PieceNameID = isWhite ? PieceNameID = pieceNames[7] : PieceNameID = pieceNames[6];
             IsFirstMove = true;
             CanBeTakenByEnPassantMove = false;
@@ -108,7 +106,7 @@ namespace ChessApp.Models.Chess.Pieces
             {
                 if (rankIndex == 4 && GameState.BlackPawnThatCanBeTakenByEnPassantMove != null)
                 {
-                    string oponentPawnFile = GameState.BlackPawnThatCanBeTakenByEnPassantMove.Position.FileID;
+                    string oponentPawnFile = GameState.BlackPawnThatCanBeTakenByEnPassantMove.Field.Position.FileID;
                     if (fileIndex == 0 && oponentPawnFile == Board.files[fileIndex + 1])
                     {
                         EnPassantRight();
@@ -134,7 +132,7 @@ namespace ChessApp.Models.Chess.Pieces
             {
                 if (rankIndex == 3 && GameState.WhitePawnThatCanBeTakenByEnPassantMove != null)
                 {
-                    string oponentPawnFile = GameState.WhitePawnThatCanBeTakenByEnPassantMove.Position.FileID;
+                    string oponentPawnFile = GameState.WhitePawnThatCanBeTakenByEnPassantMove.Field.Position.FileID;
                     if (fileIndex == 0 && oponentPawnFile == Board.files[fileIndex + 1])
                     {
                         EnPassantLeft();
@@ -177,7 +175,7 @@ namespace ChessApp.Models.Chess.Pieces
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
             int? contentGameId = content?.GameID;
-            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, fileIndex + x + 1, contentId, contentGameId);
+            Field newField = new(GameID, GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, GameState.Game.Chessboard.BoardsFieldColumns[fileIndex + x].FieldColumn, contentId, contentGameId);
             newField.Content = contentId != null ? content : null;
             if (x_white == 0)
             {

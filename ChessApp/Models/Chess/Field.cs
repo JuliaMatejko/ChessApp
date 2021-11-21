@@ -6,7 +6,10 @@ namespace ChessApp.Models.Chess
 {
     public class Field
     {
-        [Key]
+        [ForeignKey("Board")]
+        public int GameID { get; set; }
+        public Board Board { get; set; }
+        [ForeignKey("Position")]
         public int PositionID { get; set; }
         public Position Position { get; set; }
         public int? PieceGameID { get; set; }
@@ -18,11 +21,13 @@ namespace ChessApp.Models.Chess
         public int FieldColumnID { get; set; }
         public FieldColumn FieldColumn { get; set; }
 
-        public Field(Position position, int fieldColumnId, int? contentId, int? pieceGameId)
+        public Field(int gameId, Position position, FieldColumn fieldColumn, int? contentId, int? pieceGameId)
         {
+            GameID = gameId;
             Position = position;
             PositionID = position.PositionID;
-            FieldColumnID = fieldColumnId;
+            FieldColumn = fieldColumn;
+            FieldColumnID = fieldColumn.FieldColumnID;
             PieceID = contentId;
             PieceGameID = pieceGameId;
         }

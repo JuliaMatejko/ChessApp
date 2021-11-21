@@ -11,7 +11,7 @@ namespace ChessApp.Models.Chess
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int FieldColumnID { get; set; }
 
-        public List<Field> Fields { get; set; }
+        public List<Field> Fields { get; set; } = new();
         public List<BoardFieldColumn> BoardsFieldColumns { get; set; }
 
         public FieldColumn(int fieldColumnId)

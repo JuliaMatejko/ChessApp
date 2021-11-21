@@ -1,4 +1,5 @@
 ﻿using ChessApp.Models.Chess.BoardProperties;
+using System;
 using System.Collections.Generic;
 
 namespace ChessApp.Models.Chess
@@ -16,18 +17,19 @@ namespace ChessApp.Models.Chess
         public List<BoardRank> BoardsRanks { get; set; }
         public List<BoardPosition> BoardsPositions { get; set; }
         public List<BoardFieldColumn> BoardsFieldColumns { get; set; }
-       // public List<BoardPiece> BoardsPieces { get; set; }
+        public List<Field> Fields { get; set; }
 
-        public Board(int gameId, File[] files, Rank[]ranks, Position[] positions, Field[] fields, FieldColumn[] fieldColumns)
+        public Board(int gameId, List<File> files, List<Rank> ranks, List<Position> positions, List<FieldColumn> fieldColumns)
         {
             GameID = gameId;
             BoardsFiles = AddBoardFiles(files);
             BoardsRanks = AddBoardRanks(ranks);
             BoardsPositions = AddBoardPositions(positions);
-            BoardsFieldColumns = AddBoardFieldColumns(fieldColumns, fields);
+            BoardsFieldColumns = AddBoardFieldColumns(fieldColumns);
+            Fields = AddFields(positions, fieldColumns);
         }
 
-        private List<BoardFieldColumn> AddBoardFieldColumns(FieldColumn[] fieldColumns, Field[] fields)
+        private List<BoardFieldColumn> AddBoardFieldColumns(List<FieldColumn> fieldColumns)
         {
             List<BoardFieldColumn> boardFieldColumns = new();
             foreach (var fieldColumn in fieldColumns)
@@ -37,7 +39,22 @@ namespace ChessApp.Models.Chess
             return boardFieldColumns;
         }
 
-        private List<BoardPosition> AddBoardPositions(Position[] positions)
+        private List<Field> AddFields(List<Position> positions, List<FieldColumn> fieldColumns)
+        {
+            List<Field> fields = new();
+            int count = 0;
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize; j++)
+                {
+                    fields.Add(new Field(GameID, positions[count], fieldColumns[i], contentId: null, pieceGameId: null));
+                    count++;
+                }
+            }
+            return fields;
+        }
+
+        private List<BoardPosition> AddBoardPositions(List<Position> positions)
         {
             List<BoardPosition> boardsPositions = new();
             foreach (var position in positions)
@@ -47,7 +64,7 @@ namespace ChessApp.Models.Chess
             return boardsPositions;
         }
 
-        private List<BoardRank> AddBoardRanks(Rank[] ranks)
+        private List<BoardRank> AddBoardRanks(List<Rank> ranks)
         {
             List<BoardRank> boardsRanks = new();
             foreach (var rank in ranks)
@@ -57,7 +74,7 @@ namespace ChessApp.Models.Chess
             return boardsRanks;
         }
 
-        private List<BoardFile> AddBoardFiles(File[] files)
+        private List<BoardFile> AddBoardFiles(List<File> files)
         {
             List<BoardFile> boardsFiles = new();
             foreach (var file in files)

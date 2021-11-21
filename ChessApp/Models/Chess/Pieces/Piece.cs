@@ -22,9 +22,6 @@ namespace ChessApp.Models.Chess.Pieces
         [Required]
         public bool IsWhite { get; set; }
         [Required]
-        public int PositionID { get; set; }
-        public Position Position { get; set; }
-        [Required]
         [Column("PieceName")]
         [Display(Name = "Piece Name")]
         public string PieceNameID { get; set; }
@@ -37,8 +34,8 @@ namespace ChessApp.Models.Chess.Pieces
         
         public HashSet<NextAvailablePosition> ReturnAvailablePieceMoves(Board board)
         {
-            int fileIndex = GameState.Game.Chessboard.BoardsFiles.IndexOf(GameState.Game.Chessboard.BoardsFiles.Find(s => s.GameID == GameStateID && s.FileID == Position.FileID));
-            int rankIndex = GameState.Game.Chessboard.BoardsRanks.IndexOf(GameState.Game.Chessboard.BoardsRanks.Find(s => s.GameID == GameStateID && s.RankID == Position.RankID));
+            int fileIndex = GameState.Game.Chessboard.BoardsFiles.IndexOf(GameState.Game.Chessboard.BoardsFiles.Find(s => s.GameID == GameStateID && s.FileID == Field.Position.FileID));
+            int rankIndex = GameState.Game.Chessboard.BoardsRanks.IndexOf(GameState.Game.Chessboard.BoardsRanks.Find(s => s.GameID == GameStateID && s.RankID == Field.Position.RankID));
             HashSet<NextAvailablePosition> positions = new();
             positions = ReturnCorrectPieceMoves(fileIndex, rankIndex, board, positions);
             return positions;

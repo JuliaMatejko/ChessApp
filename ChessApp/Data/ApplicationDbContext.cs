@@ -88,18 +88,9 @@ namespace ChessApp.Data
             modelBuilder.Entity<NextAvailablePosition>()
                .HasKey(k => new { k.PieceGameID, k.PieceID, k.PositionID });
 
-            //
-
-            modelBuilder.Entity<Piece>()
-                .HasOne(i => i.Position)
-                .WithOne(p => p.Piece)
-                .HasForeignKey<Position>(i => new { i.GameID, i.PieceID })
-                .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<Position>()
-                .HasOne(i => i.Field)
-                .WithOne(p => p.Position)
-                .HasForeignKey<Field>(i => i.PositionID);
+                .HasMany(i => i.Fields)
+                .WithOne(p => p.Position);
 
             modelBuilder.Entity<Field>()
                 .HasOne(i => i.Content)
@@ -111,8 +102,22 @@ namespace ChessApp.Data
                 .WithOne(p => p.GameState)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<Field>()
+               .HasKey(k => new { k.GameID, k.PositionID });
 
-           
+            modelBuilder.Entity<FieldColumn>()
+               .HasKey(k => new { k.FieldColumnID });
+
+            modelBuilder.Entity<BoardFieldColumn>()
+                .HasOne(i => i.FieldColumn)
+                .WithMany(p => p.BoardsFieldColumns)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Field>()
+                .HasOne(i => i.Board)
+                .WithMany(p => p.Fields)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

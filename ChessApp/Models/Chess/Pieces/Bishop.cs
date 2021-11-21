@@ -6,13 +6,11 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Bishop : Piece, IDiagonallyMovingPiece
     {
-        public Bishop(int gameId, int pieceId, bool isWhite, Position position, GameState gameState)
+        public Bishop(int gameId, int pieceId, bool isWhite, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
-            Position = position;
-            PositionID = position.PositionID;
             PieceNameID = isWhite ? PieceNameID = pieceNames[1] : PieceNameID = pieceNames[0];
             GameState = gameState;
             GameStateID = gameState.GameID;
@@ -130,7 +128,7 @@ namespace ChessApp.Models.Chess.Pieces
                                     .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
             int? contentId = content?.PieceID;
             int? contentGameId = content?.GameID;
-            Field newField = new(GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, file + x + 1, contentId, contentGameId)
+            Field newField = new(GameID, GameState.Game.Chessboard.BoardsPositions[fieldAndPositionId - 1].Position, GameState.Game.Chessboard.BoardsFieldColumns[file + x].FieldColumn, contentId, contentGameId)
             {
                 Content = contentId != null ? content : null
             };
