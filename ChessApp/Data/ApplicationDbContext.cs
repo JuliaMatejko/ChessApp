@@ -83,10 +83,10 @@ namespace ChessApp.Data
                .HasKey(k => new { k.GameID, k.FieldColumnID });
 
             modelBuilder.Entity<ControlledSquare>()
-               .HasKey(k => new { k.PieceGameID, k.PieceID, k.PositionID });
+               .HasKey(k => new { k.BoardGameID, k.PieceGameID, k.PieceID, k.PositionID });
 
             modelBuilder.Entity<NextAvailablePosition>()
-               .HasKey(k => new { k.PieceGameID, k.PieceID, k.PositionID });
+               .HasKey(k => new { k.BoardGameID, k.PieceGameID, k.PieceID, k.PositionID });
 
             modelBuilder.Entity<Position>()
                 .HasMany(i => i.Fields)
@@ -118,6 +118,15 @@ namespace ChessApp.Data
                 .WithMany(p => p.Fields)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<NextAvailablePosition>()
+                .HasOne(i => i.Board)
+                .WithMany(p => p.NextAvailablePositions)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ControlledSquare>()
+                .HasOne(i => i.Board)
+                .WithMany(p => p.ControlledSquares)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
