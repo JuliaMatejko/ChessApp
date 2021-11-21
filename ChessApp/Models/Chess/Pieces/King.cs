@@ -14,13 +14,14 @@ namespace ChessApp.Models.Chess.Pieces
 
         public GameState WhiteKingGameState { get; set; }
         public GameState BlackKingGameState { get; set; }
-        public King(int gameId, int pieceId, bool isWhite, GameState gameState)
+        public King(int gameId, int pieceId, bool isWhite, Field field, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             PieceNameID = isWhite ? PieceNameID = pieceNames[3]: PieceNameID = pieceNames[2];
             IsFirstMove = true;
+            Field = field;
             GameState = gameState;
             GameStateID = gameState.GameID;
         }

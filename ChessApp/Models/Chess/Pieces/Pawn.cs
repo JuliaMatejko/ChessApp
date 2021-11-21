@@ -18,7 +18,7 @@ namespace ChessApp.Models.Chess.Pieces
         public GameState WhitePawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
         public GameState BlackPawnThatCanBeTakenByEnPassantMoveGameState { get; set; }
 
-        public Pawn(int gameId, int pieceId, bool isWhite, GameState gameState)
+        public Pawn(int gameId, int pieceId, bool isWhite, Field field, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
@@ -26,6 +26,7 @@ namespace ChessApp.Models.Chess.Pieces
             PieceNameID = isWhite ? PieceNameID = pieceNames[7] : PieceNameID = pieceNames[6];
             IsFirstMove = true;
             CanBeTakenByEnPassantMove = false;
+            Field = field;
             GameState = gameState;
             GameStateID = gameState.GameID;
         }

@@ -6,12 +6,14 @@ namespace ChessApp.Models.Chess.Pieces
 {
     public class Queen : Piece, IDiagonallyMovingPiece, IHorizontallyAndVerticallyMovingPiece
     {
-        public Queen(int gameId, int pieceId, bool isWhite, GameState gameState)
+        public Queen(int gameId, int pieceId, bool isWhite, Field field, GameState gameState)
         {
             GameID = gameId;
             PieceID = pieceId;
             IsWhite = isWhite;
             PieceNameID = isWhite ? PieceNameID = pieceNames[9] : PieceNameID = pieceNames[8];
+            Field = field;
+            Field = field;
             GameState = gameState;
             GameStateID = gameState.GameID;
         }
