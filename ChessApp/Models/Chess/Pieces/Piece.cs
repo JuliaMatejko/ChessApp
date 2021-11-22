@@ -16,7 +16,6 @@ namespace ChessApp.Models.Chess.Pieces
         [ForeignKey("GameState")]
         public int GameStateID { get; set; }
         public GameState GameState { get; set; }
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int PieceID { get; set; }
         [Required]

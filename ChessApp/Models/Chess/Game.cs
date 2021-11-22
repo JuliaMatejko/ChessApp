@@ -374,7 +374,7 @@ namespace ChessApp.Models.Chess
 
                 bool MoveIsCorrectPieceMove(Piece piece, Move move)
                 {
-                    bool x = piece.NextAvailablePositions.SingleOrDefault(x => x.PieceID.Equals(piece.PieceID) && x.PositionID.Equals(move.NewPositionID)) != null;
+                    bool x = piece.NextAvailablePositions.SingleOrDefault(x => x.BoardGameID.Equals(GameID) && x.PieceID.Equals(piece.PieceID) && x.PositionID.Equals(move.NewPositionID)) != null;
                     return x;
                 }
 

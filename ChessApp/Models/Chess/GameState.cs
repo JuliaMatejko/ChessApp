@@ -29,6 +29,13 @@ namespace ChessApp.Models.Chess
             White = 1,
             Black = 0
         }
+        public Sides NextPlayer
+        {
+            get
+            {
+                return (Sides)Math.Abs((decimal)(CurrentPlayer - 1));
+            }
+        }
         public Sides CurrentPlayer { get; set; }
         public bool WhiteKingIsInCheck { get; set; }
         public bool BlackKingIsInCheck { get; set; }
@@ -99,7 +106,7 @@ namespace ChessApp.Models.Chess
                 {
                     int fieldAndPositionId = ((i * 8) + j + 1);
                     var piece = Game.Chessboard.BoardsFieldColumns.Single(s => s.GameID == GameID && s.FieldColumnID == i + 1)
-                                    .FieldColumn.Fields.SingleOrDefault(s => s.PositionID == fieldAndPositionId).Content;
+                                    .FieldColumn.Fields.SingleOrDefault(s => s.GameID == GameID && s.PositionID == fieldAndPositionId).Content;
                     if (piece != null)
                     {
                         bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;

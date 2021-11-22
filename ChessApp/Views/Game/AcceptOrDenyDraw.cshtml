@@ -1,0 +1,26 @@
+﻿@model ChessApp.Models.Chess.Game
+@{
+    var playersAgreedToDraw = new Dictionary<string, string>
+        {
+                    { "playersAgreedToDraw", "1"}
+        };
+}
+<div class="modal fade" id="acceptOrDenyDraw" tabindex="-1" role="dialog" aria-labelledby="acceptOrDenyDrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="acceptOrDenyDrawModalLabel">Draw?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) offers a draw. Accept a draw? </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-toggle="modal" asp-action="PlayersAgreedToDraw" asp-all-route-data="playersAgreedToDraw">Accept</button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" >Deny</button><!--TODO-->
+            </div>
+        </div>
+    </div>
+</div>

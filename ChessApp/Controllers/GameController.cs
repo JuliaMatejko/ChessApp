@@ -26,6 +26,64 @@ namespace ChessApp.Controllers
             return View();
         }
 
+        // GET: Game/CreateNewGame       *Create       
+        public IActionResult CreateNewGame()
+        {
+            return View();
+        }
+
+        // POST: Game/CreateNewGame
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateNewGame(
+             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+        {
+            Game newGame = new(_context.Files.ToList(),
+                               _context.Ranks.ToList(),
+                               _context.Positions.ToList(),
+                               _context.FieldColumns.ToList());
+            newGame.FirstPlayerID = game.FirstPlayerID;
+            newGame.SecondPlayerID = game.SecondPlayerID;
+            if (ModelState.IsValid)
+            {
+                _context.Add(newGame);
+                await _context.SaveChangesAsync();
+                newGame.SetStartingBoard();
+                await _context.SaveChangesAsync();
+                newGame.RefreshAttackedSquares();
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Play), new { newGame.GameID });
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Game/CreateGame?firstPlayerId="whiterabbit"?secondPlayerId="blackcat"
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateGame(
+             string firstPlayerId,
+             string secondPlayerId,
+             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+        {
+            Game newGame = new(_context.Files.ToList(),
+                               _context.Ranks.ToList(),
+                               _context.Positions.ToList(),
+                               _context.FieldColumns.ToList());
+            newGame.FirstPlayerID = firstPlayerId;
+            newGame.SecondPlayerID = secondPlayerId;
+            if (ModelState.IsValid)
+            {
+                _context.Add(newGame);
+                await _context.SaveChangesAsync();
+                newGame.SetStartingBoard();
+                await _context.SaveChangesAsync();
+                newGame.RefreshAttackedSquares();
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Play), new { newGame.GameID });
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         // GET: Game/Play/5        *Edit
         public async Task<IActionResult> Play(int? gameId)
         {
@@ -35,7 +93,7 @@ namespace ChessApp.Controllers
             }
 
             var game = await _context.Games.Where(s => s.GameID == gameId)
-                .Include(s => s.Chessboard)
+                /*.Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFiles)
                         .ThenInclude(e => e.File)
                 .Include(s => s.Chessboard)
@@ -61,46 +119,58 @@ namespace ChessApp.Controllers
                          .ThenInclude(e => e.FieldColumn)
                              .ThenInclude(e => e.Fields)
                                  .ThenInclude(e => e.Content)
-                                     .ThenInclude(e => e.GameState)
+                                     .ThenInclude(e => e.GameState)*/
                    .Include(s => s.Chessboard)
-                     .ThenInclude(e => e.BoardsFieldColumns)
-                         .ThenInclude(e => e.FieldColumn)
-                             .ThenInclude(e => e.Fields)
-                                 .ThenInclude(e => e.Content)
-                                     .ThenInclude(e => e.Name)
-                .Include(s => s.Chessboard)
-                    .ThenInclude(e => e.BoardsFieldColumns)
-                        .ThenInclude(e => e.FieldColumn)
-                            .ThenInclude(e => e.Fields)
-                                .ThenInclude(e => e.Content)
-                                    .ThenInclude(e => e.ControlledSquares)
-                .Include(s => s.Chessboard)
-                    .ThenInclude(e => e.BoardsFieldColumns)
-                        .ThenInclude(e => e.FieldColumn)
-                            .ThenInclude(e => e.Fields)
-                                .ThenInclude(e => e.Content)
-                                    .ThenInclude(e => e.NextAvailablePositions)
-                
+                        .ThenInclude(e => e.BoardsFieldColumns)
+                            .ThenInclude(e => e.FieldColumn)
+                                .ThenInclude(e => e.Fields)
+                                    .ThenInclude(e => e.Content)
+                                        .ThenInclude(e => e.Name)
+                                            .OrderBy(e => e.GameID)
+                   .Include(s => s.Chessboard)
+                        .ThenInclude(e => e.BoardsFieldColumns)
+                            .ThenInclude(e => e.FieldColumn)
+                                .ThenInclude(e => e.Fields)
+                                    .ThenInclude(e => e.Position)
+                                        .OrderBy(e => e.GameID)
+                   .Include(s => s.Chessboard)
+                       .ThenInclude(e => e.BoardsFieldColumns)
+                           .ThenInclude(e => e.FieldColumn)
+                               .ThenInclude(e => e.Fields)
+                                   .ThenInclude(e => e.Content)
+                                       .ThenInclude(e => e.ControlledSquares)
+                                            .OrderBy(e => e.GameID)
+                   .Include(s => s.Chessboard)
+                       .ThenInclude(e => e.BoardsFieldColumns)
+                           .ThenInclude(e => e.FieldColumn)
+                               .ThenInclude(e => e.Fields)
+                                   .ThenInclude(e => e.Content)
+                                       .ThenInclude(e => e.NextAvailablePositions)
+                                            .OrderBy(e => e.GameID)
 
-                  .Include(s => s.GameState)
-                      .ThenInclude(e => e.WhiteKing)
-                  .Include(s => s.GameState)
-                      .ThenInclude(e => e.BlackKing)
-                  .Include(s => s.GameState)
-                      .ThenInclude(e => e.WhitePawnThatCanBeTakenByEnPassantMove)
-                  .Include(s => s.GameState)
-                      .ThenInclude(e => e.BlackPawnThatCanBeTakenByEnPassantMove)
-                  .Include(s => s.GameState)
-                      .ThenInclude(e => e.CurrentPlayerPiecesAttackingTheKing)
+                  /*
+                                       .Include(s => s.GameState)
+                                           .ThenInclude(e => e.WhiteKing)
+                                       .Include(s => s.GameState)
+                                           .ThenInclude(e => e.BlackKing)
+                                       .Include(s => s.GameState)
+                                           .ThenInclude(e => e.WhitePawnThatCanBeTakenByEnPassantMove)
+                                       .Include(s => s.GameState)
+                                           .ThenInclude(e => e.BlackPawnThatCanBeTakenByEnPassantMove)
+                                       .Include(s => s.GameState)
+                                           .ThenInclude(e => e.CurrentPlayerPiecesAttackingTheKing)
 
-                  .Include(s => s.Moves)
-                      .ThenInclude(e => e.PieceName)
-                  .Include(s => s.Moves)
-                      .ThenInclude(e => e.CurrentPosition)
-                  .Include(s => s.Moves)
-                      .ThenInclude(e => e.NewPosition)
-                  .Include(s => s.Moves)
-                      .ThenInclude(e => e.PromotionTo)
+                                       .Include(s => s.Moves)
+                                           .ThenInclude(e => e.PieceName)
+                                       .Include(s => s.Moves)
+                                           .ThenInclude(e => e.CurrentPosition)
+                                       .Include(s => s.Moves)
+                                           .ThenInclude(e => e.NewPosition)
+                                       .Include(s => s.Moves)
+                                           .ThenInclude(e => e.PromotionTo)*/
+
+                  //needed
+                  .Include(s => s.GameState)
                   .AsSplitQuery()
                   .AsNoTracking()
                   .FirstOrDefaultAsync(m => m.GameID == gameId);
@@ -108,6 +178,51 @@ namespace ChessApp.Controllers
             if (game == null)
             {
                 return NotFound();
+            }
+
+            if (game.GameState.IsAWin)
+            {
+                if (game.GameState.IsACheckmate)
+                {
+                    BoardView.PrintBoard(game.Chessboard);//d
+                    Console.WriteLine(" Checkmate.");//d
+                    Console.WriteLine($" {game.GameState.CurrentPlayer} won the game!");//d
+
+                    return View(nameof(Checkmate));
+                }
+                else //(game.GameState.PlayerResigned)
+                {
+                    Console.Write($" {game.GameState.CurrentPlayer} resigned.");//d
+                    Console.WriteLine($" {game.GameState.NextPlayer} won the game!");//d
+
+                    return View(nameof(PlayerResigned));
+                }
+                //TO DO: else if (time flag)
+            }
+            else if (game.GameState.IsADraw)
+            {
+                if (game.GameState.IsAStalemate)
+                {
+                    BoardView.PrintBoard(game.Chessboard);//d
+                    Console.WriteLine(" Stalemate.");//d
+                    Console.WriteLine(" It's a draw!");//d
+
+                    return View(nameof(Stalemate));
+                }
+                else //(game.GameState.PlayersAgreedToADraw)
+                {
+                    Console.WriteLine(" Players agreed to a draw.");//d
+                    Console.WriteLine(" It's a draw!");//d
+
+                    return View(nameof(PlayersAgreedToDraw));
+                }
+                //TO DO: else if - 3 move rule repetion, 5 move rule repetion, time vs not enough material, 50 move rule, 75 move rule
+            }
+            else
+            {
+                BoardView.PrintBoard(game.Chessboard);//d
+
+                return View(game);
             }
             /*
             while (!game.GameState.IsAWin && !game.GameState.IsADraw)
@@ -147,16 +262,30 @@ namespace ChessApp.Controllers
                     GameState.ChangeTurns();
                 }
             }*/
-            
-            return View(game);
         }
 
-        // POST: Game/Edit/5
+        private IActionResult Checkmate()
+        {
+            return View();
+        }
+
+        private IActionResult PlayerResigned()
+        {
+            return View();
+        }
+
+        private IActionResult Stalemate()
+        {
+            return View();
+        }
+
+        //POST *Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(
+        public async Task<IActionResult> PlayersAgreedToDraw(
             int id,
-            [Bind("GameStateID, FirstPlayerID, SecondPlayerID")] Game game)
+            string playersAgreedToDraw,
+            [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
         {
             if (id != game.GameID)
             {
@@ -167,6 +296,45 @@ namespace ChessApp.Controllers
             {
                 try
                 {
+                    game.GameState.PlayersAgreedToADraw = playersAgreedToDraw == "1";
+                    _context.Update(game);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GameExists(game.GameID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return View(nameof(PlayersAgreedToDraw));//
+            }
+            return View(nameof(Play), game);    //? what if error, bad move, how frontend reacts
+        }
+
+        // POST: Game/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
+        {
+            if (id != game.GameID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    game.GameState.ResetEnPassantFlag();    //?
+                    game.GameState.ResetCurrentPiecesAttackingTheKing();        //?
+                    game.GameState.ChangeTurns();       //?
                     _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
@@ -183,22 +351,7 @@ namespace ChessApp.Controllers
                 }
                 return RedirectToAction(nameof(Play), new { id = game.GameID });
             }
-            return View(nameof(Play), game);
-        }
-
-        public IActionResult Draw()
-        {
-            return View();
-        }
-
-        public IActionResult Checkmate()
-        {
-            return View();
-        }
-
-        public IActionResult AcceptOrDenyADraw()
-        {
-            return View();
+            return View(nameof(Play), game);    //? what if error, bad move, how frontend reacts
         }
 
         public IActionResult Resign()
@@ -206,88 +359,11 @@ namespace ChessApp.Controllers
             return View();
         }
 
-        public IActionResult OfferADraw()
+        //GET
+        public IActionResult AcceptOrDenyADraw()
         {
             return View();
         }
-
-        // GET: Game/CreateNewGame       *Create       
-        public IActionResult CreateNewGame()
-        {
-            return View();
-        }
-
-        // POST: Game/CreateNewGame
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateNewGame(
-             [Bind("GameStateID, FirstPlayerID, SecondPlayerID")] Game game)
-        {
-            Game newGame = new(_context.Files.ToList(),
-                               _context.Ranks.ToList(),
-                               _context.Positions.ToList(),
-                               _context.FieldColumns.ToList());
-            newGame.FirstPlayerID = game.FirstPlayerID;
-            newGame.SecondPlayerID = game.SecondPlayerID;
-            if (ModelState.IsValid)
-            {
-                _context.Add(newGame);
-                await _context.SaveChangesAsync();
-                newGame.SetStartingBoard();
-                await _context.SaveChangesAsync();
-                newGame.RefreshAttackedSquares();
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Play), new { newGame.GameID });
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
-        /*public void StartGame()
-        {
-           // SetStartingBoard(); //done
-
-           // RefreshAttackedSquares(); //done
-
-           // BoardView.PrintBoard(Chessboard);//d  done in controller
-           /*
-            while (!GameState.IsAWin && !GameState.IsADraw)
-            {
-                MakeAMove();
-                RefreshAttackedSquares();
-                if (GameState.PlayersAgreedToADraw)
-                {
-                    Console.WriteLine(" Players agreed to a draw.");//d
-                    Console.WriteLine(" It's a draw!");//d
-                }
-                else if (GameState.PlayerResigned)
-                {
-                    Console.Write($" {GameState.CurrentPlayer} resigned.");//d
-                    GameState.ChangeTurns();
-                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
-                }
-                else if (GameState.IsACheckmate)
-                {
-                    BoardView.PrintBoard(Chessboard);//d
-
-                    Console.WriteLine(" Checkmate.");//d
-                    Console.WriteLine($" {GameState.CurrentPlayer} won the game!");//d
-                }
-                else if (GameState.IsAStalemate)
-                {
-                    BoardView.PrintBoard(Chessboard);//d
-
-                    Console.WriteLine(" Stalemate.");//d
-                    Console.WriteLine(" It's a draw!");//d
-                }
-                else
-                {
-                    BoardView.PrintBoard(Chessboard);//d
-                    GameState.ResetEnPassantFlag();
-                    GameState.ResetCurrentPiecesAttackingTheKing();
-                    GameState.ChangeTurns();
-                }
-            }
-        }*/
 
         private bool GameExists(int id)
         {

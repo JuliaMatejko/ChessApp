@@ -2,16 +2,18 @@
 
 <div class="container-fluid p-0">
     <!--Modals-->
-    <!--Offer a draw-->
-    <partial name="OfferADraw" />
     <!--Resign-->
     <partial name="Resign" />
     <!--Accept or deny a draw-->
-    <partial name="AcceptorDenyADraw" />
+    <partial name="AcceptorDenyDraw" />
     <!--Checkmate-->
     <partial name="Checkmate" />
-    <!--Draw-->
-    <partial name="Draw" />
+    <!--Player resigned-->
+    <partial name="PlayerResigned" />
+    <!--Stalemate-->
+    <partial name="Stalemate" />
+    <!--Players agreed to draw-->
+    <partial name="PlayersAgreedToDraw" />
     <div class="row no-gutters">
         <!--big screens-->
         <div class="players-area col p-2 container-fluid d-none d-xl-block">
@@ -65,12 +67,12 @@
             <!-- to do: generete this code-->
             <!--Effects-->
             <!--
-    <div class="square-h1 highlight"></div>
-    <div class="square-g1 highlight"></div>
-    <div class="square-a3 highlight-danger"></div>
-    <div class="square-a4 highlight-danger"></div>
-    <div class="square-a5 hover-square"></div>
-    <div class="square-a6 hover-square"></div>-->
+            <div class="square-h1 highlight"></div>
+            <div class="square-g1 highlight"></div>
+            <div class="square-a3 highlight-danger"></div>
+            <div class="square-a4 highlight-danger"></div>
+            <div class="square-a5 hover-square"></div>
+            <div class="square-a6 hover-square"></div>-->
             @foreach (var boardsFieldColumn in Model.Chessboard.BoardsFieldColumns)
             {
                 foreach (var field in boardsFieldColumn.FieldColumn.Fields)
@@ -124,82 +126,82 @@
                 }
             }
             <!--
-    <div id="a1" class="piece rw" draggable="true" onmousedown="mouseDownPiece()" onmouseup="mouseUpPiece()" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b1" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c1" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d1" class="piece qw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e1" class="piece kw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f1" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g1" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h1" class="piece rw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a1" class="piece rw" draggable="true" onmousedown="mouseDownPiece()" onmouseup="mouseUpPiece()" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b1" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c1" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d1" class="piece qw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e1" class="piece kw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f1" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g1" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h1" class="piece rw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h2" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div> To DO: 1. square is only draggable if has class "piece" 2. piece can be dropped only if move is possible-->
+            <div id="a3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div> To DO: 1. square is only draggable if has class "piece" 2. piece can be dropped only if move is possible-->
             <!--<div id="b3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c3" class="" ondragover="allowDrop(event)" ondrop="drop(event)"></div>-->
+            <div id="c3" class="" ondragover="allowDrop(event)" ondrop="drop(event)"></div>-->
             <!--To DO: square that piece can move on to-->
             <!--<div id="d3" class="" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e3" class="" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e3" class="" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h3" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h4" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h5" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h6" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="a7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h7" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
 
-    <div id="a8" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="b8" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="c8" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="d8" class="piece qb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="e8" class="piece kb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="f8" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="g8" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-    <div id="h8" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>-->
+            <div id="a8" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="b8" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="c8" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="d8" class="piece qb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="e8" class="piece kb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="f8" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="g8" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+            <div id="h8" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>-->
             <!--Move Hints-->
             <!--<div class="square-a1 capture-hint"></div>
-    <div class="square-a3 hint"></div>
-    <div class="square-a4 hint"></div>-->
+            <div class="square-a3 hint"></div>
+            <div class="square-a4 hint"></div>-->
             <!--end generate to do-->
         </div>
         <!-- small screens-->
@@ -217,7 +219,7 @@
             <div class="row no-gutters flex-column h-100">
                 <div class="button-area col-auto d-flex flex-column justify-content-start align-items-center pb-2">
                     <button type="button" onclick="flipTheBoard()" class="btn btn-light border-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Flip the board <i class="fas fa-sync-alt"></i></button>
-                    <button type="button" data-toggle="modal" data-target="#offerDraw" class="btn btn-primary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Offer A Draw <i class="fas fa-question"></i> <i class="fas fa-handshake"></i></button>
+                    <button type="button" data-toggle="modal" data-target="#acceptOrDenyDraw" class="btn btn-primary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Offer A Draw <i class="fas fa-question"></i> <i class="fas fa-handshake"></i></button>
                     <button type="button" data-toggle="modal" data-target="#resign" class="btn btn-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Resign <i class="fas fa-flag"></i></button>
                 </div>
                 <div class="move-table-area col p-2 p-xl-5">
