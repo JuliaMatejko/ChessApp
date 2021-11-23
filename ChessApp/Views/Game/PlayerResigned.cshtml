@@ -20,7 +20,7 @@
                 <p>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</p>
             </div>
             <div class="modal-footer">
-                <p>Start A New Game:</p>
+                <p>Start a New Game: </p><br />
                 <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
             </div>

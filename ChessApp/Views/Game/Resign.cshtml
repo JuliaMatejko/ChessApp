@@ -4,17 +4,30 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="resignModalLabel">Resign</h5>
+                <h5 class="modal-title" id="resignModalLabel">Resign?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) want to resign?</p>
             </div>
             <div class="modal-footer">
+                <form asp-controller="GameState" asp-action="PlayerResigned" asp-route-id="@Model.GameID">
+                    <input type="hidden" asp-for="GameID" />
+                    <input type="hidden" asp-for="GameState.WhiteKingID" />
+                    <input type="hidden" asp-for="GameState.BlackKingID" />
+                    <input type="hidden" asp-for="GameState.WhitePawnThatCanBeTakenByEnPassantMoveID" />
+                    <input type="hidden" asp-for="GameState.BlackPawnThatCanBeTakenByEnPassantMoveID" />
+                    <input type="hidden" asp-for="GameState.CurrentPlayer" />
+                    <input type="hidden" asp-for="GameState.WhiteKingIsInCheck" />
+                    <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
+                    <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" />
+                    <input type="hidden" asp-for="GameState.PlayerResigned" value="true"/>
+                    <input type="hidden" asp-for="GameState.PlayerOfferedADraw" />
+                    <input type="submit" value="Resign" class="btn btn-primary" />
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

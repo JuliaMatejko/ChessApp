@@ -85,14 +85,14 @@ namespace ChessApp.Controllers
         }
 
         // GET: Game/Play/5        *Edit
-        public async Task<IActionResult> Play(int? gameId)
+        public async Task<IActionResult> Play(int? id)
         {
-            if (gameId == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var game = await _context.Games.Where(s => s.GameID == gameId)
+            var game = await _context.Games.Where(s => s.GameID == id)
                 /*.Include(s => s.Chessboard)
                     .ThenInclude(e => e.BoardsFiles)
                         .ThenInclude(e => e.File)
@@ -173,7 +173,7 @@ namespace ChessApp.Controllers
                   .Include(s => s.GameState)
                   .AsSplitQuery()
                   .AsNoTracking()
-                  .FirstOrDefaultAsync(m => m.GameID == gameId);
+                  .FirstOrDefaultAsync();
 
             if (game == null)
             {
@@ -195,7 +195,7 @@ namespace ChessApp.Controllers
                     Console.Write($" {game.GameState.CurrentPlayer} resigned.");//d
                     Console.WriteLine($" {game.GameState.NextPlayer} won the game!");//d
 
-                    return View(nameof(PlayerResigned));
+                    return View(nameof(EndOfTheGame), new { });
                 }
                 //TO DO: else if (time flag)
             }
@@ -264,15 +264,17 @@ namespace ChessApp.Controllers
             }*/
         }
 
+        private IActionResult EndOfTheGame()
+        {
+            return View();
+        }
+
         private IActionResult Checkmate()
         {
             return View();
         }
 
-        private IActionResult PlayerResigned()
-        {
-            return View();
-        }
+        
 
         private IActionResult Stalemate()
         {
@@ -284,7 +286,6 @@ namespace ChessApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PlayersAgreedToDraw(
             int id,
-            string playersAgreedToDraw,
             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
         {
             if (id != game.GameID)
@@ -296,7 +297,7 @@ namespace ChessApp.Controllers
             {
                 try
                 {
-                    game.GameState.PlayersAgreedToADraw = playersAgreedToDraw == "1";
+                    game.GameState.PlayersAgreedToADraw = true;
                     _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
@@ -311,9 +312,9 @@ namespace ChessApp.Controllers
                         throw;
                     }
                 }
-                return View(nameof(PlayersAgreedToDraw));//
+                return View(nameof(Play), new { id = game.GameID });
             }
-            return View(nameof(Play), game);    //? what if error, bad move, how frontend reacts
+            return View(nameof(Play), game);
         }
 
         // POST: Game/Edit/5
@@ -354,6 +355,7 @@ namespace ChessApp.Controllers
             return View(nameof(Play), game);    //? what if error, bad move, how frontend reacts
         }
 
+        //GET
         public IActionResult Resign()
         {
             return View();
