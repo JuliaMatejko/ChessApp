@@ -5,8 +5,9 @@
                     { "firstPlayerId", @Model.FirstPlayerID },
                     { "secondPlayerId", @Model.SecondPlayerID }
                 };
+    var flag = Model.GameState.IsAStalemate != true;
 }
-<div class="modal fade" id="stalemateModal" tabindex="-1" role="dialog" aria-labelledby="stalemateModalLabel" aria-hidden="true">
+<div class="modal fade" id="stalemateModal" tabindex="-1" role="dialog" aria-labelledby="stalemateModalLabel" aria-hidden="@flag">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

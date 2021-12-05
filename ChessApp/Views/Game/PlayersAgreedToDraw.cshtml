@@ -5,8 +5,9 @@
                     { "firstPlayerId", @Model.FirstPlayerID },
                     { "secondPlayerId", @Model.SecondPlayerID }
                 };
+    var flag = Model.GameState.PlayersAgreedToADraw != true;
 }
-<div class="modal fade" id="playersAgreedToDrawModal" tabindex="-1" role="dialog" aria-labelledby="playersAgreedToDrawModalLabel" aria-hidden="true">
+<div class="modal fade" id="playersAgreedToDrawModal" tabindex="-1" role="dialog" aria-labelledby="playersAgreedToDrawModalLabel" aria-hidden="@flag">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

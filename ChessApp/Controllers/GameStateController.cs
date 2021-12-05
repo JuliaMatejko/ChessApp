@@ -33,7 +33,9 @@ namespace ChessApp.Controllers
             "BlackKingIsInCheck, " +
             "PlayersAgreedToADraw, " +
             "PlayerResigned, " +
-            "PlayerOfferedADraw")] GameState gameState)
+            "PlayerOfferedADraw, " +
+            "IsACheckmate, " +
+            "IsADraw")] GameState gameState)
         {
             if (id != gameState.GameID)
             {
@@ -58,9 +60,9 @@ namespace ChessApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(GameController.Play), nameof(GameController), new { id = gameState.GameID });
+                return RedirectToAction(nameof(GameController.Play), nameof(Game), new { id = gameState.GameID });
             }
-            return RedirectToAction(nameof(GameController.Play), nameof(GameController), new { id = gameState.GameID });
+            return RedirectToAction(nameof(GameController.Play), nameof(Game), new { id = gameState.GameID });
         }
 
         private bool GameStateExists(int id)

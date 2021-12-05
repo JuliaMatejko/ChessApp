@@ -5,8 +5,9 @@
                     { "firstPlayerId", @Model.FirstPlayerID },
                     { "secondPlayerId", @Model.SecondPlayerID }
                 };
+    var flag = Model.GameState.PlayerResigned != true;
 }
-<div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-hidden="true">
+<div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-hidden="@flag">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

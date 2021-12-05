@@ -52,7 +52,7 @@ namespace ChessApp.Controllers
                 await _context.SaveChangesAsync();
                 newGame.RefreshAttackedSquares();
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Play), new { newGame.GameID });
+                return RedirectToAction(nameof(Play), new { id = newGame.GameID });
             }
             return RedirectToAction(nameof(Index));
         }
@@ -79,7 +79,7 @@ namespace ChessApp.Controllers
                 await _context.SaveChangesAsync();
                 newGame.RefreshAttackedSquares();
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Play), new { newGame.GameID });
+                return RedirectToAction(nameof(Play), new { id = newGame.GameID });
             }
             return RedirectToAction(nameof(Index));
         }
@@ -147,7 +147,6 @@ namespace ChessApp.Controllers
                                    .ThenInclude(e => e.Content)
                                        .ThenInclude(e => e.NextAvailablePositions)
                                             .OrderBy(e => e.GameID)
-
                   /*
                                        .Include(s => s.GameState)
                                            .ThenInclude(e => e.WhiteKing)
@@ -171,8 +170,14 @@ namespace ChessApp.Controllers
 
                   //needed
                   .Include(s => s.GameState)
+                    .ThenInclude(s => s.Game)
+                        .ThenInclude(s => s.Chessboard)
+                            .ThenInclude(e => e.BoardsFieldColumns)
+                               .ThenInclude(e => e.FieldColumn)
+                                   .ThenInclude(e => e.Fields)
+                                       .ThenInclude(e => e.Content)
                   .AsSplitQuery()
-                  .AsNoTracking()
+                  //.AsNoTracking()
                   .FirstOrDefaultAsync();
 
             if (game == null)
@@ -195,7 +200,7 @@ namespace ChessApp.Controllers
                     Console.Write($" {game.GameState.CurrentPlayer} resigned.");//d
                     Console.WriteLine($" {game.GameState.NextPlayer} won the game!");//d
 
-                    return View(nameof(EndOfTheGame), new { });
+                    return View(nameof(EndOfTheGame));
                 }
                 //TO DO: else if (time flag)
             }
@@ -264,7 +269,7 @@ namespace ChessApp.Controllers
             }*/
         }
 
-        private IActionResult EndOfTheGame()
+        public IActionResult EndOfTheGame()
         {
             return View();
         }

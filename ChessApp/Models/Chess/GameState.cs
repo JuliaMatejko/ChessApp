@@ -42,6 +42,10 @@ namespace ChessApp.Models.Chess
         public bool PlayersAgreedToADraw { get; set; }
         public bool PlayerResigned { get; set; }
         public bool PlayerOfferedADraw { get; set; }
+        public bool IsACheckmate { get; set; }
+        public bool IsAStalemate { get; set; }
+        public bool IsAWin => WinConditionMet();
+        public bool IsADraw => DrawConditionMet();
 
         public GameState(Game game)
         {
@@ -58,6 +62,8 @@ namespace ChessApp.Models.Chess
             PlayersAgreedToADraw = false;
             PlayerResigned = false;
             PlayerOfferedADraw = false;
+            IsACheckmate = false;
+            IsAStalemate = false;
         }
 
         public GameState()
@@ -66,10 +72,7 @@ namespace ChessApp.Models.Chess
         }
 
         public bool CurrentPlayerKingIsInCheck => CurrentPlayer == Sides.White ? WhiteKingIsInCheck : BlackKingIsInCheck;
-        public bool IsACheckmate => CheckmateOccured();
-        public bool IsAStalemate => StalemateOccured();
-        public bool IsAWin => WinConditionMet();
-        public bool IsADraw => DrawConditionMet();
+
 
         public bool DrawConditionMet()
         {
@@ -98,7 +101,7 @@ namespace ChessApp.Models.Chess
             return PlayersAgreedToADraw || IsAStalemate;
         }
 
-        public bool StalemateOccured()
+        public void StalemateOccured()
         {
             for (int i = 0; i < Board.boardSize; i++)
             {
@@ -112,12 +115,12 @@ namespace ChessApp.Models.Chess
                         bool isOponentsPiece = CurrentPlayer == Sides.White ? !piece.IsWhite : piece.IsWhite;
                         if (isOponentsPiece && piece.NextAvailablePositions.Count != 0)
                         {
-                            return false;
+                            IsAStalemate = false;
                         }
                     }
                 }
             }
-            return true;
+            IsAStalemate = true;
         }
 
         public void ChangeTurns()
@@ -158,7 +161,7 @@ namespace ChessApp.Models.Chess
             }
         }
 
-        public bool CheckmateOccured()
+        public void CheckmateOccured()
         {
             bool oponentsKingIsInCheck = CurrentPlayer == Sides.White ? BlackKingIsInCheck : WhiteKingIsInCheck;
             if (oponentsKingIsInCheck)
@@ -166,7 +169,7 @@ namespace ChessApp.Models.Chess
                 bool oponentsKingIsDoubleChecked = CurrentPlayerPiecesAttackingTheKing.Count > 1;
                 if (oponentsKingIsDoubleChecked && !KingCanMoveAway())
                 {
-                    return true;
+                    IsACheckmate = true;
                 }
                 else if (!KingCanMoveAway())
                 {
@@ -175,19 +178,19 @@ namespace ChessApp.Models.Chess
                     {
                         if (!CheckCanBeBlockedOrAttackingPieceCanBeCaptured())
                         {
-                            return true;
+                            IsACheckmate = true;
                         }
                     }
                     else
                     {
                         if (!AttackingPieceCanBeCaptured())
                         {
-                            return true;
+                            IsACheckmate = true;
                         }
                     }
                 }
             }
-            return false;
+            IsACheckmate = false;
 
             bool KingCanMoveAway()
             {

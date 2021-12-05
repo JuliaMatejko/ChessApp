@@ -14,7 +14,7 @@
             </div>
             <div class="modal-footer">
                 <form asp-controller="GameState" asp-action="PlayerResigned" asp-route-id="@Model.GameID">
-                    <input type="hidden" asp-for="GameID" />
+                    <input type="hidden" asp-for="GameState.GameID" />
                     <input type="hidden" asp-for="GameState.WhiteKingID" />
                     <input type="hidden" asp-for="GameState.BlackKingID" />
                     <input type="hidden" asp-for="GameState.WhitePawnThatCanBeTakenByEnPassantMoveID" />
@@ -23,8 +23,10 @@
                     <input type="hidden" asp-for="GameState.WhiteKingIsInCheck" />
                     <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
                     <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" />
-                    <input type="hidden" asp-for="GameState.PlayerResigned" value="true"/>
+                    <input type="hidden" asp-for="GameState.PlayerResigned" value="true" />
                     <input type="hidden" asp-for="GameState.PlayerOfferedADraw" />
+                    <input type="hidden" asp-for="GameState.IsACheckmate" />
+                    <input type="hidden" asp-for="GameState.IsAStalemate" />
                     <input type="submit" value="Resign" class="btn btn-primary" />
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
