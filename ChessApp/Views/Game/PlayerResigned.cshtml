@@ -8,24 +8,64 @@
     <div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-modal="true" style="display: block;" >
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header justify-content-center">
                     <h5 class="modal-title" id="playerResignedModalLabel">Player Resigned</h5>
-                    <button type="button" class="close" onclick="hideModal('#playerResignedModal')" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
-                    <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) resigned.</p>
-                    <p><b>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</b></p>
+                    @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                    {
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.FirstPlayerID) <b>resigned</b>.</p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.FirstPlayerID) <b>resigned</b>.</p>
+                        }
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.SecondPlayerID) <b>resigned</b>.</p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.SecondPlayerID) <b>resigned</b>.</p>
+                        }
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
                 </div>
-                <div class="modal-footer">
-                    <p>Start a New Game: </p><br />
+                <div class="modal-body">
                     <form asp-action="CreateNewGame">
                         <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
-                        <input type="hidden" asp-for="SecondPlayerID"  value="@Model.FirstPlayerID" />
-                        <input type="submit" value="Play Again" class="btn btn-success" />
+                        <input type="hidden" asp-for="SecondPlayerID" value="@Model.FirstPlayerID" />
+                        <div class="form-group">
+                            <span>Start a New Game:</span>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <span class="pr-1">
+                                <button type="submit" value="Play Again" class="btn btn-success mb-1">Play Again</button>
+                                <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#startGame">Change Players</button>
+                            </span>
+                            <button type="button" class="btn btn-secondary mb-1" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        </div>
                     </form>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
                 </div>
             </div>
         </div>
@@ -36,12 +76,12 @@
 <script>
     setTimeout(function () {
         $('#playerResignedModal').modal('show');
-    }, 1500);
+    }, 1000);
 
     const start = () => {
         setTimeout(function () {
             confetti.start();
-        }, 2500);
+        }, 2000);
     };
     
     const stop = () => {

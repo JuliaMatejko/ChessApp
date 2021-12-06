@@ -3,16 +3,35 @@
 <div class="modal fade" id="resign" tabindex="-1" role="dialog" aria-labelledby="resignModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="resignModalLabel">Resign?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title" id="resignModalLabel">Resign</h5>
             </div>
             <div class="modal-body">
-                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) want to resign?</p>
+                @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                {
+                    if (Model.FirstPlayerID == null)
+                    {
+                        <p>@Html.DisplayNameFor(model => model.FirstPlayerID) wants to <b>resign</b>?</p>
+                    }
+                    else
+                    {
+                        <p>@Html.DisplayFor(model => model.FirstPlayerID) wants to <b>resign</b>?</p>
+                    }
+
+                }
+                else
+                {
+                    if (Model.SecondPlayerID == null)
+                    {
+                        <p>@Html.DisplayNameFor(model => model.SecondPlayerID) wants to <b>resign</b>?</p>
+                    }
+                    else
+                    {
+                        <p>@Html.DisplayFor(model => model.SecondPlayerID) wants to <b>resign</b>?</p>
+                    }
+                }
             </div>
-            <div class="modal-footer">
+            <div class="modal-body">
                 <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
                     <input type="hidden" asp-for="GameState.GameID" />
                     <input type="hidden" asp-for="GameState.WhiteKingID" />
@@ -27,9 +46,11 @@
                     <input type="hidden" asp-for="GameState.PlayerOfferedADraw" />
                     <input type="hidden" asp-for="GameState.IsACheckmate" />
                     <input type="hidden" asp-for="GameState.IsAStalemate" />
-                    <input type="submit" value="Resign" onsubmit="" class="btn btn-primary" />
+                    <div class="form-group d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        <button type="submit" class="btn btn-primary">Resign<i class="fas fa-flag" style="font-size: x-small; padding-left: 0.5rem;"></i></button>
+                    </div>
                 </form>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

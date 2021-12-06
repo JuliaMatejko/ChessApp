@@ -45,9 +45,9 @@ namespace ChessApp.Models.Chess
 
         public int GameID { get; set; }
 
-        [Display(Name = "First Player")]
+        [Display(Name = "White-side Player")]
         public string FirstPlayerID { get; set; }
-        [Display(Name = "Second Player")]
+        [Display(Name = "Black-side Player")]
         public string SecondPlayerID { get; set; }
 
         public Board Chessboard { get; set; }
