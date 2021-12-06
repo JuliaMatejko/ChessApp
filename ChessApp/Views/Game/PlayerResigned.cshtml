@@ -1,10 +1,5 @@
 ﻿@model ChessApp.Models.Chess.Game
 @{
-    var ids = new Dictionary<string, string>
-                {
-                    { "firstPlayerId", @Model.FirstPlayerID },
-                    { "secondPlayerId", @Model.SecondPlayerID }
-                };
     var flag = Model.GameState.PlayerResigned;
 }
 
@@ -21,11 +16,15 @@
                 </div>
                 <div class="modal-body">
                     <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) resigned.</p>
-                    <p>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</p>
+                    <p><b>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</b></p>
                 </div>
                 <div class="modal-footer">
                     <p>Start a New Game: </p><br />
-                    <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
+                    <form asp-action="CreateNewGame">
+                        <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
+                        <input type="hidden" asp-for="SecondPlayerID"  value="@Model.FirstPlayerID" />
+                        <input type="submit" value="Play Again" class="btn btn-success" />
+                    </form>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
                 </div>
             </div>

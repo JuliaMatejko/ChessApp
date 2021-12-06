@@ -6,11 +6,15 @@
         <!--board-->
         <!--TO DO: change board picture to board with pieces and coordinates    height: fit-content;
     margin-top: 45vw;-->
-        <div id="board-1" class="col-12 col-xl-12 container-fluid p-0 board vh-100 d-flex justify-content-center">
+        <div id="board-1" class="col-12 col-xl-12 container-fluid p-0 board board-with-pieces vh-100 d-flex justify-content-center">
             <!--small screen-->
-            <a asp-controller="Game" asp-action="Index" class="btn btn-success d-inline-block d-xl-none" style="width: 66.6%; height: fit-content; margin-top: 48.5vw;"><i class="fas fa-chess"></i> Let's Play Chess! <i class="fas fa-chess"></i></a>
+            <a asp-controller="Game" asp-action="Index" class="btn btn-success d-inline-block d-xl-none" style="z-index: 1040; width: 66.6%; height: fit-content; margin-top: 48.5vw;">
+            Let's Play Chess! <i class="fas fa-chess"></i>
+            </a>
             <!--big screen-->
-            <a asp-controller="Game" asp-action="Index" class="btn btn-success d-none d-xl-inline-block" style="width: 66.6%; height: fit-content; margin-top: 48.5vh;"><i class="fas fa-chess"></i> Let's Play Chess! <i class="fas fa-chess"></i></a>
+            <a asp-controller="Game" asp-action="Index" class="btn btn-success d-none d-xl-inline-block" style="z-index: 1040; width: 66.6%; height: fit-content; margin-top: 48.5vh;">
+            Let's Play Chess! <i class="fas fa-chess"></i></a>
+            <div class="shadow-page"></div>
         </div>
     </div>
 </div>

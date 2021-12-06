@@ -57,33 +57,6 @@ namespace ChessApp.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: Game/CreateGame?firstPlayerId="whiterabbit"?secondPlayerId="blackcat"
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateGame(
-             string firstPlayerId,
-             string secondPlayerId,
-             [Bind("GameID, FirstPlayerID, SecondPlayerID")] Game game)
-        {
-            Game newGame = new(_context.Files.ToList(),
-                               _context.Ranks.ToList(),
-                               _context.Positions.ToList(),
-                               _context.FieldColumns.ToList());
-            newGame.FirstPlayerID = firstPlayerId;
-            newGame.SecondPlayerID = secondPlayerId;
-            if (ModelState.IsValid)
-            {
-                _context.Add(newGame);
-                await _context.SaveChangesAsync();
-                newGame.SetStartingBoard();
-                await _context.SaveChangesAsync();
-                newGame.RefreshAttackedSquares();
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Play), new { id = newGame.GameID });
-            }
-            return RedirectToAction(nameof(Index));
-        }
-
         // GET: Game/Play/5        *Edit
         public async Task<IActionResult> Play(int? id)
         {

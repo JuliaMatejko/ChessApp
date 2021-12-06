@@ -14,6 +14,10 @@
     max-width: 100vh;
 }
 
+.board-with-pieces {
+    background-image: url(../img/another_board_with_pieces.jpg);
+}
+
 .players-area, buttons-and-moves-area {
     max-height: 100vh;
     max-width: 100vh;
@@ -335,4 +339,14 @@
 
 body {
     background-color: #282b2f;
+}
+
+.shadow-page {
+    opacity: .2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
 }
