@@ -21,7 +21,7 @@ namespace ChessApp.Controllers
         //POST *Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PlayerResigned(
+        public async Task<IActionResult> Edit(
             int id,
             [Bind("GameID, " +
             "WhiteKingID, " +
@@ -35,7 +35,7 @@ namespace ChessApp.Controllers
             "PlayerResigned, " +
             "PlayerOfferedADraw, " +
             "IsACheckmate, " +
-            "IsADraw")] GameState gameState)
+            "IsAStalemate")] GameState gameState)
         {
             if (id != gameState.GameID)
             {

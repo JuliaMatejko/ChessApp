@@ -13,7 +13,7 @@
                 <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) want to resign?</p>
             </div>
             <div class="modal-footer">
-                <form asp-controller="GameState" asp-action="PlayerResigned" asp-route-id="@Model.GameID">
+                <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
                     <input type="hidden" asp-for="GameState.GameID" />
                     <input type="hidden" asp-for="GameState.WhiteKingID" />
                     <input type="hidden" asp-for="GameState.BlackKingID" />
@@ -27,7 +27,7 @@
                     <input type="hidden" asp-for="GameState.PlayerOfferedADraw" />
                     <input type="hidden" asp-for="GameState.IsACheckmate" />
                     <input type="hidden" asp-for="GameState.IsAStalemate" />
-                    <input type="submit" value="Resign" class="btn btn-primary" />
+                    <input type="submit" value="Resign" onsubmit="" class="btn btn-primary" />
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

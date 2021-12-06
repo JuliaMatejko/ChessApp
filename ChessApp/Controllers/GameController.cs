@@ -193,14 +193,14 @@ namespace ChessApp.Controllers
                     Console.WriteLine(" Checkmate.");//d
                     Console.WriteLine($" {game.GameState.CurrentPlayer} won the game!");//d
 
-                    return View(nameof(Checkmate));
+                    return View(nameof(EndOfTheGame), game);
                 }
                 else //(game.GameState.PlayerResigned)
                 {
                     Console.Write($" {game.GameState.CurrentPlayer} resigned.");//d
                     Console.WriteLine($" {game.GameState.NextPlayer} won the game!");//d
 
-                    return View(nameof(EndOfTheGame));
+                    return View(nameof(EndOfTheGame), game);
                 }
                 //TO DO: else if (time flag)
             }
@@ -212,14 +212,14 @@ namespace ChessApp.Controllers
                     Console.WriteLine(" Stalemate.");//d
                     Console.WriteLine(" It's a draw!");//d
 
-                    return View(nameof(Stalemate));
+                    return View(nameof(EndOfTheGame), game);
                 }
                 else //(game.GameState.PlayersAgreedToADraw)
                 {
                     Console.WriteLine(" Players agreed to a draw.");//d
                     Console.WriteLine(" It's a draw!");//d
 
-                    return View(nameof(PlayersAgreedToDraw));
+                    return View(nameof(EndOfTheGame), game);
                 }
                 //TO DO: else if - 3 move rule repetion, 5 move rule repetion, time vs not enough material, 50 move rule, 75 move rule
             }

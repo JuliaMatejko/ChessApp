@@ -5,26 +5,53 @@
                     { "firstPlayerId", @Model.FirstPlayerID },
                     { "secondPlayerId", @Model.SecondPlayerID }
                 };
-    var flag = Model.GameState.PlayerResigned != true;
+    var flag = Model.GameState.PlayerResigned;
 }
-<div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-hidden="@flag">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="playerResignedModalLabel">Player Resigned</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) resigned.</p>
-                <p>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</p>
-            </div>
-            <div class="modal-footer">
-                <p>Start a New Game: </p><br />
-                <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
+
+@if (flag)
+{
+    <div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-modal="true" style="display: block;" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playerResignedModalLabel">Player Resigned</h5>
+                    <button type="button" class="close" onclick="hideModal('#playerResignedModal')" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) resigned.</p>
+                    <p>@Html.DisplayFor(model => model.GameState.NextPlayer) won the game!</p>
+                </div>
+                <div class="modal-footer">
+                    <p>Start a New Game: </p><br />
+                    <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
+<script src="~/js/confetti.min.js"></script>
+<script>
+    setTimeout(function () {
+        $('#playerResignedModal').modal('show');
+    }, 1500);
+
+    const start = () => {
+        setTimeout(function () {
+            confetti.start();
+        }, 2500);
+    };
+    
+    const stop = () => {
+        setTimeout(function () {
+            confetti.stop();
+        }, 5500);
+    };
+
+    start();
+    stop();
+    
+</script>
