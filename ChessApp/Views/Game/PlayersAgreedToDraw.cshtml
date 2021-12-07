@@ -1,29 +1,43 @@
 ﻿@model ChessApp.Models.Chess.Game
 @{
-    var ids = new Dictionary<string, string>
-                {
-                    { "firstPlayerId", @Model.FirstPlayerID },
-                    { "secondPlayerId", @Model.SecondPlayerID }
-                };
-    var flag = Model.GameState.PlayersAgreedToADraw != true;
+    var flag = Model.GameState.PlayersAgreedToADraw;
 }
-<div class="modal fade" id="playersAgreedToDrawModal" tabindex="-1" role="dialog" aria-labelledby="playersAgreedToDrawModalLabel" aria-hidden="@flag">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="playersAgreedToDrawModalLabel">Draw</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Players agreed to draw.</p>
-            </div>
-            <div class="modal-footer">
-                <p>Start A New Game:</p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
+
+@if (flag)
+{
+    <div class="modal fade" id="playersAgreedToDrawModal" tabindex="-1" role="dialog" aria-labelledby="playersAgreedToDrawModalLabel" aria-modal="true" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="playersAgreedToDrawModalLabel">Draw</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Nobody wins the game.</p>
+                    <p class="alert alert-primary text-center">Players agreed to <b>draw.</b><i class="fas fa-handshake" style="padding-left: 0.5rem;"></i></p>
+                </div>
+                <div class="modal-body">
+                    <form asp-action="CreateNewGame">
+                        <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
+                        <input type="hidden" asp-for="SecondPlayerID" value="@Model.FirstPlayerID" />
+                        <div class="form-group">
+                            <span>Start a New Game:</span>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <span class="pr-1">
+                                <button type="submit" value="Play Again" class="btn btn-success mb-1">Play Again</button>
+                                <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#startGame">Change Players</button>
+                            </span>
+                            <button type="button" class="btn btn-secondary mb-1" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script>
+        setTimeout(function () {
+            $('#playersAgreedToDrawModal').modal('show');
+        }, 1000);
+    </script>
+}

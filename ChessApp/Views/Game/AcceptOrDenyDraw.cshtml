@@ -1,21 +1,87 @@
 ﻿@model ChessApp.Models.Chess.Game
+@{
+    var flag = Model.GameState.PlayerOfferedADraw;
+}
 
-<div class="modal fade" id="acceptOrDenyDraw" tabindex="-1" role="dialog" aria-labelledby="acceptOrDenyDrawModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="acceptOrDenyDrawModalLabel">Draw?</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) offers a draw. Accept a draw? </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-toggle="modal" asp-action="PlayersAgreedToDraw">Accept</button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" >Deny</button><!--TODO-->
+@if (flag)
+{
+    <div class="modal fade" id="acceptOrDenyDrawModal" tabindex="-1" role="dialog" aria-labelledby="acceptOrDenyDrawModalLabel" aria-modal="true" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="acceptOrDenyDrawModalLabel">Draw?</h5>
+                </div>
+                <div class="modal-body">
+                    @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                    {
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.FirstPlayerID) <b>offers a draw.</b></p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.FirstPlayerID) <b>offers a draw.</b></p>
+                        }
+
+                    }
+                    else
+                    {
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.SecondPlayerID) <b>offers a draw.</b></p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.SecondPlayerID) <b>offers a draw.</b></p>
+                        }
+                    }
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>Deny or accept the draw:</span>
+                    </div>
+                    <div class="form-group d-flex justify-content-between">
+                        <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
+                            <input type="hidden" asp-for="GameState.GameID" />
+                            <input type="hidden" asp-for="GameState.WhiteKingID" />
+                            <input type="hidden" asp-for="GameState.BlackKingID" />
+                            <input type="hidden" asp-for="GameState.WhitePawnThatCanBeTakenByEnPassantMoveID" />
+                            <input type="hidden" asp-for="GameState.BlackPawnThatCanBeTakenByEnPassantMoveID" />
+                            <input type="hidden" asp-for="GameState.CurrentPlayer" />
+                            <input type="hidden" asp-for="GameState.WhiteKingIsInCheck" />
+                            <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
+                            <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" />
+                            <input type="hidden" asp-for="GameState.PlayerResigned" />
+                            <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="false" />
+                            <input type="hidden" asp-for="GameState.IsACheckmate" />
+                            <input type="hidden" asp-for="GameState.IsAStalemate" />
+                            <button type="submit" class="btn btn-secondary">Deny</button>
+                        </form>
+                        <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
+                            <input type="hidden" asp-for="GameState.GameID" />
+                            <input type="hidden" asp-for="GameState.WhiteKingID" />
+                            <input type="hidden" asp-for="GameState.BlackKingID" />
+                            <input type="hidden" asp-for="GameState.WhitePawnThatCanBeTakenByEnPassantMoveID" />
+                            <input type="hidden" asp-for="GameState.BlackPawnThatCanBeTakenByEnPassantMoveID" />
+                            <input type="hidden" asp-for="GameState.CurrentPlayer" />
+                            <input type="hidden" asp-for="GameState.WhiteKingIsInCheck" />
+                            <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
+                            <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" value="true" />
+                            <input type="hidden" asp-for="GameState.PlayerResigned" />
+                            <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="false" />
+                            <input type="hidden" asp-for="GameState.IsACheckmate" />
+                            <input type="hidden" asp-for="GameState.IsAStalemate" />
+                            <button type="submit" class="btn btn-success">Accept<i class="fas fa-handshake" style="font-size: small; padding-left: 0.5rem;"></i></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script>
+        setTimeout(function () {
+            $('#acceptOrDenyDrawModal').modal('show');
+        }, 1000);
+    </script>
+}

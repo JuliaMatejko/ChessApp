@@ -252,8 +252,6 @@ namespace ChessApp.Controllers
             return View();
         }
 
-        
-
         private IActionResult Stalemate()
         {
             return View();
@@ -311,9 +309,9 @@ namespace ChessApp.Controllers
             {
                 try
                 {
-                    game.GameState.ResetEnPassantFlag();    //?
-                    game.GameState.ResetCurrentPiecesAttackingTheKing();        //?
-                    game.GameState.ChangeTurns();       //?
+                    game.GameState.ResetEnPassantFlag();
+                    game.GameState.ResetCurrentPiecesAttackingTheKing();
+                    game.GameState.ChangeTurns();
                     _context.Update(game);
                     await _context.SaveChangesAsync();
                 }
@@ -330,7 +328,7 @@ namespace ChessApp.Controllers
                 }
                 return RedirectToAction(nameof(Play), new { id = game.GameID });
             }
-            return View(nameof(Play), game);    //? what if error, bad move, how frontend reacts
+            return View(nameof(Play), game);
         }
 
         //GET

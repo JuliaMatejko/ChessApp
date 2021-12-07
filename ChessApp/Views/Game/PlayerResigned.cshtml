@@ -5,7 +5,7 @@
 
 @if (flag)
 {
-    <div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-modal="true" style="display: block;" >
+    <div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-modal="true" style="display: block;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header justify-content-center">
@@ -70,27 +70,29 @@
             </div>
         </div>
     </div>
+
+    <script src="~/js/confetti.min.js"></script>
+    <script>
+        setTimeout(function () {
+            $('#playerResignedModal').modal('show');
+        }, 1000);
+
+        const start = () => {
+            setTimeout(function () {
+                confetti.start();
+            }, 2000);
+        };
+
+        const stop = () => {
+            setTimeout(function () {
+                confetti.stop();
+            }, 5500);
+        };
+
+        start();
+        stop();
+
+    </script>
 }
 
-<script src="~/js/confetti.min.js"></script>
-<script>
-    setTimeout(function () {
-        $('#playerResignedModal').modal('show');
-    }, 1000);
 
-    const start = () => {
-        setTimeout(function () {
-            confetti.start();
-        }, 2000);
-    };
-    
-    const stop = () => {
-        setTimeout(function () {
-            confetti.stop();
-        }, 5500);
-    };
-
-    start();
-    stop();
-    
-</script>

@@ -1,0 +1,57 @@
+﻿@model ChessApp.Models.Chess.Game
+
+<div class="modal fade" id="proposeDraw" tabindex="-1" role="dialog" aria-labelledby="proposeDrawLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header justify-content-center">
+                <h5 class="modal-title" id="proposeDrawLabel">Offer a Draw</h5>
+            </div>
+            <div class="modal-body">
+                @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                {
+                    if (Model.FirstPlayerID == null)
+                    {
+                        <p>@Html.DisplayNameFor(model => model.FirstPlayerID) <b>offers a draw</b>?</p>
+                    }
+                    else
+                    {
+                        <p>@Html.DisplayFor(model => model.FirstPlayerID) <b>offers a draw</b>?</p>
+                    }
+
+                }
+                else
+                {
+                    if (Model.SecondPlayerID == null)
+                    {
+                        <p>@Html.DisplayNameFor(model => model.SecondPlayerID) <b>offers a draw</b>?</p>
+                    }
+                    else
+                    {
+                        <p>@Html.DisplayFor(model => model.SecondPlayerID) <b>offers a draw</b>?</p>
+                    }
+                }
+            </div>
+            <div class="modal-body">
+                <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
+                    <input type="hidden" asp-for="GameState.GameID" />
+                    <input type="hidden" asp-for="GameState.WhiteKingID" />
+                    <input type="hidden" asp-for="GameState.BlackKingID" />
+                    <input type="hidden" asp-for="GameState.WhitePawnThatCanBeTakenByEnPassantMoveID" />
+                    <input type="hidden" asp-for="GameState.BlackPawnThatCanBeTakenByEnPassantMoveID" />
+                    <input type="hidden" asp-for="GameState.CurrentPlayer" />
+                    <input type="hidden" asp-for="GameState.WhiteKingIsInCheck" />
+                    <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
+                    <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" />
+                    <input type="hidden" asp-for="GameState.PlayerResigned" />
+                    <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="true"/>
+                    <input type="hidden" asp-for="GameState.IsACheckmate" />
+                    <input type="hidden" asp-for="GameState.IsAStalemate" />
+                    <div class="form-group d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        <button type="submit" class="btn btn-primary">Offer a Draw<i class="fas fa-question" style="font-size: small; padding-left: 0.5rem;"></i><i class="fas fa-handshake" style="font-size: small; padding-left: 0.5rem;"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

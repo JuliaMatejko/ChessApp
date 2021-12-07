@@ -4,8 +4,10 @@
     <!--Modals-->
     <!--Resign-->
     <partial name="Resign" />
+    <!--Propose a draw-->
+    <partial name="ProposeDraw" />
     <!--Accept or deny a draw-->
-    <partial name="AcceptorDenyDraw" />
+    <partial name="AcceptOrDenyDraw" />
     <div class="row no-gutters">
         <!--big screens-->
         <div class="players-area col p-2 container-fluid d-none d-xl-block">
@@ -208,7 +210,7 @@
             <div class="row no-gutters flex-column h-100">
                 <div class="button-area col-auto d-flex flex-column justify-content-start align-items-center pb-2">
                     <button type="button" onclick="flipTheBoard()" class="btn btn-light border-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Flip the board <i class="fas fa-sync-alt"></i></button>
-                    <button type="button" data-toggle="modal" data-target="#acceptOrDenyDraw" class="btn btn-primary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Offer A Draw <i class="fas fa-question"></i> <i class="fas fa-handshake"></i></button>
+                    <button type="button" data-toggle="modal" data-target="#proposeDraw" class="btn btn-primary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Offer a Draw <i class="fas fa-question"></i> <i class="fas fa-handshake"></i></button>
                     <button type="button" data-toggle="modal" data-target="#resign" class="btn btn-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Resign <i class="fas fa-flag"></i></button>
                 </div>
                 <div class="move-table-area col p-2 p-xl-5">
