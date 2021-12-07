@@ -65,56 +65,53 @@
             <div class="square-a4 highlight-danger"></div>
             <div class="square-a5 hover-square"></div>
             <div class="square-a6 hover-square"></div>-->
-            @foreach (var boardsFieldColumn in Model.Chessboard.BoardsFieldColumns)
+            @foreach (var field in Model.Chessboard.Fields)
             {
-                foreach (var field in boardsFieldColumn.FieldColumn.Fields)
+                @if (field.Content != null)
                 {
-                    @if (field.Content != null)
+                    @switch (field.Content.PieceNameID) //TO DO: could be done better
                     {
-                        @switch (field.Content.PieceNameID) //TO DO: could be done better
-                        {
-                            case "pw":
-                                <div id="@field.Position.Name" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "pb":
-                                <div id="@field.Position.Name" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "rw":
-                                <div id="@field.Position.Name" class="piece rw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "rb":
-                                <div id="@field.Position.Name" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "nw":
-                                <div id="@field.Position.Name" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "nb":
-                                <div id="@field.Position.Name" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "bw":
-                                <div id="@field.Position.Name" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "bb":
-                                <div id="@field.Position.Name" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "qw":
-                                <div id="@field.Position.Name" class="piece qw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "qb":
-                                <div id="@field.Position.Name" class="piece qb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "kw":
-                                <div id="@field.Position.Name" class="piece kw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                            case "kb":
-                                <div id="@field.Position.Name" class="piece kb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                                break;
-                        }
+                        case "pw":
+                            <div id="@field.Position.Name" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "pb":
+                            <div id="@field.Position.Name" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "rw":
+                            <div id="@field.Position.Name" class="piece rw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "rb":
+                            <div id="@field.Position.Name" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "nw":
+                            <div id="@field.Position.Name" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "nb":
+                            <div id="@field.Position.Name" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "bw":
+                            <div id="@field.Position.Name" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "bb":
+                            <div id="@field.Position.Name" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "qw":
+                            <div id="@field.Position.Name" class="piece qw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "qb":
+                            <div id="@field.Position.Name" class="piece qb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "kw":
+                            <div id="@field.Position.Name" class="piece kw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
+                        case "kb":
+                            <div id="@field.Position.Name" class="piece kb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            break;
                     }
-                    else
-                    {
-                        <div id="@field.Position.Name" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
-                    }
+                }
+                else
+                {
+                    <div id="@field.Position.Name" class="" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                 }
             }
             <!--

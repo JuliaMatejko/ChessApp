@@ -69,57 +69,55 @@
             <div class="square-a4 highlight-danger"></div>
             <div class="square-a5 hover-square"></div>
             <div class="square-a6 hover-square"></div>-->
-            @foreach (var boardsFieldColumn in Model.Chessboard.BoardsFieldColumns)
+            @foreach (var field in Model.Chessboard.Fields)
             {
-                foreach (var field in boardsFieldColumn.FieldColumn.Fields)
+                @if (field.Content != null)
                 {
-                    @if (field.Content != null)
+                    @switch (field.Content.PieceNameID) //TO DO: could be done better
                     {
-                        @switch (field.Content.PieceNameID) //TO DO: could be done better
-                        {
-                            case "pw":
-                                <div id="@field.Position.Name" class="piece pw"></div>
-                                break;
-                            case "pb":
-                                <div id="@field.Position.Name" class="piece pb"></div>
-                                break;
-                            case "rw":
-                                <div id="@field.Position.Name" class="piece rw"></div>
-                                break;
-                            case "rb":
-                                <div id="@field.Position.Name" class="piece rb"></div>
-                                break;
-                            case "nw":
-                                <div id="@field.Position.Name" class="piece nw"></div>
-                                break;
-                            case "nb":
-                                <div id="@field.Position.Name" class="piece nb"></div>
-                                break;
-                            case "bw":
-                                <div id="@field.Position.Name" class="piece bw"></div>
-                                break;
-                            case "bb":
-                                <div id="@field.Position.Name" class="piece bb"></div>
-                                break;
-                            case "qw":
-                                <div id="@field.Position.Name" class="piece qw"></div>
-                                break;
-                            case "qb":
-                                <div id="@field.Position.Name" class="piece qb"></div>
-                                break;
-                            case "kw":
-                                <div id="@field.Position.Name" class="piece kw"></div>
-                                break;
-                            case "kb":
-                                <div id="@field.Position.Name" class="piece kb"></div>
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        <div id="@field.Position.Name" class=""></div>
+                        case "pw":
+                            <div id="@field.Position.Name" class="piece pw"></div>
+                            break;
+                        case "pb":
+                            <div id="@field.Position.Name" class="piece pb"></div>
+                            break;
+                        case "rw":
+                            <div id="@field.Position.Name" class="piece rw"></div>
+                            break;
+                        case "rb":
+                            <div id="@field.Position.Name" class="piece rb"></div>
+                            break;
+                        case "nw":
+                            <div id="@field.Position.Name" class="piece nw"></div>
+                            break;
+                        case "nb":
+                            <div id="@field.Position.Name" class="piece nb"></div>
+                            break;
+                        case "bw":
+                            <div id="@field.Position.Name" class="piece bw"></div>
+                            break;
+                        case "bb":
+                            <div id="@field.Position.Name" class="piece bb"></div>
+                            break;
+                        case "qw":
+                            <div id="@field.Position.Name" class="piece qw"></div>
+                            break;
+                        case "qb":
+                            <div id="@field.Position.Name" class="piece qb"></div>
+                            break;
+                        case "kw":
+                            <div id="@field.Position.Name" class="piece kw"></div>
+                            break;
+                        case "kb":
+                            <div id="@field.Position.Name" class="piece kb"></div>
+                            break;
                     }
                 }
+                else
+                {
+                    <div id="@field.Position.Name" class=""></div>
+                }
+
             }
         </div>
         <!-- small screens-->
@@ -137,8 +135,12 @@
             <div class="row no-gutters flex-column h-100">
                 <div class="button-area col-auto d-flex flex-column justify-content-start align-items-center pb-2">
                     <button type="button" onclick="flipTheBoard()" class="btn btn-light border-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Flip the board <i class="fas fa-sync-alt"></i></button>
-                    <button type="button" class="btn btn-primary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Offer A Draw <i class="fas fa-question"></i> <i class="fas fa-handshake"></i></button>
-                    <button type="button" class="btn btn-secondary m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Resign <i class="fas fa-flag"></i></button>
+                    <form asp-action="CreateNewGame">
+                        <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
+                        <input type="hidden" asp-for="SecondPlayerID" value="@Model.FirstPlayerID" />
+                        <button type="submit" class="btn btn-success m-2 d-block" style="width: 180px; height: 40px; font-weight: 600;">Play Again</button>
+                        <button type="button" class="btn btn-primary m-2 mt-3 d-block" style="width: 180px; height: 40px; font-weight: 600;" data-toggle="modal" data-target="#startGame">Change Players</button>
+                    </form>
                 </div>
                 <div class="move-table-area col p-2 p-xl-5">
                     <div class="table-scrollable rounded">
