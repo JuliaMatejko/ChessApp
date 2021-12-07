@@ -1,9 +1,6 @@
 ﻿@model ChessApp.Models.Chess.Game
-@{
-    var flag = Model.GameState.PlayerResigned;
-}
 
-@if (flag)
+@if (Model.GameState.PlayerResigned)
 {
     <div class="modal fade" id="playerResignedModal" tabindex="-1" role="dialog" aria-labelledby="playerResignedModalLabel" aria-modal="true" style="display: block;">
         <div class="modal-dialog" role="document">

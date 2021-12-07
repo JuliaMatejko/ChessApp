@@ -1,18 +1,15 @@
 ﻿@model ChessApp.Models.Chess.Game
-@{
-    var flag = Model.GameState.IsACheckmate;
-}
 
-@if (flag)
+@if (Model.GameState.IsACheckmate)
 {
     <div class="modal fade" id="checkmateModal" tabindex="-1" role="dialog" aria-labelledby="checkmateModalLabel" aria-modal="true" style="display: block;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header  justify-content-center">
+                <div class="modal-header justify-content-center">
                     <h5 class="modal-title" id="checkmateModalLabel">Checkmate</h5>
                 </div>
                 <div class="modal-body">
-                    <p><b>Checkmate.</b></p>
+                    <p>It's a <b>checkmate.</b></p>
                     @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
                     {
                         if (Model.FirstPlayerID == null)

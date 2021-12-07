@@ -158,7 +158,7 @@ namespace ChessApp.Controllers
                 {
                     return View(nameof(EndOfTheGame), game);
                 }
-                else //(game.GameState.PlayerResigned)
+                else if (game.GameState.PlayerResigned)
                 {
                     return View(nameof(EndOfTheGame), game);
                 }
@@ -168,10 +168,6 @@ namespace ChessApp.Controllers
             {
                 if (game.GameState.IsAStalemate)
                 {
-                    //BoardView.PrintBoard(game.Chessboard);//d
-                    Console.WriteLine(" Stalemate.");//d
-                    Console.WriteLine(" It's a draw!");//d
-
                     return View(nameof(EndOfTheGame), game);
                 }
                 else //(game.GameState.PlayersAgreedToADraw)
