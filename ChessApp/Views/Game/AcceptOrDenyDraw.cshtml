@@ -55,6 +55,7 @@
                             <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="false" />
                             <input type="hidden" asp-for="GameState.IsACheckmate" />
                             <input type="hidden" asp-for="GameState.IsAStalemate" />
+                            <input type="hidden" asp-for="GameState.TimeFlag" />
                             <button type="submit" class="btn btn-secondary">Deny</button>
                         </form>
                         <form asp-controller="GameState" asp-action="Edit" asp-route-id="@Model.GameID">
@@ -71,6 +72,7 @@
                             <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="false" />
                             <input type="hidden" asp-for="GameState.IsACheckmate" />
                             <input type="hidden" asp-for="GameState.IsAStalemate" />
+                            <input type="hidden" asp-for="GameState.TimeFlag" />
                             <button type="submit" class="btn btn-success">Accept<i class="fas fa-handshake" style="font-size: small; padding-left: 0.5rem;"></i></button>
                         </form>
                     </div>

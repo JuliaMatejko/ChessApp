@@ -42,6 +42,7 @@ namespace ChessApp.Models.Chess
         public bool PlayerOfferedADraw { get; set; }
         public bool IsACheckmate { get; set; }
         public bool IsAStalemate { get; set; }
+        public bool TimeFlag { get; set; }
         public bool IsAWin => WinConditionMet();
         public bool IsADraw => DrawConditionMet();
 
@@ -62,6 +63,7 @@ namespace ChessApp.Models.Chess
             PlayerOfferedADraw = false;
             IsACheckmate = false;
             IsAStalemate = false;
+            TimeFlag = false;
         }
 
         public GameState()
@@ -287,7 +289,7 @@ namespace ChessApp.Models.Chess
 
         public bool WinConditionMet()
         {
-            return IsACheckmate || PlayerResigned;
+            return IsACheckmate || PlayerResigned || TimeFlag;
         }
     }
 }

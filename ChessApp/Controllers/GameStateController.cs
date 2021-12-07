@@ -33,7 +33,8 @@ namespace ChessApp.Controllers
             "PlayerResigned, " +
             "PlayerOfferedADraw, " +
             "IsACheckmate, " +
-            "IsAStalemate")] GameState gameState)
+            "IsAStalemate, " +
+            "TimeFlag")] GameState gameState)
         {
             if (id != gameState.GameID)
             {

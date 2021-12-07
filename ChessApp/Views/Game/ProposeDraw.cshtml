@@ -43,9 +43,10 @@
                     <input type="hidden" asp-for="GameState.BlackKingIsInCheck" />
                     <input type="hidden" asp-for="GameState.PlayersAgreedToADraw" />
                     <input type="hidden" asp-for="GameState.PlayerResigned" />
-                    <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="true"/>
+                    <input type="hidden" asp-for="GameState.PlayerOfferedADraw" value="true" />
                     <input type="hidden" asp-for="GameState.IsACheckmate" />
                     <input type="hidden" asp-for="GameState.IsAStalemate" />
+                    <input type="hidden" asp-for="GameState.TimeFlag" />
                     <div class="form-group d-flex justify-content-between">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
                         <button type="submit" class="btn btn-primary">Offer a Draw<i class="fas fa-question" style="font-size: small; padding-left: 0.5rem;"></i><i class="fas fa-handshake" style="font-size: small; padding-left: 0.5rem;"></i></button>

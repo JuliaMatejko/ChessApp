@@ -1,11 +1,7 @@
 ﻿using ChessApp.Data;
 using ChessApp.Models.Chess;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -152,29 +148,11 @@ namespace ChessApp.Controllers
                 return NotFound();
             }
 
-            if (game.GameState.IsAWin)
+            if (game.GameState.IsAWin || game.GameState.IsADraw)
             {
-                if (game.GameState.IsACheckmate)
-                {
-                    return View(nameof(EndOfTheGame), game);
-                }
-                else if (game.GameState.PlayerResigned)
-                {
-                    return View(nameof(EndOfTheGame), game);
-                }
-                //TO DO: else if (time flag)
-            }
-            else if (game.GameState.IsADraw)
-            {
-                if (game.GameState.IsAStalemate)
-                {
-                    return View(nameof(EndOfTheGame), game);
-                }
-                else //(game.GameState.PlayersAgreedToADraw)
-                {
-                    return View(nameof(EndOfTheGame), game);
-                }
+                return View(nameof(EndOfTheGame), game);
                 //TO DO: else if - 3 move rule repetion, 5 move rule repetion, time vs not enough material, 50 move rule, 75 move rule
+                //TO DO: else if (time flag)
             }
             else
             {
@@ -183,16 +161,6 @@ namespace ChessApp.Controllers
         }
 
         public IActionResult EndOfTheGame()
-        {
-            return View();
-        }
-
-        private IActionResult Checkmate()
-        {
-            return View();
-        }
-
-        private IActionResult Stalemate()
         {
             return View();
         }

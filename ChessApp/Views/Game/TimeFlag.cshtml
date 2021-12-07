@@ -1,0 +1,95 @@
+﻿@model ChessApp.Models.Chess.Game
+
+@if (Model.GameState.TimeFlag)
+{
+    <div class="modal fade" id="timeFlagModal" tabindex="-1" role="dialog" aria-labelledby="timeFlagModalLabel" aria-modal="true" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title" id="playerResignedModalLabel">Time ended</h5>
+                </div>
+                <div class="modal-body">
+                    @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                    {
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.FirstPlayerID)'s <b>time ended</b>.</p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.FirstPlayerID)'s <b>time ended</b>.</p>
+                        }
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p>@Html.DisplayNameFor(model => model.SecondPlayerID)'s <b>time ended</b>.</p>
+                        }
+                        else
+                        {
+                            <p>@Html.DisplayFor(model => model.SecondPlayerID)'s <b>time ended</b>.</p>
+                        }
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
+                </div>
+                <div class="modal-body">
+                    <form asp-action="CreateNewGame">
+                        <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
+                        <input type="hidden" asp-for="SecondPlayerID" value="@Model.FirstPlayerID" />
+                        <div class="form-group">
+                            <span>Start a New Game:</span>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <span class="pr-1">
+                                <button type="submit" value="Play Again" class="btn btn-success mb-1">Play Again</button>
+                                <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#startGame">Change Players</button>
+                            </span>
+                            <button type="button" class="btn btn-secondary mb-1" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/confetti.min.js"></script>
+    <script>
+        setTimeout(function () {
+            $('#timeFlagModal').modal('show');
+        }, 1000);
+
+        const start = () => {
+            setTimeout(function () {
+                confetti.start();
+            }, 2000);
+        };
+
+        const stop = () => {
+            setTimeout(function () {
+                confetti.stop();
+            }, 5500);
+        };
+
+        start();
+        stop();
+
+    </script>
+}
+
+
