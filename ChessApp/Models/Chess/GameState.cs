@@ -2,8 +2,6 @@
 using ChessApp.Models.Chess.Pieces.PieceProperties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace ChessApp.Models.Chess
@@ -264,7 +262,7 @@ namespace ChessApp.Models.Chess
                                 {
                                     return true;
                                 }
-                                foreach (Position position in blockingPositions)                                                 // Check if any of the oponents pieces can move on the blocking position
+                                foreach (Position position in blockingPositions)    // Check if any of the oponents pieces can move on the blocking position
                                 {
                                     foreach (NextAvailablePosition p in piece.NextAvailablePositions)
                                     {

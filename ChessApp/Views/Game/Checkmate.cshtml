@@ -1,29 +1,81 @@
 ﻿@model ChessApp.Models.Chess.Game
 @{
-    var ids = new Dictionary<string, string>
-                {
-                    { "firstPlayerId", @Model.FirstPlayerID },
-                    { "secondPlayerId", @Model.SecondPlayerID }
-                };
-    var flag = Model.GameState.IsACheckmate != true;
+    var flag = Model.GameState.IsACheckmate;
 }
-<div class="modal fade" id="checkmateEndOfGame" tabindex="-1" role="dialog" aria-labelledby="checkmateEndOfGameModalLabel" aria-hidden="@flag">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="checkmateEndOfGameModalLabel">Checkmate</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>@Html.DisplayFor(model => model.GameState.CurrentPlayer) won the game! </p>
-            </div>
-            <div class="modal-footer">
-                <p>Start A New Game:</p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" asp-action="CreateGame" asp-all-route-data="ids">Play Again</button><!--TODO: redirect to create new game with firstplayerid and second player id parameters-->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#startGame">Change Players</button><!--TODO: redirect to create new game-->
+
+@if (flag)
+{
+    <div class="modal fade" id="checkmateModal" tabindex="-1" role="dialog" aria-labelledby="checkmateModalLabel" aria-modal="true" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header  justify-content-center">
+                    <h5 class="modal-title" id="checkmateModalLabel">Checkmate</h5>
+                </div>
+                <div class="modal-body">
+                    <p><b>Checkmate.</b></p>
+                    @if (Model.GameState.CurrentPlayer == ChessApp.Models.Chess.GameState.Sides.White)
+                    {
+                        if (Model.FirstPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.FirstPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.SecondPlayerID == null)
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayNameFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-success text-center">@Html.DisplayFor(model => model.SecondPlayerID) <b>won the game!</b><i class="fas fa-trophy" style="padding-left: 0.5rem;"></i></p>
+                        }
+                    }
+                </div>
+                <div class="modal-body">
+                    <form asp-action="CreateNewGame">
+                        <input type="hidden" asp-for="FirstPlayerID" value="@Model.SecondPlayerID" />
+                        <input type="hidden" asp-for="SecondPlayerID" value="@Model.FirstPlayerID" />
+                        <div class="form-group">
+                            <span>Start a New Game:</span>
+                        </div>
+                        <div class="form-group d-flex justify-content-between">
+                            <span class="pr-1">
+                                <button type="submit" value="Play Again" class="btn btn-success mb-1">Play Again</button>
+                                <button type="button" class="btn btn-primary mb-1" data-toggle="modal" data-target="#startGame">Change Players</button>
+                            </span>
+                            <button type="button" class="btn btn-secondary mb-1" data-dismiss="modal"><i class="fas fa-times" style="font-size: x-small; padding-right: 0.5rem;"></i>Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <script src="~/js/confetti.min.js"></script>
+    <script>
+        setTimeout(function () {
+            $('#checkmateModal').modal('show');
+        }, 1000);
+
+        const start = () => {
+            setTimeout(function () {
+                confetti.start();
+            }, 2000);
+        };
+
+        const stop = () => {
+            setTimeout(function () {
+                confetti.stop();
+            }, 5500);
+        };
+
+        start();
+        stop();
+
+    </script>
+}

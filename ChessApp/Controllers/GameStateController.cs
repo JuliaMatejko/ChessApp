@@ -2,8 +2,6 @@
 using ChessApp.Models.Chess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,7 +45,7 @@ namespace ChessApp.Controllers
                 try
                 {
                     _context.Update(gameState);
-                    await _context.SaveChangesAsync();//data-toggle="modal" data-target="#playerResignedModal"
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
