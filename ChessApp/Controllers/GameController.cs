@@ -92,7 +92,7 @@ namespace ChessApp.Controllers
                          .ThenInclude(e => e.FieldColumn)
                              .ThenInclude(e => e.Fields)
                                  .ThenInclude(e => e.Content)
-                                     .ThenInclude(e => e.GameState)*/
+                                     .ThenInclude(e => e.GameState)
                    .Include(s => s.Chessboard)
                         .ThenInclude(e => e.BoardsFieldColumns)
                             .ThenInclude(e => e.FieldColumn)
@@ -119,7 +119,16 @@ namespace ChessApp.Controllers
                                .ThenInclude(e => e.Fields)
                                    .ThenInclude(e => e.Content)
                                        .ThenInclude(e => e.NextAvailablePositions)
-                                            .OrderBy(e => e.GameID)
+                                            .OrderBy(e => e.GameID)*/
+                    .Include(s => s.Chessboard)
+                        .ThenInclude(e => e.Fields)
+                            .ThenInclude(e => e.Position)
+                                    .OrderBy(e => e.GameID)
+                    .Include(s => s.Chessboard)
+                        .ThenInclude(e => e.Fields)
+                            .ThenInclude(e => e.Content)
+                                    .OrderBy(e => e.GameID)
+                    .Include(s => s.GameState)
                   /*
                                        .Include(s => s.GameState)
                                            .ThenInclude(e => e.WhiteKing)
@@ -140,17 +149,8 @@ namespace ChessApp.Controllers
                                            .ThenInclude(e => e.NewPosition)
                                        .Include(s => s.Moves)
                                            .ThenInclude(e => e.PromotionTo)*/
-
-                  //needed
-                  .Include(s => s.GameState)
-                    .ThenInclude(s => s.Game)
-                        .ThenInclude(s => s.Chessboard)
-                            .ThenInclude(e => e.BoardsFieldColumns)
-                               .ThenInclude(e => e.FieldColumn)
-                                   .ThenInclude(e => e.Fields)
-                                       .ThenInclude(e => e.Content)
-                  .AsSplitQuery()
-                  //.AsNoTracking()
+                  //.AsSplitQuery()
+                  .AsNoTracking()
                   .FirstOrDefaultAsync();
 
             if (game == null)
@@ -162,7 +162,7 @@ namespace ChessApp.Controllers
             {
                 if (game.GameState.IsACheckmate)
                 {
-                    BoardView.PrintBoard(game.Chessboard);//d
+                    //BoardView.PrintBoard(game.Chessboard);//d
                     Console.WriteLine(" Checkmate.");//d
                     Console.WriteLine($" {game.GameState.CurrentPlayer} won the game!");//d
 
@@ -181,7 +181,7 @@ namespace ChessApp.Controllers
             {
                 if (game.GameState.IsAStalemate)
                 {
-                    BoardView.PrintBoard(game.Chessboard);//d
+                    //BoardView.PrintBoard(game.Chessboard);//d
                     Console.WriteLine(" Stalemate.");//d
                     Console.WriteLine(" It's a draw!");//d
 
@@ -198,7 +198,7 @@ namespace ChessApp.Controllers
             }
             else
             {
-                BoardView.PrintBoard(game.Chessboard);//d
+                //BoardView.PrintBoard(game.Chessboard);//d
 
                 return View(game);
             }
