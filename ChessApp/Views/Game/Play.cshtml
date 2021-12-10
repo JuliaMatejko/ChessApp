@@ -1,5 +1,5 @@
 ﻿@model ChessApp.Models.Chess.Game
-
+@using System.Text.Json;
 <div class="container-fluid p-0">
     <!--Modals-->
     <!--Resign-->
@@ -71,43 +71,50 @@
             {
                 @if (field.Content != null)
                 {
-                    @switch (field.Content.PieceNameID) //TO DO: could be done better
+                    List<string> positionNames = new();
+                    @foreach (var position in field.Content.NextAvailablePositions)
+                    {
+                        positionNames.Add(position.Position.Name);
+                    }
+                    string json = JsonSerializer.Serialize(positionNames);
+
+                    @switch (field.Content.PieceNameID)
                     {
                         case "pw":
-                            <div id="@field.Position.Name" class="piece pw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece pw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "pb":
-                            <div id="@field.Position.Name" class="piece pb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece pb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "rw":
-                            <div id="@field.Position.Name" class="piece rw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece rw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "rb":
-                            <div id="@field.Position.Name" class="piece rb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece rb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "nw":
-                            <div id="@field.Position.Name" class="piece nw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece nw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "nb":
-                            <div id="@field.Position.Name" class="piece nb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece nb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "bw":
-                            <div id="@field.Position.Name" class="piece bw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece bw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "bb":
-                            <div id="@field.Position.Name" class="piece bb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece bb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "qw":
-                            <div id="@field.Position.Name" class="piece qw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece qw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "qb":
-                            <div id="@field.Position.Name" class="piece qb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece qb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "kw":
-                            <div id="@field.Position.Name" class="piece kw" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece kw" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                         case "kb":
-                            <div id="@field.Position.Name" class="piece kb" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
+                            <div id="@field.Position.Name" class="piece kb" onclick="showAvailableMoves(@field.Position.Name, @json)" draggable="true" ondragstart="drag(event)" ondragover="allowDrop(event)" ondrop="drop(event)"></div>
                             break;
                     }
                 }

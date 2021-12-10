@@ -63,14 +63,13 @@
 }
 
 .capture-hint {
-    border: 5px solid rgba(0,0,0,.2);
+    border: 8px solid rgba(0,0,0,.2);
 }
 
 .capture-hint, .hint {
     background-clip: content-box;
     border-radius: 50%;
     box-sizing: border-box;
-    /*pointer-events: none;*/
 }
 
 .capture-hint, .highlight, .highlight-danger, .hover-square, .hint {
@@ -124,150 +123,150 @@
 .kb { background-image: url(../img/pieces/king_black.png); }
 
 /*squares*/
-#a1, .square-a1 { transform: translateY(700%); }
-#a2, .square-a2 { transform: translateY(600%); }
-#a3, .square-a3 { transform: translateY(500%); }
-#a4, .square-a4 { transform: translateY(400%); }
-#a5, .square-a5 { transform: translateY(300%); }
-#a6, .square-a6 { transform: translateY(200%); }
-#a7, .square-a7 { transform: translateY(100%); }
-#a8, .square-a8 { transform: translate(0); }
+#a1, .square.a1 { transform: translateY(700%); }
+#a2, .square.a2 { transform: translateY(600%); }
+#a3, .square.a3 { transform: translateY(500%); }
+#a4, .square.a4 { transform: translateY(400%); }
+#a5, .square.a5 { transform: translateY(300%); }
+#a6, .square.a6 { transform: translateY(200%); }
+#a7, .square.a7 { transform: translateY(100%); }
+#a8, .square.a8 { transform: translate(0); }
 
-#b1, .square-b1 { transform: translate(100%,700%); }
-#b2, .square-b2 { transform: translate(100%,600%); }
-#b3, .square-b3 { transform: translate(100%,500%); }
-#b4, .square-b4 { transform: translate(100%,400%); }
-#b5, .square-b5 { transform: translate(100%,300%); }
-#b6, .square-b6 { transform: translate(100%,200%); }
-#b7, .square-b7 { transform: translate(100%,100%); }
-#b8, .square-b8 { transform: translate(100%); }
+#b1, .square.b1 { transform: translate(100%,700%); }
+#b2, .square.b2 { transform: translate(100%,600%); }
+#b3, .square.b3 { transform: translate(100%,500%); }
+#b4, .square.b4 { transform: translate(100%,400%); }
+#b5, .square.b5 { transform: translate(100%,300%); }
+#b6, .square.b6 { transform: translate(100%,200%); }
+#b7, .square.b7 { transform: translate(100%,100%); }
+#b8, .square.b8 { transform: translate(100%); }
 
-#c1, .square-c1 { transform: translate(200%,700%); }
-#c2, .square-c2 { transform: translate(200%,600%); }
-#c3, .square-c3 { transform: translate(200%,500%); }
-#c4, .square-c4 { transform: translate(200%,400%); }
-#c5, .square-c5 { transform: translate(200%,300%); }
-#c6, .square-c6 { transform: translate(200%,200%); }
-#c7, .square-c7 { transform: translate(200%,100%); }
-#c8, .square-c8 { transform: translate(200%); }
+#c1, .square.c1 { transform: translate(200%,700%); }
+#c2, .square.c2 { transform: translate(200%,600%); }
+#c3, .square.c3 { transform: translate(200%,500%); }
+#c4, .square.c4 { transform: translate(200%,400%); }
+#c5, .square.c5 { transform: translate(200%,300%); }
+#c6, .square.c6 { transform: translate(200%,200%); }
+#c7, .square.c7 { transform: translate(200%,100%); }
+#c8, .square.c8 { transform: translate(200%); }
 
-#d1, .square-d1 { transform: translate(300%,700%); }
-#d2, .square-d2 { transform: translate(300%,600%); }
-#d3, .square-d3 { transform: translate(300%,500%); }
-#d4, .square-d4 { transform: translate(300%,400%); }
-#d5, .square-d5 { transform: translate(300%,300%); }
-#d6, .square-d6 { transform: translate(300%,200%); }
-#d7, .square-d7 { transform: translate(300%,100%); }
-#d8, .square-d8 { transform: translate(300%); }
+#d1, .square.d1 { transform: translate(300%,700%); }
+#d2, .square.d2 { transform: translate(300%,600%); }
+#d3, .square.d3 { transform: translate(300%,500%); }
+#d4, .square.d4 { transform: translate(300%,400%); }
+#d5, .square.d5 { transform: translate(300%,300%); }
+#d6, .square.d6 { transform: translate(300%,200%); }
+#d7, .square.d7 { transform: translate(300%,100%); }
+#d8, .square.d8 { transform: translate(300%); }
 
-#e1, .square-e1 { transform: translate(400%,700%); }
-#e2, .square-e2 { transform: translate(400%,600%); }
-#e3, .square-e3 { transform: translate(400%,500%); }
-#e4, .square-e4 { transform: translate(400%,400%); }
-#e5, .square-e5 { transform: translate(400%,300%); }
-#e6, .square-e6 { transform: translate(400%,200%); }
-#e7, .square-e7 { transform: translate(400%,100%); }
-#e8, .square-e8 { transform: translate(400%); }
+#e1, .square.e1 { transform: translate(400%,700%); }
+#e2, .square.e2 { transform: translate(400%,600%); }
+#e3, .square.e3 { transform: translate(400%,500%); }
+#e4, .square.e4 { transform: translate(400%,400%); }
+#e5, .square.e5 { transform: translate(400%,300%); }
+#e6, .square.e6 { transform: translate(400%,200%); }
+#e7, .square.e7 { transform: translate(400%,100%); }
+#e8, .square.e8 { transform: translate(400%); }
 
-#f1, .square-f1 { transform: translate(500%,700%); }
-#f2, .square-f2 { transform: translate(500%,600%); }
-#f3, .square-f3 { transform: translate(500%,500%); }
-#f4, .square-f4 { transform: translate(500%,400%); }
-#f5, .square-f5 { transform: translate(500%,300%); }
-#f6, .square-f6 { transform: translate(500%,200%); }
-#f7, .square-f7 { transform: translate(500%,100%); }
-#f8, .square-f8 { transform: translate(500%); }
+#f1, .square.f1 { transform: translate(500%,700%); }
+#f2, .square.f2 { transform: translate(500%,600%); }
+#f3, .square.f3 { transform: translate(500%,500%); }
+#f4, .square.f4 { transform: translate(500%,400%); }
+#f5, .square.f5 { transform: translate(500%,300%); }
+#f6, .square.f6 { transform: translate(500%,200%); }
+#f7, .square.f7 { transform: translate(500%,100%); }
+#f8, .square.f8 { transform: translate(500%); }
 
-#g1, .square-g1 { transform: translate(600%,700%); }
-#g2, .square-g2 { transform: translate(600%,600%); }
-#g3, .square-g3 { transform: translate(600%,500%); }
-#g4, .square-g4 { transform: translate(600%,400%); }
-#g5, .square-g5 { transform: translate(600%,300%); }
-#g6, .square-g6 { transform: translate(600%,200%); }
-#g7, .square-g7 { transform: translate(600%,100%); }
-#g8, .square-g8 { transform: translate(600%); }
+#g1, .square.g1 { transform: translate(600%,700%); }
+#g2, .square.g2 { transform: translate(600%,600%); }
+#g3, .square.g3 { transform: translate(600%,500%); }
+#g4, .square.g4 { transform: translate(600%,400%); }
+#g5, .square.g5 { transform: translate(600%,300%); }
+#g6, .square.g6 { transform: translate(600%,200%); }
+#g7, .square.g7 { transform: translate(600%,100%); }
+#g8, .square.g8 { transform: translate(600%); }
 
-#h1, .square-h1 { transform: translate(700%,700%); }
-#h2, .square-h2 { transform: translate(700%,600%); }
-#h3, .square-h3 { transform: translate(700%,500%); }
-#h4, .square-h4 { transform: translate(700%,400%); }
-#h5, .square-h5 { transform: translate(700%,300%); }
-#h6, .square-h6 { transform: translate(700%,200%); }
-#h7, .square-h7 { transform: translate(700%,100%); }
-#h8, .square-h8 { transform: translate(700%); }
+#h1, .square.h1 { transform: translate(700%,700%); }
+#h2, .square.h2 { transform: translate(700%,600%); }
+#h3, .square.h3 { transform: translate(700%,500%); }
+#h4, .square.h4 { transform: translate(700%,400%); }
+#h5, .square.h5 { transform: translate(700%,300%); }
+#h6, .square.h6 { transform: translate(700%,200%); }
+#h7, .square.h7 { transform: translate(700%,100%); }
+#h8, .square.h8 { transform: translate(700%); }
 
 /*squares flipped*/
-.flipped #h8, .flipped .square-h8 { transform: translateY(700%); }
-.flipped #h7, .flipped .square-h7 { transform: translateY(600%); }
-.flipped #h6, .flipped .square-h6 { transform: translateY(500%); }
-.flipped #h5, .flipped .square-h5 { transform: translateY(400%); }
-.flipped #h4, .flipped .square-h4 { transform: translateY(300%); }
-.flipped #h3, .flipped .square-h3 { transform: translateY(200%); }
-.flipped #h2, .flipped .square-h2 { transform: translateY(100%); }
-.flipped #h1, .flipped .square-h1 { transform: translate(0); }
+.flipped #h8, .flipped .square.h8 { transform: translateY(700%); }
+.flipped #h7, .flipped .square.h7 { transform: translateY(600%); }
+.flipped #h6, .flipped .square.h6 { transform: translateY(500%); }
+.flipped #h5, .flipped .square.h5 { transform: translateY(400%); }
+.flipped #h4, .flipped .square.h4 { transform: translateY(300%); }
+.flipped #h3, .flipped .square.h3 { transform: translateY(200%); }
+.flipped #h2, .flipped .square.h2 { transform: translateY(100%); }
+.flipped #h1, .flipped .square.h1 { transform: translate(0); }
 
-.flipped #g8, .flipped .square-g8 { transform: translate(100%,700%); }
-.flipped #g7, .flipped .square-g7 { transform: translate(100%,600%); }
-.flipped #g6, .flipped .square-g6 { transform: translate(100%,500%); }
-.flipped #g5, .flipped .square-g5 { transform: translate(100%,400%); }
-.flipped #g4, .flipped .square-g4 { transform: translate(100%,300%); }
-.flipped #g3, .flipped .square-g3 { transform: translate(100%,200%); }
-.flipped #g2, .flipped .square-g2 { transform: translate(100%,100%); }
-.flipped #g1, .flipped .square-g1{ transform: translate(100%); }
+.flipped #g8, .flipped .square.g8 { transform: translate(100%,700%); }
+.flipped #g7, .flipped .square.g7 { transform: translate(100%,600%); }
+.flipped #g6, .flipped .square.g6 { transform: translate(100%,500%); }
+.flipped #g5, .flipped .square.g5 { transform: translate(100%,400%); }
+.flipped #g4, .flipped .square.g4 { transform: translate(100%,300%); }
+.flipped #g3, .flipped .square.g3 { transform: translate(100%,200%); }
+.flipped #g2, .flipped .square.g2 { transform: translate(100%,100%); }
+.flipped #g1, .flipped .square.g1 { transform: translate(100%); }
 
-.flipped #f8, .flipped .square-f8 { transform: translate(200%,700%); }
-.flipped #f7, .flipped .square-f7 { transform: translate(200%,600%); }
-.flipped #f6, .flipped .square-f6 { transform: translate(200%,500%); }
-.flipped #f5, .flipped .square-f5 { transform: translate(200%,400%); }
-.flipped #f4, .flipped .square-f4 { transform: translate(200%,300%); }
-.flipped #f3, .flipped .square-f3 { transform: translate(200%,200%); }
-.flipped #f2, .flipped .square-f2 { transform: translate(200%,100%); }
-.flipped #f1, .flipped .square-f1 { transform: translate(200%); }
+.flipped #f8, .flipped .square.f8 { transform: translate(200%,700%); }
+.flipped #f7, .flipped .square.f7 { transform: translate(200%,600%); }
+.flipped #f6, .flipped .square.f6 { transform: translate(200%,500%); }
+.flipped #f5, .flipped .square.f5 { transform: translate(200%,400%); }
+.flipped #f4, .flipped .square.f4 { transform: translate(200%,300%); }
+.flipped #f3, .flipped .square.f3 { transform: translate(200%,200%); }
+.flipped #f2, .flipped .square.f2 { transform: translate(200%,100%); }
+.flipped #f1, .flipped .square.f1 { transform: translate(200%); }
 
-.flipped #e8, .flipped .square-e8 { transform: translate(300%,700%); }
-.flipped #e7, .flipped .square-e7 { transform: translate(300%,600%); }
-.flipped #e6, .flipped .square-e6 { transform: translate(300%,500%); }
-.flipped #e5, .flipped .square-e5 { transform: translate(300%,400%); }
-.flipped #e4, .flipped .square-e4 { transform: translate(300%,300%); }
-.flipped #e3, .flipped .square-e3 { transform: translate(300%,200%); }
-.flipped #e2, .flipped .square-e2 { transform: translate(300%,100%); }
-.flipped #e1, .flipped .square-e1 { transform: translate(300%); }
+.flipped #e8, .flipped .square.e8 { transform: translate(300%,700%); }
+.flipped #e7, .flipped .square.e7 { transform: translate(300%,600%); }
+.flipped #e6, .flipped .square.e6 { transform: translate(300%,500%); }
+.flipped #e5, .flipped .square.e5 { transform: translate(300%,400%); }
+.flipped #e4, .flipped .square.e4 { transform: translate(300%,300%); }
+.flipped #e3, .flipped .square.e3 { transform: translate(300%,200%); }
+.flipped #e2, .flipped .square.e2 { transform: translate(300%,100%); }
+.flipped #e1, .flipped .square.e1 { transform: translate(300%); }
 
-.flipped #d8, .flipped .square-d8 { transform: translate(400%,700%); }
-.flipped #d7, .flipped .square-d7 { transform: translate(400%,600%); }
-.flipped #d6, .flipped .square-d6 { transform: translate(400%,500%); }
-.flipped #d5, .flipped .square-d5 { transform: translate(400%,400%); }
-.flipped #d4, .flipped .square-d4 { transform: translate(400%,300%); }
-.flipped #d3, .flipped .square-d3 { transform: translate(400%,200%); }
-.flipped #d2, .flipped .square-d2 { transform: translate(400%,100%); }
-.flipped #d1, .flipped .square-d1 { transform: translate(400%); }
+.flipped #d8, .flipped .square.d8 { transform: translate(400%,700%); }
+.flipped #d7, .flipped .square.d7 { transform: translate(400%,600%); }
+.flipped #d6, .flipped .square.d6 { transform: translate(400%,500%); }
+.flipped #d5, .flipped .square.d5 { transform: translate(400%,400%); }
+.flipped #d4, .flipped .square.d4 { transform: translate(400%,300%); }
+.flipped #d3, .flipped .square.d3 { transform: translate(400%,200%); }
+.flipped #d2, .flipped .square.d2 { transform: translate(400%,100%); }
+.flipped #d1, .flipped .square.d1 { transform: translate(400%); }
 
-.flipped #c8, .flipped .square-c8 { transform: translate(500%,700%); }
-.flipped #c7, .flipped .square-c7 { transform: translate(500%,600%); }
-.flipped #c6, .flipped .square-c6 { transform: translate(500%,500%); }
-.flipped #c5, .flipped .square-c5 { transform: translate(500%,400%); }
-.flipped #c4, .flipped .square-c4 { transform: translate(500%,300%); }
-.flipped #c3, .flipped .square-c3 { transform: translate(500%,200%); }
-.flipped #c2,.flipped .square-c2 { transform: translate(500%,100%); }
-.flipped #c1, .flipped .square-c1 { transform: translate(500%); }
+.flipped #c8, .flipped .square.c8 { transform: translate(500%,700%); }
+.flipped #c7, .flipped .square.c7 { transform: translate(500%,600%); }
+.flipped #c6, .flipped .square.c6 { transform: translate(500%,500%); }
+.flipped #c5, .flipped .square.c5 { transform: translate(500%,400%); }
+.flipped #c4, .flipped .square.c4 { transform: translate(500%,300%); }
+.flipped #c3, .flipped .square.c3 { transform: translate(500%,200%); }
+.flipped #c2, .flipped .square.c2 { transform: translate(500%,100%); }
+.flipped #c1, .flipped .square.c1 { transform: translate(500%); }
 
-.flipped #b8, .flipped .square-b8 { transform: translate(600%,700%); }
-.flipped #b7, .flipped .square-b7 { transform: translate(600%,600%); }
-.flipped #b6, .flipped .square-b6 { transform: translate(600%,500%); }
-.flipped #b5, .flipped .square-b5 { transform: translate(600%,400%); }
-.flipped #b4, .flipped .square-b4 { transform: translate(600%,300%); }
-.flipped #b3, .flipped .square-b3 { transform: translate(600%,200%); }
-.flipped #b2, .flipped .square-b2 { transform: translate(600%,100%); }
-.flipped #b1, .flipped .square-b1 { transform: translate(600%); }
+.flipped #b8, .flipped .square.b8 { transform: translate(600%,700%); }
+.flipped #b7, .flipped .square.b7 { transform: translate(600%,600%); }
+.flipped #b6, .flipped .square.b6 { transform: translate(600%,500%); }
+.flipped #b5, .flipped .square.b5 { transform: translate(600%,400%); }
+.flipped #b4, .flipped .square.b4 { transform: translate(600%,300%); }
+.flipped #b3, .flipped .square.b3 { transform: translate(600%,200%); }
+.flipped #b2, .flipped .square.b2 { transform: translate(600%,100%); }
+.flipped #b1, .flipped .square.b1 { transform: translate(600%); }
 
-.flipped #a8, .flipped .square-a8 { transform: translate(700%,700%); }
-.flipped #a7, .flipped .square-a7 { transform: translate(700%,600%); }
-.flipped #a6, .flipped .square-a6 { transform: translate(700%,500%); }
-.flipped #a5, .flipped .square-a5 { transform: translate(700%,400%); }
-.flipped #a4, .flipped .square-a4 { transform: translate(700%,300%); }
-.flipped #a3, .flipped .square-a3 { transform: translate(700%,200%); }
-.flipped #a2, .flipped .square-a2 { transform: translate(700%,100%); }
-.flipped #a1, .flipped .square-a1 { transform: translate(700%); }
+.flipped #a8, .flipped .square.a8 { transform: translate(700%,700%); }
+.flipped #a7, .flipped .square.a7 { transform: translate(700%,600%); }
+.flipped #a6, .flipped .square.a6 { transform: translate(700%,500%); }
+.flipped #a5, .flipped .square.a5 { transform: translate(700%,400%); }
+.flipped #a4, .flipped .square.a4 { transform: translate(700%,300%); }
+.flipped #a3, .flipped .square.a3 { transform: translate(700%,200%); }
+.flipped #a2, .flipped .square.a2 { transform: translate(700%,100%); }
+.flipped #a1, .flipped .square.a1 { transform: translate(700%); }
 
 /*players*/
 .player-img {

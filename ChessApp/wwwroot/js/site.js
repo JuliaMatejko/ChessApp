@@ -51,3 +51,39 @@ function flipTheBoard() {
 function hideModal(modalId) {
     $(modalId).removeClass("show");
 }
+
+function removeHighlightSquare() {
+    $(".highlight").remove();
+}
+
+function highlightSquare(fieldId) {
+    var id = $(fieldId).attr('id');
+    $(".coords").after('<div class="square ' + id + ' highlight"></div>');
+}
+
+function removeHints() {
+    $(".hint").remove();
+    $(".capture-hint").remove();
+}
+
+function showHint(positionName) {
+    $(".coords").after('<div class="square ' + positionName + ' hint"></div>');
+}
+
+function showCaptureHint(positionName) {
+    $(".coords").after('<div class="square ' + positionName + ' capture-hint"></div>');
+}
+
+function showAvailableMoves(fieldId, positionNames) {
+    removeHints();
+    removeHighlightSquare();
+    highlightSquare(fieldId);
+    for (var i = 0; i < positionNames.length; i++) {
+        if ($("#" + positionNames[i]).hasClass("piece")) {
+            showCaptureHint(positionNames[i]);
+        }
+        else {
+            showHint(positionNames[i]);
+        };
+    }
+}
