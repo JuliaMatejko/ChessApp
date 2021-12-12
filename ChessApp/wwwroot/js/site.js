@@ -75,15 +75,22 @@ function showCaptureHint(positionName) {
 }
 
 function showAvailableMoves(fieldId, positionNames) {
-    removeHints();
-    removeHighlightSquare();
-    highlightSquare(fieldId);
-    for (var i = 0; i < positionNames.length; i++) {
-        if ($("#" + positionNames[i]).hasClass("piece")) {
-            showCaptureHint(positionNames[i]);
+    $(fieldId).toggleClass(".clicked");
+    if ($(fieldId).hasClass(".clicked")) {
+        removeHints();
+        removeHighlightSquare();
+        highlightSquare(fieldId);
+        for (var i = 0; i < positionNames.length; i++) {
+            if ($("#" + positionNames[i]).hasClass("piece")) {
+                showCaptureHint(positionNames[i]);
+            }
+            else {
+                showHint(positionNames[i]);
+            };
         }
-        else {
-            showHint(positionNames[i]);
-        };
+    }
+    else {
+        removeHints();
+        removeHighlightSquare();
     }
 }
